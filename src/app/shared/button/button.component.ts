@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
-type buttonColorTheme = 'yellow' | 'gray';
+type colorTheme = 'yellow' | 'gray';
 
 @Component({
   selector: 'app-button',
@@ -10,11 +10,8 @@ type buttonColorTheme = 'yellow' | 'gray';
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })
-export class ButtonComponent implements OnInit {
-  @Input() public colorTheme: buttonColorTheme = 'yellow';
-  @HostBinding('class') public _class!: string;
-
-  ngOnInit() {
-    this._class = this.colorTheme;
-  }
+export class ButtonComponent {
+  @HostBinding('class')
+  @Input()
+  public colorTheme: colorTheme = 'yellow';
 }
