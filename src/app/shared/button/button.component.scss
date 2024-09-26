@@ -1,0 +1,39 @@
+$yellow: #e2be7a;
+$yellow-dark: #e4b257;
+
+$gray: #5a5a5a;
+$gray-dark: #484848;
+
+$text-dark: #333;
+$text-light: white;
+
+:host {
+  display: inline-block;
+  border-radius: 1.3rem;
+  padding: 0.6rem;
+  text-align: center;
+
+  &.yellow {
+    background-color: $yellow;
+    color: $text-dark;
+  }
+  &.yellow:hover {
+    background-color: $yellow-dark;
+  }
+  &.yellow:active {
+    background-color: $gray;
+    color: $text-light;
+  }
+
+  &.gray {
+    background-color: $gray;
+    color: $text-light;
+  }
+  &.gray:hover {
+    background-color: $gray-dark;
+  }
+  &.gray:active {
+    background-color: $yellow;
+    color: $text-dark;
+  }
+}
