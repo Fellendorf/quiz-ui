@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { Question } from '../models';
 
 @Component({
   selector: 'app-question',
@@ -8,4 +9,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
   templateUrl: './question.component.html',
   styleUrl: './question.component.scss',
 })
-export class QuestionComponent {}
+export class QuestionComponent {
+  @Input() question!: Question;
+  @Input() index!: number;
+}

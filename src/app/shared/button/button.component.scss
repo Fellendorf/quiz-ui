@@ -8,9 +8,12 @@ $text-dark: #333;
 $text-light: white;
 
 :host {
+  -webkit-user-select: none;
+  -ms-user-select: none;
   display: inline-block;
   border-radius: 1.3rem;
   padding: 0.6rem;
+  user-select: none;
   text-align: center;
 
   &.yellow {

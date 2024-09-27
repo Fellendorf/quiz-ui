@@ -1,2 +1,2 @@
-<p>quiz works!</p>
-<app-question></app-question>
+<h2>Номер вопроса ({{ index + 1 }} из {{ questions.length }})</h2>
+<app-question [question]="questions[index]" [index]="index"></app-question>

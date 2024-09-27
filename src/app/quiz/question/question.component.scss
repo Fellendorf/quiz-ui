@@ -1,3 +1,27 @@
-app-button {
-  color: red;
+@import "../../../styles.variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  p,
+  h3,
+  pre,
+  fieldset {
+    margin-bottom: 20px;
+  }
+
+  pre {
+    border-radius: 0.6rem;
+    background-color: $background-gray;
+    padding: 0.8rem;
+    font-weight: 100;
+    font-size: 0.8rem;
+    font-family: monospace;
+  }
 }

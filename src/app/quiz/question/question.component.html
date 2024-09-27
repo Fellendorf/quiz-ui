@@ -1,22 +1,17 @@
-<header>
-  <h2>Номер вопроса (1 из N)</h2>
-  <h3>Тема вопроса</h3>
-</header>
-<div class="question-text">
-  <p>Некоторый текст с вопросом</p>
-  <pre>
-        // Ваш код здесь
-    </pre
-  >
-</div>
+<h3>{{ question.topic }}</h3>
+<p>{{ question.text }}</p>
+<pre
+  >{{ question.code }}
+  </pre
+>
 <fieldset>
-  <label><input type="radio" name="answer" value="1" />Ответ 1</label>
-  <label><input type="radio" name="answer" value="2" />Ответ 2</label>
-  <label><input type="radio" name="answer" value="3" />Ответ 3</label>
-  <label><input type="radio" name="answer" value="4" />Ответ 4</label>
+  @for (answer of question.answers; track $index) {
+  <label
+    ><input type="radio" name="answer" [value]="$index" />{{ answer }}</label
+  >
+  }
 </fieldset>
 <footer>
-  <button>Ответить</button>
-  <button>Пропустить</button>
-  <app-button>Test</app-button>
+  <app-button>ОТВЕТИТЬ</app-button>
+  <app-button>НЕТ ОТВЕТА</app-button>
 </footer>
