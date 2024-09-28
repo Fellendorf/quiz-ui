@@ -28,10 +28,14 @@ export class QuizComponent {
   templateUrl: './new-component.component.html',
   styleUrls: ['./new-component.component.css'],
 })`,
-      answers: ['Component', 'Directive', 'Module', 'Pipe'],
-      correctAnswerIndexes: 1,
+      answerOptions: ['Component', 'Directive', 'Module', 'Pipe'],
+      correctAnswerIndex: 1,
     },
   ];
 
   public index: number = 0;
+
+  public test(event: any) {
+    console.log(event);
+  }
 }

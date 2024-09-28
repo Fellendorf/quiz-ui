@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  HostListener,
+  Input,
+  OnInit,
+} from '@angular/core';
 
 type colorTheme = 'yellow' | 'gray';
 
@@ -14,11 +20,4 @@ export class ButtonComponent {
   @HostBinding('class')
   @Input()
   public colorTheme: colorTheme = 'yellow';
-
-  // @Input()
-  // public checkable: boolean = false;
-
-  ngOnInit() {
-    console.log(this);
-  }
 }
