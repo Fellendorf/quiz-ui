@@ -1,11 +1,4 @@
-$yellow: #e2be7a;
-$yellow-dark: #e4b257;
-
-$gray: #5a5a5a;
-$gray-dark: #484848;
-
-$text-dark: #333;
-$text-light: white;
+@use "../../../styles.variables.scss" as *;
 
 :host {
   -webkit-user-select: none;
@@ -13,6 +6,8 @@ $text-light: white;
   display: inline-block;
   border-radius: 1.3rem;
   padding: 0.6rem;
+  font-weight: 400;
+  line-height: normal;
   user-select: none;
   text-align: center;
 
@@ -24,8 +19,10 @@ $text-light: white;
     background-color: $yellow-dark;
   }
   &.yellow:active {
-    background-color: $gray;
-    color: $text-light;
+    background-color: $yellow;
+  }
+  &.yellow:checked {
+    background-color: red;
   }
 
   &.gray {
@@ -36,7 +33,6 @@ $text-light: white;
     background-color: $gray-dark;
   }
   &.gray:active {
-    background-color: $yellow;
-    color: $text-dark;
+    background-color: $gray;
   }
 }

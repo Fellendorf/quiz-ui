@@ -1,17 +1,13 @@
-<h3>{{ question.topic }}</h3>
+<h3>Тема: {{ question.topic }}</h3>
 <p>{{ question.text }}</p>
-<pre
-  >{{ question.code }}
-  </pre
->
+@if(question.code) {
+<pre>{{ question.code }}</pre>
+}
 <fieldset>
   @for (answer of question.answers; track $index) {
-  <label
-    ><input type="radio" name="answer" [value]="$index" />{{ answer }}</label
-  >
+  <app-button colorTheme="gray" checkable name="answer">
+    {{ answer }}
+  </app-button>
+
   }
 </fieldset>
-<footer>
-  <app-button>ОТВЕТИТЬ</app-button>
-  <app-button>НЕТ ОТВЕТА</app-button>
-</footer>

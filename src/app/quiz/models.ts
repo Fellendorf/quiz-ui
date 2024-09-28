@@ -3,5 +3,5 @@ export interface Question {
   text: string;
   code: string;
   answers: string[];
-  correctAnswerIndex: number;
+  correctAnswerIndexes: number | number[];
 }

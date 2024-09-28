@@ -14,4 +14,11 @@ export class ButtonComponent {
   @HostBinding('class')
   @Input()
   public colorTheme: colorTheme = 'yellow';
+
+  // @Input()
+  // public checkable: boolean = false;
+
+  ngOnInit() {
+    console.log(this);
+  }
 }

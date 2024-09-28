@@ -1,4 +1,4 @@
-@import "../../../styles.variables";
+@use "../../../styles.variables" as *;
 
 :host {
   display: flex;
@@ -6,7 +6,8 @@
   margin: 20px 0;
 
   h3 {
-    font-size: 1.5rem;
+    color: $gray-light;
+    font-size: 1rem;
   }
 
   p,
@@ -21,7 +22,15 @@
     background-color: $background-gray;
     padding: 0.8rem;
     font-weight: 100;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-family: monospace;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    app-button {
+      margin-bottom: 10px;
+    }
   }
 }

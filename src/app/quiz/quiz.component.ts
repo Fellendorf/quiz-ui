@@ -1,15 +1,24 @@
 import { Component } from '@angular/core';
 import { QuestionComponent } from './question/question.component';
 import { Question } from './models';
+import { ButtonComponent } from '../shared/button/button.component';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [QuestionComponent],
+  imports: [QuestionComponent, ButtonComponent],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss',
 })
 export class QuizComponent {
+  public submitAnswer() {
+    console.log('submitAnswer');
+  }
+
+  public submitNoAnswer() {
+    console.log('submitNoAnswer');
+  }
+
   public readonly questions: Question[] = [
     {
       topic: 'Angular',
@@ -20,7 +29,7 @@ export class QuizComponent {
   styleUrls: ['./new-component.component.css'],
 })`,
       answers: ['Component', 'Directive', 'Module', 'Pipe'],
-      correctAnswerIndex: 1,
+      correctAnswerIndexes: 1,
     },
   ];
 

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { Question } from '../models';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-question',
@@ -11,5 +11,4 @@ import { Question } from '../models';
 })
 export class QuestionComponent {
   @Input() question!: Question;
-  @Input() index!: number;
 }
