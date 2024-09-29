@@ -1,4 +1,3 @@
-<h3>Тема: {{ question.topic }}</h3>
 <p>{{ question.text }}</p>
 @if(question.code) {
 <pre><code [class]="'language-'+ question.code.language">{{ question.code.text }}</code></pre>

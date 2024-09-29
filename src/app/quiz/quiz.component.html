@@ -1,4 +1,10 @@
-<h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
+<header>
+  <app-button>
+    <a href="/">МЕНЮ</a>
+  </app-button>
+  <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
+  <h3>{{ questions[index].topic }}</h3>
+</header>
 <app-question
   [question]="questions[index]"
   (answer)="test($event)"

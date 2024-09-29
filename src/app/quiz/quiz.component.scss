@@ -1,6 +1,36 @@
+@use "../../styles.variables" as *;
+
 :host {
-  padding: 20px 20px 0;
+  padding: 20px;
   width: 600px;
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas:
+      "app-button h2"
+      "app-button h3";
+
+    app-button {
+      grid-area: app-button;
+      margin-right: 1.5rem;
+
+      a {
+        text-decoration: none;
+      }
+    }
+    h2 {
+      grid-area: h2;
+      align-self: center;
+    }
+
+    h3 {
+      grid-area: h3;
+      align-self: center;
+      color: $gray-light;
+      font-size: 1rem;
+    }
+  }
 
   footer {
     display: flex;
