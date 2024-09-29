@@ -20,10 +20,13 @@
   pre {
     border-radius: 0.6rem;
     background-color: $background-gray;
-    padding: 0.8rem;
     font-weight: 100;
     font-size: 0.9rem;
     font-family: monospace;
+
+    code {
+      background-color: transparent;
+    }
   }
 
   fieldset {

@@ -23,11 +23,14 @@ export class QuizComponent {
     {
       topic: 'Angular',
       text: 'Which Angular directive is used to create a new component?',
-      code: `@Component({
+      code: {
+        text: `@Component({
   selector: 'app-new-component',
   templateUrl: './new-component.component.html',
   styleUrls: ['./new-component.component.css'],
 })`,
+        language: 'typescript',
+      },
       answerOptions: ['Component', 'Directive', 'Module', 'Pipe'],
       correctAnswerIndex: 1,
     },
