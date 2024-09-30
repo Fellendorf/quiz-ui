@@ -1,6 +1,6 @@
 <p>{{ question.text }}</p>
 @if(question.code) {
-<pre><code [class]="'language-'+ question.code.language">{{ question.code.text }}</code></pre>
+<pre><code #code [class]="'language-'+ question.code.language">{{ question.code.text }}</code></pre>
 }
 <fieldset>
   @for (option of question.answerOptions; track $index) {
