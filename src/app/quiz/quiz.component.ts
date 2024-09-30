@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { QuestionComponent } from './question/question.component';
 import { Question } from './models';
 import { ButtonComponent } from '../shared/button/button.component';
+import { ApiService } from '../core/api.service';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'app-quiz',
@@ -11,6 +13,13 @@ import { ButtonComponent } from '../shared/button/button.component';
   styleUrl: './quiz.component.scss',
 })
 export class QuizComponent {
+  public questions!: Question[];
+  public index: number = 0;
+  public topic: string = 'Angular';
+  public isLoading: boolean = true;
+
+  constructor(private readonly apiService: ApiService) {}
+
   public submitAnswer() {
     console.log('submitAnswer');
   }
@@ -19,26 +28,14 @@ export class QuizComponent {
     console.log('submitNoAnswer');
   }
 
-  public readonly questions: Question[] = [
-    {
-      topic: 'Angular',
-      text: 'Which Angular directive is used to create a new component?',
-      code: {
-        text: `@Component({
-  selector: 'app-new-component',
-  templateUrl: './new-component.component.html',
-  styleUrls: ['./new-component.component.css'],
-})`,
-        language: 'typescript',
-      },
-      answerOptions: ['Component', 'Directive', 'Module', 'Pipe'],
-      correctAnswerIndex: 1,
-    },
-  ];
+  public ngOnInit() {
+    this.apiService.getQuestions(this.topic).subscribe((response) => {
+      this.questions = response;
+      this.isLoading = false;
+    });
+  }
 
-  public index: number = 0;
-
-  public test(event: any) {
+  public test(event: number): void {
     console.log(event);
   }
 }

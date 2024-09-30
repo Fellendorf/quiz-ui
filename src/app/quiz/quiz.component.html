@@ -1,3 +1,6 @@
+@if(isLoading) {
+<!-- display spinner here -->
+} @else {
 <header>
   <app-button>
     <a href="/">МЕНЮ</a>
@@ -13,3 +16,4 @@
   <app-button (click)="submitAnswer()">ОТВЕТИТЬ</app-button>
   <app-button (click)="submitNoAnswer()">НЕТ ОТВЕТА</app-button>
 </footer>
+}
