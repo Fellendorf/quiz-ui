@@ -1,19 +1,29 @@
-@if(isLoading) {
-<!-- display spinner here -->
-} @else {
-<header>
-  <app-button>
-    <a href="/">МЕНЮ</a>
-  </app-button>
-  <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
-  <h3>{{ questions[index].topic }}</h3>
-</header>
-<app-question
-  [question]="questions[index]"
-  (answer)="test($event)"
-></app-question>
-<footer>
-  <app-button (click)="submitAnswer()">ОТВЕТИТЬ</app-button>
-  <app-button (click)="submitNoAnswer()">НЕТ ОТВЕТА</app-button>
-</footer>
+@if (questionsLoadingState$ | async; as state) {
+  @switch (state.type) {
+    @case ("loading") {
+      <!-- TODO: add spinner here or something -->
+    }
+    @case ("error") {
+      <!-- TODO: add error handling -->
+      <!-- Error: {{ state.error.message }} -->
+    }
+    @case ("loaded") {
+      @let questions = state.data;
+      <header>
+        <app-button>
+          <a href="/">МЕНЮ</a>
+        </app-button>
+        <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
+        <h3>{{ questions[index].topic }}</h3>
+      </header>
+      <app-question
+        [question]="questions[index]"
+        (answer)="test($event)"
+      ></app-question>
+      <footer>
+        <app-button (click)="submitAnswer()">ОТВЕТИТЬ</app-button>
+        <app-button (click)="submitNoAnswer()">НЕТ ОТВЕТА</app-button>
+      </footer>
+    }
+  }
 }

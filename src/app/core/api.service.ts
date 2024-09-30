@@ -10,7 +10,7 @@ export class ApiService {
 
   public getQuestions(
     topic: string,
-    number: number = 10,
+    count: number = 10,
     isRandom: boolean = false
   ): Observable<Question[]> {
     const response: Question[] = [

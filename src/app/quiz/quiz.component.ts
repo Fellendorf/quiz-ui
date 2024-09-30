@@ -1,22 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+
 import { QuestionComponent } from './question/question.component';
-import { Question } from './models';
 import { ButtonComponent } from '../shared/button/button.component';
 import { ApiService } from '../core/api.service';
-import hljs from 'highlight.js';
+import { toLoadingStateStream } from '../shared/loading-state/loading-state';
+import { Question } from './models';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [QuestionComponent, ButtonComponent],
+  imports: [QuestionComponent, ButtonComponent, AsyncPipe],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss',
 })
 export class QuizComponent {
-  public questions!: Question[];
+  @Input() public topic!: string;
+  @Input() public questionsCount?: number;
+  @Input() public isRandom?: boolean;
+
+  public questionsLoadingState$ = toLoadingStateStream<Question[]>(
+    this.apiService.getQuestions(this.topic, this.questionsCount, this.isRandom)
+  );
   public index: number = 0;
-  public topic: string = 'Angular';
-  public isLoading: boolean = true;
 
   constructor(private readonly apiService: ApiService) {}
 
@@ -26,13 +32,6 @@ export class QuizComponent {
 
   public submitNoAnswer() {
     console.log('submitNoAnswer');
-  }
-
-  public ngOnInit() {
-    this.apiService.getQuestions(this.topic).subscribe((response) => {
-      this.questions = response;
-      this.isLoading = false;
-    });
   }
 
   public test(event: number): void {
