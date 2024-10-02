@@ -1,0 +1,24 @@
+@use "../../../styles.variables" as *;
+
+:host {
+  fieldset {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 10px;
+
+      app-button {
+        display: block;
+        &:has(input:checked) {
+          background-color: $yellow;
+          color: $text-dark;
+        }
+
+        input {
+          appearance: none;
+        }
+      }
+    }
+  }
+}

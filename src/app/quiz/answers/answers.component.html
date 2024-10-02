@@ -1,0 +1,15 @@
+<fieldset>
+  @for (option of answerOptions; track $index) {
+    <label>
+      <app-button colorTheme="gray">
+        <input
+          #input
+          type="radio"
+          name="option"
+          (change)="emitAnswer($index)"
+        />
+        {{ option }}
+      </app-button>
+    </label>
+  }
+</fieldset>
