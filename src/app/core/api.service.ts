@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Question, QuizParams } from '../quiz/models';
+import { Question, QuizParams } from '../quiz-screen/models';
 
 @Injectable({
   providedIn: 'root',
