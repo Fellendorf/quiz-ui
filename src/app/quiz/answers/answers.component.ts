@@ -1,9 +1,11 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   inject,
   Input,
   OnInit,
+  Output,
   ViewChildren,
 } from '@angular/core';
 
@@ -22,18 +24,18 @@ export class AnswersComponent implements OnInit {
   @Input()
   public answerOptions!: Question['answerOptions'];
 
+  @Output()
+  public answer = new EventEmitter<number>();
+
   @ViewChildren('input')
   private inputs!: ElementRef<HTMLInputElement>[];
+
   private readonly eventService = inject(EventService);
 
   public ngOnInit(): void {
     this.eventService
       .listen(GlobalEvents.uncheckInputs)
       ?.subscribe(() => this.uncheckInputs());
-  }
-
-  public emitAnswer(answerIndex: number) {
-    this.eventService.emit(GlobalEvents.answer, answerIndex);
   }
 
   private uncheckInputs() {

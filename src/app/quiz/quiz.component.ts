@@ -28,7 +28,7 @@ export class QuizComponent implements OnInit {
 
   public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
-  public answers = new Map<number, number>();
+  public answers = new Map<number, number | null>();
 
   public ngOnInit(): void {
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
@@ -37,26 +37,29 @@ export class QuizComponent implements OnInit {
     this.eventService
       .listen(GlobalEvents.answer)
       ?.subscribe((answerIndex: number) => {
-        this.setAnswer(answerIndex);
+        this.answers.set(this.index, answerIndex);
       });
   }
 
-  public submitAnswer() {
-    //TODO: disable button if no answer checked
+  public confirmAnswer() {
+    if (this.answers.has(this.index)) {
+      console.log('confirmAnswer', this.answers);
+      this.gotoNextQuestion();
+    }
+  }
+
+  public confirmNoAnswer() {
+    this.answers.set(this.index, null);
+    console.log('confirmNoAnswer', this.answers);
+    this.gotoNextQuestion();
+  }
+
+  private gotoNextQuestion() {
     this.index++;
     if (this.index >= this.quizParams.questionsCount) {
       // TODO: redirect to the results-screen
       console.log('Quiz complited');
     }
     this.eventService.emit(GlobalEvents.uncheckInputs);
-  }
-
-  public submitNoAnswer() {
-    console.log('submitNoAnswer');
-  }
-
-  public setAnswer(value: number): void {
-    this.answers.set(this.index, value);
-    console.log('setAnswer', this.answers); // TODO: delete this line
   }
 }
