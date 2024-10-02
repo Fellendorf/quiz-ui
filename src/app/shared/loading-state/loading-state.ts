@@ -15,7 +15,7 @@ interface Errored {
   error: Error;
 }
 
-type LoadingState<T = unknown> = Loading | Loaded<T> | Errored;
+export type LoadingState<T = unknown> = Loading | Loaded<T> | Errored;
 
 export function toLoadingStateStream<T>(
   source$: Observable<T>

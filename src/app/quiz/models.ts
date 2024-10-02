@@ -10,3 +10,14 @@ export interface QuestionCode {
   text: string;
   language: 'typescript' | 'javascript' | 'html' | 'css';
 }
+
+export interface QuizParams {
+  topic: string;
+  questionsCount: number;
+  isRandom?: boolean;
+}
+
+export enum GlobalEvents {
+  answer = 'answer',
+  uncheckInputs = 'uncheckInputs',
+}

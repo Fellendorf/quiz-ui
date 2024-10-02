@@ -1,40 +1,62 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 
-import { QuestionComponent } from './question/question.component';
 import { ButtonComponent } from '../shared/button/button.component';
+import { CodeComponent } from './code/code.component';
+import { AnswersComponent } from './answers/answers.component';
 import { ApiService } from '../core/api.service';
-import { toLoadingStateStream } from '../shared/loading-state/loading-state';
-import { Question } from './models';
+import { EventService } from '../core/event.service';
+import {
+  LoadingState,
+  toLoadingStateStream,
+} from '../shared/loading-state/loading-state';
+import { GlobalEvents, Question, QuizParams } from './models';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [QuestionComponent, ButtonComponent, AsyncPipe],
+  imports: [ButtonComponent, CodeComponent, AnswersComponent, AsyncPipe],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss',
 })
-export class QuizComponent {
-  @Input() public topic!: string;
-  @Input() public questionsCount?: number;
-  @Input() public isRandom?: boolean;
+export class QuizComponent implements OnInit {
+  @Input() public quizParams!: QuizParams;
 
-  public questionsLoadingState$ = toLoadingStateStream<Question[]>(
-    this.apiService.getQuestions(this.topic, this.questionsCount, this.isRandom)
-  );
+  private readonly apiService = inject(ApiService);
+  private readonly eventService = inject(EventService);
+
+  public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
+  public answers = new Map<number, number>();
 
-  constructor(private readonly apiService: ApiService) {}
+  public ngOnInit(): void {
+    this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
+      this.apiService.getQuestions(this.quizParams),
+    );
+    this.eventService
+      .listen(GlobalEvents.answer)
+      ?.subscribe((answerIndex: number) => {
+        this.setAnswer(answerIndex);
+      });
+  }
 
   public submitAnswer() {
-    console.log('submitAnswer');
+    //TODO: disable button if no answer checked
+    this.index++;
+    if (this.index >= this.quizParams.questionsCount) {
+      // TODO: redirect to the results-screen
+      console.log('Quiz complited');
+    }
+    this.eventService.emit(GlobalEvents.uncheckInputs);
   }
 
   public submitNoAnswer() {
     console.log('submitNoAnswer');
   }
 
-  public test(event: number): void {
-    console.log(event);
+  public setAnswer(value: number): void {
+    this.answers.set(this.index, value);
+    console.log('setAnswer', this.answers); // TODO: delete this line
   }
 }

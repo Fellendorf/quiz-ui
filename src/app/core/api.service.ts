@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { Question } from '../quiz/models';
+import { Observable } from 'rxjs';
+import { Question, QuizParams } from '../quiz/models';
 
 @Injectable({
   providedIn: 'root',
@@ -8,11 +8,12 @@ import { Question } from '../quiz/models';
 export class ApiService {
   constructor() {}
 
-  public getQuestions(
-    topic: string,
-    count: number = 10,
-    isRandom: boolean = false
-  ): Observable<Question[]> {
+  public getQuestions({
+    topic,
+    questionsCount,
+    isRandom = false,
+  }: QuizParams): Observable<Question[]> {
+    console.log();
     const response: Question[] = [
       {
         topic: 'Angular',
@@ -27,7 +28,7 @@ export class ApiService {
         correctAnswerIndex: 1,
       },
       {
-        topic: 'Angular1',
+        topic: 'Angular 1',
         text: 'Bla bla bla bla bla?',
         code: {
           text: `@Component({
@@ -37,7 +38,13 @@ export class ApiService {
   })`,
           language: 'typescript',
         },
-        answerOptions: ['Component', 'Directive', 'Module', 'Pipe'],
+        answerOptions: [
+          'Component 1',
+          'Directive 1',
+          'Module 1',
+          'Pipe 1',
+          'bla',
+        ],
         correctAnswerIndex: 1,
       },
     ];

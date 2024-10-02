@@ -9,17 +9,22 @@
     }
     @case ("loaded") {
       @let questions = state.data;
+      @let question = questions[index];
+
       <header>
         <app-button>
           <a href="/">МЕНЮ</a>
         </app-button>
         <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
-        <h3>{{ questions[index].topic }}</h3>
+        <h3>{{ question.topic }}</h3>
       </header>
-      <app-question
-        [question]="questions[index]"
-        (answer)="test($event)"
-      ></app-question>
+      <main>
+        <p>{{ question.text }}</p>
+        @if (question.code) {
+          <app-code [code]="question.code" />
+        }
+        <app-answers [answerOptions]="question.answerOptions" />
+      </main>
       <footer>
         <app-button (click)="submitAnswer()">ОТВЕТИТЬ</app-button>
         <app-button (click)="submitNoAnswer()">НЕТ ОТВЕТА</app-button>
