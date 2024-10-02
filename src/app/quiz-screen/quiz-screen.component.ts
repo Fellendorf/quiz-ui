@@ -17,10 +17,10 @@ import { GlobalEvents, Question, QuizParams } from './models';
   selector: 'app-quiz',
   standalone: true,
   imports: [ButtonComponent, CodeComponent, AnswersComponent, AsyncPipe],
-  templateUrl: './quiz.component.html',
-  styleUrl: './quiz.component.scss',
+  templateUrl: './quiz-screen.component.html',
+  styleUrl: './quiz-screen.component.scss',
 })
-export class QuizComponent implements OnInit {
+export class QuizScreenComponent implements OnInit {
   @Input() public quizParams!: QuizParams;
 
   private readonly apiService = inject(ApiService);
