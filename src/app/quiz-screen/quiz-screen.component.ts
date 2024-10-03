@@ -1,5 +1,5 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, Location } from '@angular/common';
 import { Observable } from 'rxjs';
 
 import { ButtonComponent } from '../shared/button/button.component';
@@ -12,6 +12,7 @@ import {
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
 import { GlobalEvents, Question, QuizParams } from './models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quiz',
@@ -21,44 +22,42 @@ import { GlobalEvents, Question, QuizParams } from './models';
   styleUrl: './quiz-screen.component.scss',
 })
 export class QuizScreenComponent implements OnInit {
-  @Input() public quizParams!: QuizParams;
-
   private readonly apiService = inject(ApiService);
   private readonly eventService = inject(EventService);
+  private readonly router = inject(Router);
 
+  public quizParams!: QuizParams;
   public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
   public answers = new Map<number, number | null>();
 
   public ngOnInit(): void {
+    this.quizParams = history.state as QuizParams;
+
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
       this.apiService.getQuestions(this.quizParams),
     );
-    this.eventService
-      .listen(GlobalEvents.answer)
-      ?.subscribe((answerIndex: number) => {
-        this.answers.set(this.index, answerIndex);
-      });
   }
 
   public confirmAnswer() {
     if (this.answers.has(this.index)) {
-      console.log('confirmAnswer', this.answers);
       this.gotoNextQuestion();
     }
   }
 
   public confirmNoAnswer() {
     this.answers.set(this.index, null);
-    console.log('confirmNoAnswer', this.answers);
     this.gotoNextQuestion();
   }
 
   private gotoNextQuestion() {
     this.index++;
     if (this.index >= this.quizParams.questionsCount) {
-      // TODO: redirect to the results-screen
-      console.log('Quiz complited');
+      this.router.navigateByUrl('/results', {
+        state: {
+          results: Array.from(this.answers),
+        },
+      });
     }
     this.eventService.emit(GlobalEvents.uncheckInputs);
   }
