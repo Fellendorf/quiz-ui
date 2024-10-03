@@ -4,15 +4,12 @@ export interface Question {
   code?: QuestionCode;
   options: string[];
   answer: Answer;
+  userAnswer?: number | null;
 }
 
 export interface Answer {
   index: number;
   explanation?: string;
-}
-
-export interface AnsweredQuesion extends Question {
-  userAnswer: number | null;
 }
 
 export interface QuestionCode {
@@ -30,3 +27,5 @@ export enum GlobalEvents {
   answer = 'answer',
   uncheckInputs = 'uncheckInputs',
 }
+
+//TODO: move models outside of this component

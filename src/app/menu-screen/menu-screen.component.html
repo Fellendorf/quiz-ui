@@ -1,5 +1,7 @@
 <app-button>
-  <a [routerLink]="['quiz']" [state]="{ topic: 'Angular', questionsCount: 2 }"
+  <a
+    [routerLink]="['quiz']"
+    [state]="{ quizParams: { topic: 'Angular', questionsCount: 2 } }"
     >НАЧАТЬ ТЕСТ</a
   >
 </app-button>

@@ -18,11 +18,11 @@ interface Errored {
 export type LoadingState<T = unknown> = Loading | Loaded<T> | Errored;
 
 export function toLoadingStateStream<T>(
-  source$: Observable<T>
+  source$: Observable<T>,
 ): Observable<LoadingState<T>> {
   return source$.pipe(
-    map((data: T) => ({ type: 'loaded', data } as Loaded<T>)),
+    map((data: T) => ({ type: 'loaded', data }) as Loaded<T>),
     catchError((error: Error) => of({ type: 'error', error } as Errored)),
-    startWith({ type: 'loading' } as Loading)
+    startWith({ type: 'loading' } as Loading),
   );
 }

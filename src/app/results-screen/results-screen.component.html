@@ -1,2 +1,32 @@
-<p>results-screen works!</p>
-<p>{{ results | json }}</p>
+<header>
+  <app-button>
+    <a href="/">МЕНЮ</a>
+  </app-button>
+  <h1>РЕЗУЛЬЛТАТЫ</h1>
+</header>
+@let questions = quizService.questions;
+
+@for (question of questions; track $index) {
+  <header>
+    <h2>Вопрос номер {{ $index + 1 }}</h2>
+    <h3>{{ question.topic }}</h3>
+  </header>
+  <p>{{ question.text }}</p>
+  @if (question.code) {
+    <app-code [code]="question.code" />
+  }
+  <h4>ПРАВИЛЬНЫЙ ОТВЕТ</h4>
+  <p>{{ question.options[question.answer.index] }}</p>
+  <h4>ВАШ ОТВЕТ</h4>
+  <p>
+    {{
+      question.userAnswer
+        ? question.options[question.userAnswer]
+        : "Вы не дали ответ"
+    }}
+  </p>
+  @if (question.answer.explanation) {
+    <h4>ОБЪЯСНЕНИЕ</h4>
+    <p>{{ question.answer.explanation }}</p>
+  }
+}

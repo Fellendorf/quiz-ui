@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AsyncPipe, Location } from '@angular/common';
-import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { Observable, tap } from 'rxjs';
 
 import { ButtonComponent } from '../shared/button/button.component';
-import { CodeComponent } from './code/code.component';
+import { CodeComponent } from '../shared/code/code.component';
 import { AnswersComponent } from './answers/answers.component';
 import { ApiService } from '../core/api.service';
 import { EventService } from '../core/event.service';
@@ -13,6 +13,7 @@ import {
 } from '../shared/loading-state/loading-state';
 import { GlobalEvents, Question, QuizParams } from './models';
 import { Router } from '@angular/router';
+import { QuizService } from '../core/quiz.service';
 
 @Component({
   selector: 'app-quiz',
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
 export class QuizScreenComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   private readonly eventService = inject(EventService);
+  public readonly quizService = inject(QuizService);
   private readonly router = inject(Router);
 
   public quizParams!: QuizParams;
@@ -32,32 +34,35 @@ export class QuizScreenComponent implements OnInit {
   public answers = new Map<number, number | null>();
 
   public ngOnInit(): void {
-    this.quizParams = history.state as QuizParams;
+    this.quizParams = history.state.quizParams as QuizParams;
+    if (!this.quizParams) {
+      this.router.navigateByUrl('/');
+    }
 
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
-      this.apiService.getQuestions(this.quizParams),
+      this.apiService
+        .getQuestions(this.quizParams)
+        .pipe(tap((questions) => (this.quizService.questions = questions))),
     );
   }
 
   public confirmAnswer() {
-    if (this.answers.has(this.index)) {
+    if (this.quizService.hasAnswer(this.index)) {
       this.gotoNextQuestion();
+    } else {
+      //TODO: let a user know somehow
     }
   }
 
   public confirmNoAnswer() {
-    this.answers.set(this.index, null);
+    this.quizService.setAnswer(this.index, null);
     this.gotoNextQuestion();
   }
 
   private gotoNextQuestion() {
     this.index++;
     if (this.index >= this.quizParams.questionsCount) {
-      this.router.navigateByUrl('/results', {
-        state: {
-          results: Array.from(this.answers),
-        },
-      });
+      this.router.navigateByUrl('/results');
     }
     this.eventService.emit(GlobalEvents.uncheckInputs);
   }
