@@ -12,13 +12,19 @@ import {
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
 import { GlobalEvents, Question, QuizParams } from './models';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { QuizService } from '../core/quiz.service';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [ButtonComponent, CodeComponent, AnswersComponent, AsyncPipe],
+  imports: [
+    ButtonComponent,
+    CodeComponent,
+    AnswersComponent,
+    AsyncPipe,
+    RouterLink,
+  ],
   templateUrl: './quiz-screen.component.html',
   styleUrl: './quiz-screen.component.scss',
 })
