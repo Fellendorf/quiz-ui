@@ -22,7 +22,7 @@ import { EventService } from '../../core/event.service';
 })
 export class AnswersComponent implements OnInit {
   @Input()
-  public answerOptions!: Question['answerOptions'];
+  public options!: Question['options'];
 
   @Output()
   public answer = new EventEmitter<number>();

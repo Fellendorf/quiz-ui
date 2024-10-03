@@ -24,8 +24,10 @@ export class ApiService {
 }`,
           language: 'css',
         },
-        answerOptions: ['Component', 'Directive', 'Module', 'Pipe'],
-        correctAnswerIndex: 1,
+        options: ['Component', 'Directive', 'Module', 'Pipe'],
+        answer: {
+          index: 1,
+        },
       },
       {
         topic: 'Angular 1',
@@ -38,14 +40,10 @@ export class ApiService {
   })`,
           language: 'typescript',
         },
-        answerOptions: [
-          'Component 1',
-          'Directive 1',
-          'Module 1',
-          'Pipe 1',
-          'bla',
-        ],
-        correctAnswerIndex: 1,
+        options: ['Component 1', 'Directive 1', 'Module 1', 'Pipe 1', 'bla'],
+        answer: {
+          index: 1,
+        },
       },
     ];
 

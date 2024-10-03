@@ -24,7 +24,7 @@
           <app-code [code]="question.code" />
         }
         <app-answers
-          [answerOptions]="question.answerOptions"
+          [options]="question.options"
           (answer)="answers.set(index, $event)"
         />
       </main>

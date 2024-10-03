@@ -2,8 +2,17 @@ export interface Question {
   topic: string;
   text: string;
   code?: QuestionCode;
-  answerOptions: string[];
-  correctAnswerIndex: number;
+  options: string[];
+  answer: Answer;
+}
+
+export interface Answer {
+  index: number;
+  explanation?: string;
+}
+
+export interface AnsweredQuesion extends Question {
+  userAnswer: number | null;
 }
 
 export interface QuestionCode {
