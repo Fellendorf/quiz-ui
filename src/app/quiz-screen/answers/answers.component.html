@@ -1,15 +1,8 @@
 <fieldset>
   @for (option of options; track $index) {
-    <label>
-      <app-button colorTheme="gray">
-        <input
-          #input
-          type="radio"
-          name="option"
-          (change)="answer.emit($index)"
-        />
-        {{ option }}
-      </app-button>
+    <label class="app-button gray">
+      <input #input type="radio" name="option" (change)="answer.emit($index)" />
+      {{ option }}
     </label>
   }
 </fieldset>

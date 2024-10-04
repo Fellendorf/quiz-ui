@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
-import { ButtonComponent } from '../shared/button/button.component';
 import { CodeComponent } from '../shared/code/code.component';
 import { AnswersComponent } from './answers/answers.component';
 import { ApiService } from '../core/api.service';
@@ -11,20 +11,13 @@ import {
   LoadingState,
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
-import { GlobalEvents, Question, QuizParams } from './models';
-import { Router, RouterLink } from '@angular/router';
 import { QuizService } from '../core/quiz.service';
+import { GlobalEvents, Question, QuizParams } from './models';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [
-    ButtonComponent,
-    CodeComponent,
-    AnswersComponent,
-    AsyncPipe,
-    RouterLink,
-  ],
+  imports: [CodeComponent, AnswersComponent, AsyncPipe, RouterLink],
   templateUrl: './quiz-screen.component.html',
   styleUrl: './quiz-screen.component.scss',
 })

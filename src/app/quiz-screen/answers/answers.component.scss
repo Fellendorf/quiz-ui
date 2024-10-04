@@ -9,7 +9,7 @@
       margin-bottom: 10px;
 
       app-button {
-        display: block;
+        display: flex;
         &:has(input:checked) {
           background-color: $yellow;
           color: $text-dark;

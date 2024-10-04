@@ -2,17 +2,16 @@
 
 :host {
   padding: 20px;
-  width: 600px;
 
   header {
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-areas:
-      "app-button h2"
-      "app-button h3";
+      "button h2"
+      "button h3";
 
-    app-button {
-      grid-area: app-button;
+    .app-button {
+      grid-area: button;
       margin-right: 1.5rem;
 
       a {
@@ -45,7 +44,7 @@
   footer {
     display: flex;
     justify-content: space-around;
-    app-button {
+    .app-button {
       width: 40%;
     }
   }

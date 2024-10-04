@@ -12,9 +12,7 @@
       @let question = questions[index];
 
       <header>
-        <app-button>
-          <a routerLink="/">МЕНЮ</a>
-        </app-button>
+        <a class="app-button yellow" routerLink="/">МЕНЮ</a>
         <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
         <h3>{{ question.topic }}</h3>
       </header>
@@ -29,8 +27,12 @@
         />
       </main>
       <footer>
-        <app-button (click)="confirmAnswer()">ОТВЕТИТЬ</app-button>
-        <app-button (click)="confirmNoAnswer()">НЕТ ОТВЕТА</app-button>
+        <button class="app-button yellow" (click)="confirmAnswer()">
+          ОТВЕТИТЬ
+        </button>
+        <button class="app-button yellow" (click)="confirmNoAnswer()">
+          НЕТ ОТВЕТА
+        </button>
       </footer>
     }
   }

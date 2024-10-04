@@ -9,14 +9,13 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { Question, GlobalEvents } from '../models';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { EventService } from '../../core/event.service';
+import { Question, GlobalEvents } from '../models';
 
 @Component({
   selector: 'app-answers',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [],
   templateUrl: './answers.component.html',
   styleUrl: './answers.component.scss',
 })

@@ -24,7 +24,12 @@ export class ApiService {
 }`,
           language: 'css',
         },
-        options: ['Component', 'Directive', 'Module', 'Pipe'],
+        options: [
+          'Component Component Component Component Component Component Component Component Component Component Component Component Component Component Component',
+          'Directive',
+          'Module',
+          'Pipe',
+        ],
         answer: {
           index: 1,
         },

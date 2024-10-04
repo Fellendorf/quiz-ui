@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  .app-button {
+    margin: 50px;
+    width: 40%;
+  }
+}
