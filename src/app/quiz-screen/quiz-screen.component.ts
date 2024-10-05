@@ -46,9 +46,10 @@ export class QuizScreenComponent implements OnInit {
   }
 
   public confirmAnswer() {
-    if (this.quizService.hasAnswer(this.index)) {
+    if (this.quizService.isAnswered(this.index)) {
       this.gotoNextQuestion();
     } else {
+      console.log('Choose answer');
       //TODO: let a user know somehow
     }
   }
