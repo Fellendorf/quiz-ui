@@ -1,6 +1,41 @@
-<a
-  class="app-button yellow"
-  routerLink="/quiz"
-  [state]="{ quizParams: { topic: 'Angular', questionsCount: 2 } }"
-  >НАЧАТЬ ТЕСТ</a
->
+@if (topicsLoadingState$ | async; as state) {
+  @switch (state.type) {
+    @case ("loading") {
+      <!-- TODO: add spinner here or something -->
+    }
+    @case ("error") {
+      <!-- TODO: add error handling -->
+      <!-- Error: {{ state.error.message }} -->
+    }
+    @case ("loaded") {
+      @let topics = state.data;
+
+      <header>
+        <h2>ВЫБЕРАЙ ТЕМУ</h2>
+      </header>
+      <main>
+        @for (topic of topics; track $index) {
+          <label class="app-button gray">
+            <input
+              #input
+              type="radio"
+              name="topic"
+              (change)="selectedTopic = topic"
+            />
+            {{ topic }}
+          </label>
+        }
+        <a
+          class="app-button yellow"
+          routerLink="/quiz"
+          [state]="{ quizParams: { topic: selectedTopic, questionsCount: 2 } }"
+          >НАЧАТЬ ТЕСТ</a
+        >
+      </main>
+
+      <footer>
+        <!-- TODO: add Settings and About -->
+      </footer>
+    }
+  }
+}

@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Question, QuizParams } from '../quiz-screen/models';
+import { Question, QuizParams, Topic } from '../quiz-screen/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor() {}
+  public getTopics(): Observable<Topic[]> {
+    const response: Topic[] = ['Angular', 'HTML', 'RxJS', 'CSS'];
+
+    return this.request(response);
+  }
 
   public getQuestions({
     topic,
     questionsCount,
     isRandom = false,
   }: QuizParams): Observable<Question[]> {
-    console.log();
     const response: Question[] = [
       {
         topic: 'Angular',
@@ -52,12 +55,15 @@ export class ApiService {
       },
     ];
 
-    let obs = new Observable<Question[]>((subscriber) => {
+    return this.request(response);
+  }
+
+  private request<T>(response: T) {
+    return new Observable<T>((subscriber) => {
       setTimeout(() => {
         subscriber.next(response);
         subscriber.complete();
-      }, 1000);
+      }, 500);
     });
-    return obs;
   }
 }

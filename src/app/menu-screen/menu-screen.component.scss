@@ -1,9 +1,14 @@
 :host {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  padding: 20px;
+
+  label {
+    margin-bottom: 10px;
+  }
 
   .app-button {
-    margin: 50px;
-    width: 40%;
+    width: 100%;
   }
 }

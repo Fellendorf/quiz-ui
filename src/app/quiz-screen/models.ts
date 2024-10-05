@@ -1,3 +1,5 @@
+export type Topic = string;
+
 export interface Question {
   topic: string;
   text: string;
