@@ -28,6 +28,11 @@
   &.yellow {
     background-color: $yellow;
     color: $text-dark;
+
+    &:has(input:checked) {
+      background-color: $gray;
+      color: $text-light;
+    }
   }
   &.yellow:hover {
     background-color: $yellow-dark;
@@ -39,6 +44,11 @@
   &.gray {
     background-color: $gray;
     color: $text-light;
+
+    &:has(input:checked) {
+      background-color: $yellow;
+      color: $text-dark;
+    }
   }
   &.gray:hover {
     background-color: $gray-dark;

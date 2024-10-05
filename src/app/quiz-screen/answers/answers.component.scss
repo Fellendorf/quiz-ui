@@ -5,20 +5,8 @@
     display: flex;
     flex-direction: column;
 
-    label {
+    .app-button {
       margin-bottom: 10px;
-
-      app-button {
-        display: flex;
-        &:has(input:checked) {
-          background-color: $yellow;
-          color: $text-dark;
-        }
-
-        input {
-          appearance: none;
-        }
-      }
     }
   }
 }
