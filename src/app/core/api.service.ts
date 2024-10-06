@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Question, QuizParams, Topic } from '../quiz-screen/models';
 
@@ -6,10 +7,13 @@ import { Question, QuizParams, Topic } from '../quiz-screen/models';
   providedIn: 'root',
 })
 export class ApiService {
-  public getTopics(): Observable<Topic[]> {
-    const response: Topic[] = ['Angular', 'HTML', 'RxJS', 'CSS'];
+  //TODO: add error handling
+  private readonly API_BASE_URL = import.meta.env.NG_APP_API_URL;
 
-    return this.request(response);
+  private readonly http = inject(HttpClient);
+
+  public getTopics(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(`${this.API_BASE_URL}/topics`);
   }
 
   public getQuestions({
