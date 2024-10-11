@@ -1,6 +1,7 @@
 @use "../../../styles.variables" as *;
 
 :host {
+  display: block;
   margin-bottom: 20px;
 
   pre {
