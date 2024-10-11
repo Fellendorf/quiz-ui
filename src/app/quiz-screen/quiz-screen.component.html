@@ -1,7 +1,7 @@
 @if (questionsLoadingState$ | async; as state) {
   @switch (state.type) {
     @case ("loading") {
-      <!-- TODO: add spinner here or something -->
+      <app-loading-screen />
     }
     @case ("error") {
       <!-- TODO: add error handling -->

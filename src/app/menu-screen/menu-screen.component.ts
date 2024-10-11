@@ -9,11 +9,12 @@ import {
 } from '../shared/loading-state/loading-state';
 import { Topic } from '../quiz-screen/models';
 import { ApiService } from '../core/api.service';
+import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 
 @Component({
   selector: 'app-menu-screen',
   standalone: true,
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, LoadingScreenComponent],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
 })

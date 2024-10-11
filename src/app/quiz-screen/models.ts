@@ -22,7 +22,6 @@ export interface QuestionCode {
 export interface QuizParams {
   topic: string;
   questionsCount: number;
-  isRandom?: boolean;
 }
 
 export enum GlobalEvents {

@@ -1,7 +1,9 @@
 @if (topicsLoadingState$ | async; as state) {
   @switch (state.type) {
     @case ("loading") {
-      <!-- TODO: add spinner here or something -->
+      <app-loading-screen
+        phrase="Sorry, but the application API is located on a free hosting and the first load may take about a minute."
+      />
     }
     @case ("error") {
       <!-- TODO: add error handling -->
@@ -27,8 +29,8 @@
         }
         <a
           class="app-button yellow"
-          routerLink="/quiz"
-          [state]="{ quizParams: { topic: selectedTopic, questionsCount: 2 } }"
+          [routerLink]="selectedTopic ? '/quiz' : null"
+          [state]="{ quizParams: { topic: selectedTopic, questionsCount: 5 } }"
           >НАЧАТЬ ТЕСТ</a
         >
       </main>

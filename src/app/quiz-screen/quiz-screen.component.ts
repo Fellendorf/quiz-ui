@@ -13,11 +13,18 @@ import {
 } from '../shared/loading-state/loading-state';
 import { QuizService } from '../core/quiz.service';
 import { GlobalEvents, Question, QuizParams } from './models';
+import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [CodeComponent, AnswersComponent, AsyncPipe, RouterLink],
+  imports: [
+    CodeComponent,
+    AnswersComponent,
+    LoadingScreenComponent,
+    AsyncPipe,
+    RouterLink,
+  ],
   templateUrl: './quiz-screen.component.html',
   styleUrl: './quiz-screen.component.scss',
 })
