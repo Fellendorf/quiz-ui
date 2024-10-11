@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { QuizService } from '../core/quiz.service';
 import { CodeComponent } from '../shared/code/code.component';
@@ -13,5 +13,12 @@ import { CodeComponent } from '../shared/code/code.component';
   styleUrl: './results-screen.component.scss',
 })
 export class ResultsScreenComponent {
+  private readonly router = inject(Router);
   public readonly quizService = inject(QuizService);
+
+  ngOnInit() {
+    if (!this.quizService.questions) {
+      this.router.navigateByUrl('/');
+    }
+  }
 }
