@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && copy-file-util ./dist/index.html ./dist/404.html && gh-pages -d dist"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
     "@angular/compiler-cli": "^18.0.0",
     "@ngx-env/builder": "^18.0.1",
     "@types/jasmine": "~5.1.0",
+    "copy-file-util": "^1.2.1",
     "gh-pages": "^6.1.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
