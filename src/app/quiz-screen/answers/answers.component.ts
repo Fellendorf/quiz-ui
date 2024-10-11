@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { EventService } from '../../core/event.service';
-import { Question, GlobalEvents } from '../models';
+import { Question, GlobalEvents } from '../../models';
 
 @Component({
   selector: 'app-answers',

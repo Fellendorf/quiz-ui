@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Question } from '../quiz-screen/models';
+import { Question } from '../models';
 
 // TODO: change to NgRX
 @Injectable({

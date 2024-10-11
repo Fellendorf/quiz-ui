@@ -7,7 +7,7 @@ import {
   LoadingState,
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
-import { Topic } from '../quiz-screen/models';
+import { Topic } from '../models';
 import { ApiService } from '../core/api.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 

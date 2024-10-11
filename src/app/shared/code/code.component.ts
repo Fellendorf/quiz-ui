@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import hljs from 'highlight.js';
-import { QuestionCode } from '../../quiz-screen/models';
+import { QuestionCode } from '../../models';
 
 @Component({
   selector: 'app-code',

@@ -12,7 +12,7 @@ import {
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
 import { QuizService } from '../core/quiz.service';
-import { GlobalEvents, Question, QuizParams } from './models';
+import { GlobalEvents, Question, QuizParams } from '../models';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 
 @Component({
