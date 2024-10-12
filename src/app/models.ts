@@ -1,4 +1,7 @@
-export type Topic = string;
+export interface Topic {
+  name: string;
+  questionCount: number;
+}
 
 export interface Question {
   topic: string;
@@ -28,5 +31,3 @@ export enum GlobalEvents {
   answer = 'answer',
   uncheckInputs = 'uncheckInputs',
 }
-
-//TODO: move models outside of this component

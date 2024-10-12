@@ -11,7 +11,13 @@
   }
 
   label {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 10px;
+
+    input {
+      display: none;
+    }
   }
 
   .app-button {

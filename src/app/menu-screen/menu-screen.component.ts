@@ -22,7 +22,7 @@ export class MenuScreenComponent implements OnInit {
   private readonly apiService = inject(ApiService);
 
   public topicsLoadingState$!: Observable<LoadingState<Topic[]>>;
-  public selectedTopic!: Topic;
+  public selectedTopic!: string;
 
   public ngOnInit(): void {
     this.topicsLoadingState$ = toLoadingStateStream<Topic[]>(
