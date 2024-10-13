@@ -1,6 +1,9 @@
 <header>
   <a class="app-button yellow" routerLink="/">МЕНЮ</a>
-  <h1>РЕЗУЛЬТАТЫ:</h1>
+  <h1>
+    Верных ответов: {{ getNumberCorrectAnswers() }} из
+    {{ quizService.questions.length }}
+  </h1>
 </header>
 <main>
   @for (question of quizService.questions; track $index) {

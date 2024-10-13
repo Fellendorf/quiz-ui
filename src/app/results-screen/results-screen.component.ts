@@ -16,9 +16,15 @@ export class ResultsScreenComponent {
   private readonly router = inject(Router);
   public readonly quizService = inject(QuizService);
 
-  ngOnInit() {
+  public ngOnInit() {
     if (!this.quizService.questions) {
       this.router.navigateByUrl('/');
     }
+  }
+
+  public getNumberCorrectAnswers(): number {
+    return this.quizService.questions.filter(
+      (question) => question.answer.index === question.userAnswer,
+    ).length;
   }
 }
