@@ -1,4 +1,4 @@
-$yellow: #f9d57f; // done
+$yellow: #f9d57f;
 $yellow-dark: #e4b257;
 
 $gray: #5a5a5a;
@@ -8,5 +8,9 @@ $gray-light: #7a7a7a;
 $text-dark: #333;
 $text-light: white;
 
-$background-black: #010101; // done
-$background-gray: #2b2b2b; // done
+$background-black: #010101;
+$background-gray: #2b2b2b;
+
+$question-untouched: $gray-dark;
+$question-correct: #146e14;
+$question-incorrect: #912626;

@@ -33,11 +33,11 @@ export class AnswersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.eventService
-      .listen(GlobalEvents.uncheckInputs)
-      ?.subscribe(() => this.uncheckInputs());
+      .listen(GlobalEvents.questionChanged)
+      ?.subscribe(() => this.questionChanged());
   }
 
-  private uncheckInputs() {
+  private questionChanged() {
     [...this.inputs].forEach((input) => (input.nativeElement.checked = false));
   }
 }

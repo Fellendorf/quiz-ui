@@ -14,6 +14,7 @@ import {
 import { QuizService } from '../core/quiz.service';
 import { GlobalEvents, Question, QuizParams } from '../models';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-quiz',
@@ -22,6 +23,7 @@ import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.
     CodeComponent,
     AnswersComponent,
     LoadingScreenComponent,
+    ProgressBarComponent,
     AsyncPipe,
     RouterLink,
   ],
@@ -71,6 +73,6 @@ export class QuizScreenComponent implements OnInit {
     if (this.index >= this.quizParams.questionsCount) {
       this.router.navigateByUrl('/results');
     }
-    this.eventService.emit(GlobalEvents.uncheckInputs);
+    this.eventService.emit(GlobalEvents.questionChanged);
   }
 }

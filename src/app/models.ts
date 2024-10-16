@@ -29,5 +29,5 @@ export interface QuizParams {
 
 export enum GlobalEvents {
   answer = 'answer',
-  uncheckInputs = 'uncheckInputs',
+  questionChanged = 'questionChanged',
 }
