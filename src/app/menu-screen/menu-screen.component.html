@@ -1,9 +1,7 @@
 @if (topicsLoadingState$ | async; as state) {
   @switch (state.type) {
     @case ("loading") {
-      <app-loading-screen
-        phrase="Sorry, but the application API is located on a free hosting and the first load may take about a minute."
-      />
+      <app-loading-screen />
     }
     @case ("error") {
       <!-- TODO: add error handling -->
