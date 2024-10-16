@@ -32,7 +32,6 @@ export class ProgressBarComponent {
   }
 
   public setColor(question: Question): state {
-    console.log(question.userAnswer);
     if (question.userAnswer === undefined) {
       return 'untouched';
     } else if (question.answer.index === question.userAnswer) {
