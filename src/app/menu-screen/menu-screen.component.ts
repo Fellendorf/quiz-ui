@@ -7,10 +7,9 @@ import {
   LoadingState,
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
-import { QuizParams, Topic } from '../models';
+import { Topic } from '../models';
 import { ApiService } from '../core/api.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
-import { LocalStorageService } from '../core/local-storage.service';
 import { QuizService } from '../core/quiz.service';
 
 @Component({
@@ -33,6 +32,6 @@ export class MenuScreenComponent implements OnInit {
   }
 
   public isTopicChecked(topic: Topic): boolean {
-    return topic.name === this.quizService.getQuizParams().topic;
+    return topic.name === this.quizService.getQuizParams()?.topic;
   }
 }
