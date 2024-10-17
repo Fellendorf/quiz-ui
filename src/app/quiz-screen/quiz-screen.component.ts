@@ -39,13 +39,11 @@ export class QuizScreenComponent implements OnInit {
   public quizParams!: QuizParams;
   public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
-  public answers = new Map<number, number | null>();
 
   public ngOnInit(): void {
-    this.quizParams = history.state.quizParams as QuizParams;
-    if (!this.quizParams) {
-      this.router.navigateByUrl('/');
-    }
+    this.quizParams = this.quizService.getQuizParams();
+    //temp:
+    this.quizParams.questionsCount = 10;
 
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
       this.apiService

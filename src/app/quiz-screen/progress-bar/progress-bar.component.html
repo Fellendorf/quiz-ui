@@ -1,5 +1,5 @@
 @for (q of questions; track $index) {
   <div class="item-container">
-    <div class="item" [class]="setColor(q)"></div>
+    <div [class]="['item', setColor(q), markCurrent($index)]"></div>
   </div>
 }

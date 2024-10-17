@@ -20,6 +20,10 @@
 
       &.untouched {
         background-color: $question-untouched;
+        &.current {
+          outline: $yellow solid 2px;
+          outline-offset: 2px;
+        }
       }
 
       &.incorrect {

@@ -7,9 +7,11 @@ import {
   LoadingState,
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
-import { Topic } from '../models';
+import { QuizParams, Topic } from '../models';
 import { ApiService } from '../core/api.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
+import { LocalStorageService } from '../core/local-storage.service';
+import { QuizService } from '../core/quiz.service';
 
 @Component({
   selector: 'app-menu-screen',
@@ -20,13 +22,17 @@ import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.
 })
 export class MenuScreenComponent implements OnInit {
   private readonly apiService = inject(ApiService);
+  public readonly quizService = inject(QuizService);
 
   public topicsLoadingState$!: Observable<LoadingState<Topic[]>>;
-  public selectedTopic!: string;
 
   public ngOnInit(): void {
     this.topicsLoadingState$ = toLoadingStateStream<Topic[]>(
       this.apiService.getTopics(),
     );
+  }
+
+  public isTopicChecked(topic: Topic): boolean {
+    return topic.name === this.quizService.getQuizParams().topic;
   }
 }

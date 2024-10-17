@@ -15,7 +15,7 @@
         <a class="app-button yellow" routerLink="/">МЕНЮ</a>
         <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
         <h3>{{ question.topic }}</h3>
-        <app-progress-bar [questions]="questions" />
+        <app-progress-bar [questions]="questions" [index]="index" />
       </header>
       <main>
         <p>{{ question.text }}</p>

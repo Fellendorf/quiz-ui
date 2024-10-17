@@ -22,6 +22,9 @@ export class ProgressBarComponent {
   @Input()
   public questions!: Question[];
 
+  @Input()
+  public index!: number;
+
   private readonly eventService = inject(EventService);
   private readonly cdr = inject(ChangeDetectorRef);
 
@@ -39,5 +42,9 @@ export class ProgressBarComponent {
     } else {
       return 'incorrect';
     }
+  }
+
+  public markCurrent(itemIndex: number): string {
+    return itemIndex === this.index ? 'current' : '';
   }
 }

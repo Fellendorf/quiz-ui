@@ -20,15 +20,15 @@
               #input
               type="radio"
               name="topic"
-              (change)="selectedTopic = topic.name"
+              [checked]="isTopicChecked(topic)"
+              (change)="quizService.setTopic(topic)"
             />
             <span>{{ topic.name }}</span> <span>{{ topic.questionCount }}</span>
           </label>
         }
         <a
           class="app-button yellow"
-          [routerLink]="selectedTopic ? '/quiz' : null"
-          [state]="{ quizParams: { topic: selectedTopic, questionsCount: 10 } }"
+          [routerLink]="quizService.getQuizParams() ? '/quiz' : null"
           >НАЧАТЬ ТЕСТ</a
         >
       </main>
