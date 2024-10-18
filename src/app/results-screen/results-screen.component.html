@@ -6,10 +6,27 @@
   </h1>
 </header>
 <main>
-  @for (question of quizService.questions; track $index) {
-    <hr />
+  <fieldset>
+    @for (q of quizService.questions; track $index) {
+      <div class="button-container">
+        <label
+          [class]="['app-button', setColor(q)]"
+          (click)="setQuestion($index)"
+        >
+          <input
+            #input
+            type="radio"
+            name="option"
+            [checked]="isQuestionChecked($index)"
+          />
+          {{ $index + 1 }}
+        </label>
+      </div>
+    }
+  </fieldset>
+  @if (question) {
     <header>
-      <h2>Вопрос номер {{ $index + 1 }}</h2>
+      <h2>Вопрос номер {{ index + 1 }}</h2>
       <h3>{{ question.topic }}</h3>
     </header>
     <p>{{ question.text }}</p>

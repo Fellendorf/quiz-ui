@@ -56,4 +56,26 @@
   &.gray:active {
     background-color: $gray;
   }
+
+  &.red {
+    background-color: $red;
+    color: $text-light;
+  }
+  &.red:hover {
+    background-color: $red-dark;
+  }
+  &.red:active {
+    background-color: $red;
+  }
+
+  &.green {
+    background-color: $green;
+    color: $text-light;
+  }
+  &.green:hover {
+    background-color: $green-dark;
+  }
+  &.green:active {
+    background-color: $green;
+  }
 }

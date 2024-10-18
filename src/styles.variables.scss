@@ -5,6 +5,12 @@ $gray: #5a5a5a;
 $gray-dark: #484848;
 $gray-light: #7a7a7a;
 
+$red: #c33333;
+$red-dark: #991a1a;
+
+$green: #1d7f3a;
+$green-dark: #0f5e27;
+
 $text-dark: #333;
 $text-light: white;
 
@@ -12,5 +18,5 @@ $background-black: #010101;
 $background-gray: #2b2b2b;
 
 $question-untouched: $gray-dark;
-$question-correct: #1d7f3a;
-$question-incorrect: #c33333;
+$question-correct: $green;
+$question-incorrect: $red;

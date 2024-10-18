@@ -24,13 +24,49 @@
       grid-area: h1;
       align-self: center;
       font-weight: 500;
+      font-size: 1.1rem;
     }
   }
   main {
+    fieldset {
+      display: flex;
+      flex-basis: calc(100% / 10);
+      flex-wrap: wrap;
+      margin: 20px 0;
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        width: calc(100% / 10);
+
+        label.app-button {
+          margin: 1px;
+          border-radius: 1.5rem;
+          padding: 0;
+          width: 2.4rem;
+
+          &:has(input:checked) {
+            outline: $yellow solid 2px;
+            outline-offset: 2px;
+          }
+
+          input {
+            display: none;
+          }
+        }
+      }
+    }
+
     header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
+
+      h2,
+      h3 {
+        font-size: 1.3rem;
+      }
 
       h2 {
         align-self: center;
@@ -40,18 +76,18 @@
       h3 {
         align-self: center;
         color: $gray-light;
-        font-size: 1rem;
       }
     }
 
     p,
     app-code {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     h4 {
       margin-bottom: 5px;
       font-weight: 500;
+      font-size: 1.1rem;
     }
   }
 }
