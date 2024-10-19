@@ -45,6 +45,10 @@
           border-radius: 1.5rem;
           padding: 0;
           width: 2.4rem;
+          @media (max-width: 480px) {
+            width: 2rem;
+            min-height: 2rem;
+          }
 
           &:has(input:checked) {
             outline: $yellow solid 2px;
