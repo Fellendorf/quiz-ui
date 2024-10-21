@@ -18,7 +18,7 @@
         <app-count-options [countOptions]="[10, 20, 40]" />
 
         <button
-          class="app-button yellow"
+          class="app-button yellow start"
           (click)="goToQuizScreen()"
           [disabled]="isStartButtonDisabled()"
         >
@@ -27,7 +27,9 @@
       </main>
 
       <footer>
-        <!-- TODO: add Settings and About -->
+        <button class="app-button gray" (click)="goToSettingsScreen()">
+          НАСТРОЙКИ
+        </button>
       </footer>
     }
   }

@@ -34,6 +34,7 @@ export class MenuScreenComponent implements OnInit {
   private readonly quizService = inject(QuizService);
 
   private readonly quizScreenPath = `/${ROUTE_PATHES.QUIZ}`;
+  private readonly settingsScreenPath = `${ROUTE_PATHES.SETTINGS}`;
 
   public topicsLoadingState$!: Observable<LoadingState<Topic[]>>;
 
@@ -50,5 +51,9 @@ export class MenuScreenComponent implements OnInit {
   public isStartButtonDisabled(): boolean {
     const quizParams = this.quizService.getQuizParams();
     return quizParams?.topic === undefined || quizParams?.count === undefined;
+  }
+
+  public goToSettingsScreen(): void {
+    this.router.navigate([this.settingsScreenPath]);
   }
 }
