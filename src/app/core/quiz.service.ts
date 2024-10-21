@@ -29,8 +29,8 @@ export class QuizService {
     this.setQuizParams({ ...this.getQuizParams(), topic: topic.name });
   }
 
-  public setQuestionCount(count: number): void {
-    this.setQuizParams({ ...this.getQuizParams(), questionsCount: count });
+  public setCount(count: number): void {
+    this.setQuizParams({ ...this.getQuizParams(), count });
   }
 
   public getQuizParams(): QuizParams {

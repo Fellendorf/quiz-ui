@@ -16,14 +16,11 @@ export class ApiService {
     return this.http.get<Topic[]>(`${this.API_BASE_URL}/topics`);
   }
 
-  public getQuestions({
-    topic,
-    questionsCount,
-  }: QuizParams): Observable<Question[]> {
+  public getQuestions({ topic, count }: QuizParams): Observable<Question[]> {
     return this.http.get<Question[]>(`${this.API_BASE_URL}/questions`, {
       params: {
         'topics[]': topic,
-        count: questionsCount,
+        count,
       },
     });
   }

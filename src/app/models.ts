@@ -24,7 +24,7 @@ export interface QuestionCode {
 
 export interface QuizParams {
   topic: string;
-  questionsCount: number;
+  count: number;
 }
 
 export enum GlobalEvents {

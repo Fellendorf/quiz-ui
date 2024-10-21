@@ -10,11 +10,13 @@
     @case ("loaded") {
       @let topics = state.data;
 
-      <header>
-        <h2>ТЕМА:</h2>
-      </header>
       <main>
+        <h2>ТЕМА:</h2>
         <app-topic-options [topics]="topics" />
+
+        <h2>КОЛИЧЕСТВО ВОПРОСОВ:</h2>
+        <app-count-options [countOptions]="[10, 20, 40]" />
+
         <button
           class="app-button yellow"
           (click)="goToQuizScreen()"

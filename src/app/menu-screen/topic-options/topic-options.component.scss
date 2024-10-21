@@ -10,4 +10,8 @@ label {
 
 .app-button {
   width: 100%;
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
 }

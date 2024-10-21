@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+
+  label {
+    width: calc(100% / 3);
+  }
+
+  input {
+    display: none;
+  }
+}

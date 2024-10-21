@@ -11,6 +11,7 @@ import { ApiService } from '../core/api.service';
 import { QuizService } from '../core/quiz.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { TopicOptionsComponent } from './topic-options/topic-options.component';
+import { CountOptionsComponent } from './count-options/count-options.component';
 import { Topic } from '../models';
 import { ROUTE_PATHES } from '../app.routes';
 
@@ -22,6 +23,7 @@ import { ROUTE_PATHES } from '../app.routes';
     AsyncPipe,
     LoadingScreenComponent,
     TopicOptionsComponent,
+    CountOptionsComponent,
   ],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
@@ -31,7 +33,7 @@ export class MenuScreenComponent implements OnInit {
   private readonly apiService = inject(ApiService);
   private readonly quizService = inject(QuizService);
 
-  public readonly quizScreenPath = `/${ROUTE_PATHES.QUIZ}`;
+  private readonly quizScreenPath = `/${ROUTE_PATHES.QUIZ}`;
 
   public topicsLoadingState$!: Observable<LoadingState<Topic[]>>;
 
@@ -47,9 +49,6 @@ export class MenuScreenComponent implements OnInit {
 
   public isStartButtonDisabled(): boolean {
     const quizParams = this.quizService.getQuizParams();
-    return (
-      quizParams?.topic === undefined /* ||
-      quizParams?.questionsCount === undefined*/
-    );
+    return quizParams?.topic === undefined || quizParams?.count === undefined;
   }
 }

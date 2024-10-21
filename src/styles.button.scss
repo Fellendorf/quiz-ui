@@ -25,6 +25,10 @@
     cursor: pointer;
   }
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &.yellow {
     background-color: $yellow;
     color: $text-dark;
@@ -33,12 +37,13 @@
       background-color: $gray;
       color: $text-light;
     }
-  }
-  &.yellow:hover {
-    background-color: $yellow-dark;
-  }
-  &.yellow:active {
-    background-color: $yellow;
+
+    &:hover:not(:disabled) {
+      background-color: $yellow-dark;
+    }
+    &:active {
+      background-color: $yellow;
+    }
   }
 
   &.gray {

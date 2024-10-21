@@ -15,6 +15,7 @@ import { QuizService } from '../core/quiz.service';
 import { GlobalEvents, Question, QuizParams } from '../models';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ROUTE_PATHES } from '../app.routes';
 
 @Component({
   selector: 'app-quiz',
@@ -36,14 +37,14 @@ export class QuizScreenComponent implements OnInit {
   public readonly quizService = inject(QuizService);
   private readonly router = inject(Router);
 
+  private readonly resultScreenPath = `/${ROUTE_PATHES.RESULTS}`;
+
   public quizParams!: QuizParams;
   public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
 
   public ngOnInit(): void {
     this.quizParams = this.quizService.getQuizParams();
-    //temp:
-    this.quizParams.questionsCount = 10;
 
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
       this.apiService
@@ -68,8 +69,8 @@ export class QuizScreenComponent implements OnInit {
 
   private gotoNextQuestion() {
     this.index++;
-    if (this.index >= this.quizParams.questionsCount) {
-      this.router.navigateByUrl('/results');
+    if (this.index >= this.quizParams.count) {
+      this.router.navigateByUrl(this.resultScreenPath);
     }
     this.eventService.emit(GlobalEvents.questionChanged);
   }
