@@ -10,6 +10,7 @@ export interface Question {
   options: string[];
   answer: Answer;
   userAnswer?: number | null;
+  meta?: Meta;
 }
 
 export interface Answer {
@@ -21,6 +22,13 @@ export interface QuestionCode {
   text: string;
   language: 'typescript' | 'javascript' | 'html' | 'css';
 }
+
+interface Meta {
+  reviewed?: boolean;
+  difficult?: Difficulty;
+}
+
+type Difficulty = 'easy' | 'medium' | 'hard';
 
 export interface QuizParams {
   topic: string;

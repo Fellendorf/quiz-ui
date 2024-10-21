@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { QuizService } from '../core/quiz.service';
 import { CodeComponent } from '../shared/code/code.component';
 import { Question } from '../models';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-results-screen',
@@ -16,6 +17,7 @@ import { Question } from '../models';
 export class ResultsScreenComponent {
   private readonly router = inject(Router);
   public readonly quizService = inject(QuizService);
+  public readonly authService = inject(AuthService);
 
   public index = 0;
   public question!: Question;

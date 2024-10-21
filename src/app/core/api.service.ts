@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Question, QuizParams, Topic } from '../models';
 
 @Injectable({
@@ -17,11 +17,21 @@ export class ApiService {
   }
 
   public getQuestions({ topic, count }: QuizParams): Observable<Question[]> {
-    return this.http.get<Question[]>(`${this.API_BASE_URL}/questions`, {
-      params: {
-        'topics[]': topic,
-        count,
-      },
-    });
+    return this.http
+      .get<Question[]>(`${this.API_BASE_URL}/questions`, {
+        params: {
+          'topics[]': topic,
+          count,
+        },
+      })
+      .pipe(
+        map((questions) =>
+          questions.map((question) =>
+            !question.meta
+              ? { ...question, meta: { reviewed: false } }
+              : question,
+          ),
+        ),
+      );
   }
 }
