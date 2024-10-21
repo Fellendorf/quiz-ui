@@ -9,13 +9,13 @@ import { QuizService } from '../../core/quiz.service';
 import { Topic } from '../../models';
 
 @Component({
-  selector: 'app-select-topic',
+  selector: 'app-topic-options',
   standalone: true,
-  templateUrl: './select-topic.component.html',
-  styleUrl: './select-topic.component.scss',
+  templateUrl: './topic-options.component.html',
+  styleUrl: './topic-options.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectTopicComponent {
+export class TopicOptionsComponent {
   @Input({ required: true })
   public topics!: Topic[];
 

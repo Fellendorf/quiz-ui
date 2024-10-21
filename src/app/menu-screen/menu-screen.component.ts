@@ -10,7 +10,7 @@ import {
 import { ApiService } from '../core/api.service';
 import { QuizService } from '../core/quiz.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
-import { SelectTopicComponent } from './select-topic/select-topic.component';
+import { TopicOptionsComponent } from './topic-options/topic-options.component';
 import { Topic } from '../models';
 import { ROUTE_PATHES } from '../app.routes';
 
@@ -21,7 +21,7 @@ import { ROUTE_PATHES } from '../app.routes';
     RouterLink,
     AsyncPipe,
     LoadingScreenComponent,
-    SelectTopicComponent,
+    TopicOptionsComponent,
   ],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
