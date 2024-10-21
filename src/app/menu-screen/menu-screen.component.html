@@ -14,23 +14,14 @@
         <h2>ТЕМА:</h2>
       </header>
       <main>
-        @for (topic of topics; track $index) {
-          <label class="app-button gray">
-            <input
-              #input
-              type="radio"
-              name="topic"
-              [checked]="isTopicChecked(topic)"
-              (change)="quizService.setTopic(topic)"
-            />
-            <span>{{ topic.name }}</span> <span>{{ topic.questionCount }}</span>
-          </label>
-        }
-        <a
+        <app-select-topic [topics]="topics" />
+        <button
           class="app-button yellow"
-          [routerLink]="quizService.getQuizParams() ? '/quiz' : null"
-          >НАЧАТЬ ТЕСТ</a
+          (click)="goToQuizScreen()"
+          [disabled]="isStartButtonDisabled()"
         >
+          НАЧАТЬ ТЕСТ
+        </button>
       </main>
 
       <footer>

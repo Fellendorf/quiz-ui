@@ -1,27 +1,37 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import {
   LoadingState,
   toLoadingStateStream,
 } from '../shared/loading-state/loading-state';
-import { Topic } from '../models';
 import { ApiService } from '../core/api.service';
-import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { QuizService } from '../core/quiz.service';
+import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
+import { SelectTopicComponent } from './select-topic/select-topic.component';
+import { Topic } from '../models';
+import { ROUTE_PATHES } from '../app.routes';
 
 @Component({
   selector: 'app-menu-screen',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, LoadingScreenComponent],
+  imports: [
+    RouterLink,
+    AsyncPipe,
+    LoadingScreenComponent,
+    SelectTopicComponent,
+  ],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
 })
 export class MenuScreenComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
-  public readonly quizService = inject(QuizService);
+  private readonly quizService = inject(QuizService);
+
+  public readonly quizScreenPath = `/${ROUTE_PATHES.QUIZ}`;
 
   public topicsLoadingState$!: Observable<LoadingState<Topic[]>>;
 
@@ -31,7 +41,15 @@ export class MenuScreenComponent implements OnInit {
     );
   }
 
-  public isTopicChecked(topic: Topic): boolean {
-    return topic.name === this.quizService.getQuizParams()?.topic;
+  public goToQuizScreen(): void {
+    this.router.navigate([this.quizScreenPath]);
+  }
+
+  public isStartButtonDisabled(): boolean {
+    const quizParams = this.quizService.getQuizParams();
+    return (
+      quizParams?.topic === undefined /* ||
+      quizParams?.questionsCount === undefined*/
+    );
   }
 }
