@@ -23,7 +23,11 @@
         <label for="explanation">
           {{ "Объяснение:" | uppercase }}
         </label>
-        <input id="explanation" type="text" formControlName="explanation" />
+        <textarea
+          id="explanation"
+          type="text"
+          formControlName="explanation"
+        ></textarea>
       </div>
       <button class="app-button yellow" type="submit">Подтвердить</button>
     </form>

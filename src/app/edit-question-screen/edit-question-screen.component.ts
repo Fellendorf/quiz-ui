@@ -33,10 +33,9 @@ export class EditQuestionScreenComponent implements OnInit {
       const question = this.quizService.questions?.find(
         (question) => question._id === params['id'],
       );
-      console.log(question);
+
       if (!question) {
         this.router.navigateByUrl('/');
-        // this.router.navigateByUrl('/results');
         return;
       }
       this.questionForm = this.formBuilder.group({
