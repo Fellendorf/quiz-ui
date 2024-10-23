@@ -1,0 +1,76 @@
+@use "../../styles.variables.scss" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas: "button h1";
+    margin-bottom: 30px;
+
+    .app-button {
+      grid-area: button;
+      margin-right: 1.5rem;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    h1 {
+      grid-area: h1;
+      align-self: center;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+
+    label,
+    input {
+      display: block;
+    }
+
+    label {
+      margin-bottom: 10px;
+    }
+
+    input,
+    textarea {
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 1.2rem;
+      //   text-decoration: none;
+      background-color: $gray-dark;
+      padding: 10px 20px;
+      width: 100%;
+      min-height: 2.4rem;
+      color: $text-light;
+      font-weight: 400;
+      font-size: 16px;
+      font-family: "Roboto", sans-serif;
+      user-select: none;
+      &:focus {
+        outline: $yellow solid 3px;
+        background-color: $gray-light;
+      }
+      &:disabled {
+        cursor: not-allowed;
+        background-color: $gray-light;
+        color: black;
+      }
+    }
+
+    textarea {
+      overflow: hidden;
+      resize: vertical;
+    }
+  }
+}

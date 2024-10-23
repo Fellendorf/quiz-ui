@@ -4,6 +4,7 @@ export interface Topic {
 }
 
 export interface Question {
+  _id: string;
   topic: string;
   text: string;
   code?: QuestionCode;

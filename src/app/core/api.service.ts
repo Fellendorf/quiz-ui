@@ -34,4 +34,8 @@ export class ApiService {
         ),
       );
   }
+
+  public updateQuestion(question: Question) {
+    return this.http.put<Question>(`${this.API_BASE_URL}/question`, question);
+  }
 }

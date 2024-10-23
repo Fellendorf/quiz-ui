@@ -1,0 +1,31 @@
+<header>
+  <a class="app-button yellow" (click)="goBack()">НАЗАД</a>
+  <h1>Редактировать вопрос</h1>
+</header>
+<main>
+  @if (questionForm) {
+    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+      <label for="topic">
+        {{ "Тема:" | uppercase }}
+      </label>
+      <input id="topic" type="text" disabled [value]="getTopic()" />
+      <label for="question">
+        {{ "Вопрос:" | uppercase }}
+      </label>
+      <!-- TODO: add autoresizing
+          https://medium.com/@chandrahasstvs/building-your-own-text-area-auto-resize-directive-in-angular-bbe3e5144e97 -->
+      <textarea id="question" formControlName="text"></textarea>
+      <label for="correct-answer">
+        {{ "Ответ:" | uppercase }}
+      </label>
+      <input id="correct-answer" type="text" disabled [value]="getAnswer()" />
+      <div formGroupName="answer">
+        <label for="explanation">
+          {{ "Объяснение:" | uppercase }}
+        </label>
+        <input id="explanation" type="text" formControlName="explanation" />
+      </div>
+      <button class="app-button yellow" type="submit">Подтвердить</button>
+    </form>
+  }
+</main>

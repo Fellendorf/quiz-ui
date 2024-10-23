@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
@@ -6,11 +5,13 @@ import { QuizService } from '../core/quiz.service';
 import { CodeComponent } from '../shared/code/code.component';
 import { Question } from '../models';
 import { AuthService } from '../core/auth.service';
+import { UpperCasePipe } from '@angular/common';
+import { ROUTE_PATHES } from '../app.routes';
 
 @Component({
   selector: 'app-results-screen',
   standalone: true,
-  imports: [JsonPipe, CodeComponent, RouterLink],
+  imports: [UpperCasePipe, CodeComponent, RouterLink],
   templateUrl: './results-screen.component.html',
   styleUrl: './results-screen.component.scss',
 })
@@ -46,5 +47,9 @@ export class ResultsScreenComponent {
 
   public isQuestionChecked(index: number): boolean {
     return this.index === index;
+  }
+
+  public goToEditQuestionScreen() {
+    this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, this.question._id]);
   }
 }

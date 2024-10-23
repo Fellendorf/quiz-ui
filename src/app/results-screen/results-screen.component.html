@@ -51,6 +51,9 @@
     @if (authService.isAdmin) {
       <h4>Вопрос верифицирован:</h4>
       <p>{{ question.meta?.reviewed ? "Да" : "Нет" }}</p>
+      <button class="app-button gray" (click)="goToEditQuestionScreen()">
+        {{ "Редактировать вопрос" | uppercase }}
+      </button>
     }
   }
 </main>
