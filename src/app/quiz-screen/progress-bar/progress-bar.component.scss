@@ -3,11 +3,13 @@
 :host {
   display: flex;
   grid-area: progress-bar;
-  flex-basis: calc(100% / 10);
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 20px;
   padding: 0 40px;
+  @media (max-width: 480px) {
+    padding: 0 20px;
+  }
 
   .item-container {
     margin-bottom: 5px;
@@ -17,6 +19,10 @@
       border-radius: 50%;
       width: 15px;
       height: 15px;
+      @media (max-width: 480px) {
+        width: 14px;
+        height: 14px;
+      }
 
       &.untouched {
         background-color: $question-untouched;

@@ -35,6 +35,14 @@
   }
 
   footer {
-    margin-top: 20%;
+    position: absolute;
+    right: 20px;
+    bottom: 5%;
+    left: 20px;
+    width: auto;
+
+    button {
+      width: 100%;
+    }
   }
 }

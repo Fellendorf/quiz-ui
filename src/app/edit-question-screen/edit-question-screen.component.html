@@ -12,9 +12,11 @@
       <label for="question">
         {{ "Вопрос:" | uppercase }}
       </label>
-      <!-- TODO: add autoresizing
-          https://medium.com/@chandrahasstvs/building-your-own-text-area-auto-resize-directive-in-angular-bbe3e5144e97 -->
-      <textarea id="question" formControlName="text"></textarea>
+      <textarea
+        id="question"
+        formControlName="text"
+        appTextareaAutoresize
+      ></textarea>
       <label for="correct-answer">
         {{ "Ответ:" | uppercase }}
       </label>
@@ -27,9 +29,12 @@
           id="explanation"
           type="text"
           formControlName="explanation"
+          appTextareaAutoresize
         ></textarea>
       </div>
-      <button class="app-button yellow" type="submit">Подтвердить</button>
+      <button class="app-button yellow" type="submit">
+        {{ "Подтвердить" | uppercase }}
+      </button>
     </form>
   }
 </main>

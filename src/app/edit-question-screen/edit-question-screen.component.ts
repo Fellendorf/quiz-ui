@@ -10,11 +10,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApiService } from '../core/api.service';
+import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
 
 @Component({
   selector: 'app-edit-question-screen',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, UpperCasePipe],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    UpperCasePipe,
+    TextareaAutoresizeDirective,
+  ],
   templateUrl: './edit-question-screen.component.html',
   styleUrl: './edit-question-screen.component.scss',
 })
