@@ -1,0 +1,44 @@
+@if (questionsLoadingState$ | async; as state) {
+  @switch (state.type) {
+    @case ("loading") {
+      <app-loading-screen />
+    }
+    @case ("error") {
+      <!-- TODO: add error handling -->
+      <!-- Error: {{ state.error.message }} -->
+    }
+    @case ("loaded") {
+      @let questions = state.data;
+
+      @for (question of questions; track $index) {
+        <p>{{ $index + 1 }}. {{ question.text }}</p>
+      }
+      <!-- @let question = questions[index];
+  
+        <header>
+          <a class="app-button yellow" routerLink="/">МЕНЮ</a>
+          <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
+          <h3>{{ question.topic }}</h3>
+          <app-progress-bar [questions]="questions" [index]="index" />
+        </header>
+        <main>
+          <p>{{ question.text }}</p>
+          @if (question.code) {
+            <app-code [code]="question.code" />
+          }
+          <app-answers
+            [options]="question.options"
+            (answer)="quizService.setAnswer(index, $event)"
+          />
+        </main>
+        <footer>
+          <button class="app-button yellow" (click)="confirmAnswer()">
+            ОТВЕТИТЬ
+          </button>
+          <button class="app-button yellow" (click)="confirmNoAnswer()">
+            НЕТ ОТВЕТА
+          </button>
+        </footer> -->
+    }
+  }
+}
