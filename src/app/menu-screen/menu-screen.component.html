@@ -11,10 +11,10 @@
       @let topics = state.data;
 
       <main>
-        <h2>ТЕМА:</h2>
+        <h2>{{ "Тема:" | uppercase }}</h2>
         <app-topic-options [topics]="topics" />
 
-        <h2>КОЛИЧЕСТВО ВОПРОСОВ:</h2>
+        <h2>{{ "Количество вопросов:" | uppercase }}</h2>
         <app-count-options [countOptions]="[10, 20, 40]" />
 
         <button
@@ -22,13 +22,18 @@
           (click)="goToQuizScreen()"
           [disabled]="isStartButtonDisabled()"
         >
-          НАЧАТЬ ТЕСТ
+          {{ "Начать тест" | uppercase }}
         </button>
       </main>
 
       <footer>
+        @if (isAdmin$ | async) {
+          <button class="app-button gray" (click)="goToEditQuestionsScreen()">
+            {{ "Редактировать вопросы" | uppercase }}
+          </button>
+        }
         <button class="app-button gray" (click)="goToSettingsScreen()">
-          НАСТРОЙКИ
+          {{ "Настройки" | uppercase }}
         </button>
       </footer>
     }
