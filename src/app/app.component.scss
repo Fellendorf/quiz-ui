@@ -2,4 +2,10 @@
   position: relative;
   width: 600px;
   height: 100svh;
+
+  &:has(.is-not-suppoted-message) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

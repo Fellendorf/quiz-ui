@@ -1,5 +1,5 @@
-@if (isMessageDisplayed) {
-  <p>Landscape orientation is not supported</p>
+@if (isMobileLandscapeOrientation$ | async) {
+  <p class="is-not-suppoted-message">Landscape orientation is not supported</p>
 } @else {
   <router-outlet />
 }

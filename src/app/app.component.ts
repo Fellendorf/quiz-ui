@@ -1,26 +1,22 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { fromEvent, map, merge } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  public isMessageDisplayed = false;
+export class AppComponent {
+  public isMobileLandscapeOrientation$ = merge(
+    fromEvent(window, 'load'),
+    fromEvent(window, 'orientationchange'),
+  ).pipe(map(() => this.isMobileLandscapeOrientation()));
 
-  public ngOnInit() {
-    this.isMessageDisplayed = this.shouldMessageBeDisplayed();
-  }
-
-  @HostListener('window:orientationchange', ['$event'])
-  private onOrientationChange(event: Event) {
-    this.isMessageDisplayed = this.shouldMessageBeDisplayed();
-  }
-
-  private shouldMessageBeDisplayed() {
+  private isMobileLandscapeOrientation() {
     return (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
         navigator.userAgent,
