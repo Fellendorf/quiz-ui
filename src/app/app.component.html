@@ -1,1 +1,5 @@
-<router-outlet />
+@if (isMessageDisplayed) {
+  <p>Landscape orientation is not supported</p>
+} @else {
+  <router-outlet />
+}
