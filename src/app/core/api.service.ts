@@ -16,7 +16,7 @@ export class ApiService {
     return this.http.get<Topic[]>(`${this.API_BASE_URL}/topics`);
   }
 
-  public getQuestions({ topic, count }: QuizParams): Observable<Question[]> {
+  public getQuestions(topic: string, count = 0): Observable<Question[]> {
     return this.http
       .get<Question[]>(`${this.API_BASE_URL}/questions`, {
         params: {

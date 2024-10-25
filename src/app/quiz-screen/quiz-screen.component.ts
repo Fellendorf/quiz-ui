@@ -45,10 +45,11 @@ export class QuizScreenComponent implements OnInit {
 
   public ngOnInit(): void {
     this.quizParams = this.quizService.getQuizParams();
+    const { topic, count } = this.quizParams;
 
     this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
       this.apiService
-        .getQuestions(this.quizParams)
+        .getQuestions(topic, count)
         .pipe(tap((questions) => (this.quizService.questions = questions))),
     );
   }

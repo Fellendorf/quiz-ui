@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
