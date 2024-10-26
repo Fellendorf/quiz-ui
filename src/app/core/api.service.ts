@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Question, QuizParams, Topic } from '../models';
+import { Question, QuizParams, TopicInfo } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class ApiService {
 
   private readonly http = inject(HttpClient);
 
-  public getTopics(): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${this.API_BASE_URL}/topics`);
+  public getTopics(): Observable<TopicInfo[]> {
+    return this.http.get<TopicInfo[]>(`${this.API_BASE_URL}/topics`);
   }
 
   public getQuestions(topic: string, count = 0): Observable<Question[]> {

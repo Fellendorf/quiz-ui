@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Question, QuizParams, Topic } from '../models';
+import { Question, QuizParams, TopicInfo } from '../models';
 import { LocalStorageService } from './local-storage.service';
 
 // TODO: change to NgRX
@@ -25,8 +25,12 @@ export class QuizService {
     this.questions = [];
   }
 
-  public setTopic(topic: Topic): void {
-    this.setQuizParams({ ...this.getQuizParams(), topic: topic.name });
+  public getTopicName(): string {
+    return this.getQuizParams().topic;
+  }
+
+  public setTopic(topic: string): void {
+    this.setQuizParams({ ...this.getQuizParams(), topic });
   }
 
   public setCount(count: number): void {

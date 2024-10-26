@@ -11,7 +11,7 @@ import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.
 import { TopicOptionsComponent } from './topic-options/topic-options.component';
 import { CountOptionsComponent } from './count-options/count-options.component';
 import { ROUTE_PATHES } from '../app.routes';
-import { Topic } from '../models';
+import { TopicInfo } from '../models';
 
 @Component({
   selector: 'app-menu-screen',
@@ -35,9 +35,17 @@ export class MenuScreenComponent {
 
   public isAdmin$ = of(this.authService.isAdmin);
 
-  public topicsLoadingState$ = toLoadingStateStream<Topic[]>(
+  public topicsLoadingState$ = toLoadingStateStream<TopicInfo[]>(
     this.apiService.getTopics(),
   );
+
+  public getPreselectedTopicName() {
+    return this.quizService.getTopicName();
+  }
+
+  public setSelectedTopic(topic: string): void {
+    this.quizService.setTopic(topic);
+  }
 
   public isStartButtonDisabled(): boolean {
     const quizParams = this.quizService.getQuizParams();

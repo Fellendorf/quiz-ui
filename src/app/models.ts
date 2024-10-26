@@ -1,4 +1,4 @@
-export interface Topic {
+export interface TopicInfo {
   name: string;
   questionCount: number;
 }
