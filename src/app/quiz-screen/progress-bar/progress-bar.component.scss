@@ -5,15 +5,17 @@
   grid-area: progress-bar;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 20px;
   padding: 0 40px;
   @media (max-width: 480px) {
     padding: 0 20px;
   }
 
   .item-container {
-    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: calc(100% / 20);
+    height: 20px;
 
     .item {
       border-radius: 50%;
@@ -27,6 +29,7 @@
       &.untouched {
         background-color: $question-untouched;
         &.current {
+          z-index: 5;
           outline: $yellow solid 2px;
           outline-offset: 2px;
         }

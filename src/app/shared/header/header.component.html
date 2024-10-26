@@ -1,5 +1,12 @@
-<a class="app-button yellow" routerLink="/">{{ "Меню" | uppercase }}</a>
-<h2>{{ topText }}</h2>
-@if (bottomText) {
-  <h3>{{ bottomText }}</h3>
+@if (goToOnClick === "menu") {
+  <a class="app-button yellow" routerLink="/">{{ "Меню" | uppercase }}</a>
+} @else {
+  <a class="app-button yellow" (click)="goBack()">{{ "Назад" | uppercase }}</a>
 }
+
+<div>
+  <h2>{{ topText }}</h2>
+  @if (bottomText) {
+    <h3>{{ bottomText }}</h3>
+  }
+</div>

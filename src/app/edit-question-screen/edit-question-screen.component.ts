@@ -1,4 +1,4 @@
-import { Location, UpperCasePipe } from '@angular/common';
+import { UpperCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { QuizService } from '../core/quiz.service';
@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { ApiService } from '../core/api.service';
 import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
+import { HeaderComponent } from '../shared/header/header.component';
 
 @Component({
   selector: 'app-edit-question-screen',
@@ -20,12 +21,12 @@ import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.direc
     ReactiveFormsModule,
     UpperCasePipe,
     TextareaAutoresizeDirective,
+    HeaderComponent,
   ],
   templateUrl: './edit-question-screen.component.html',
   styleUrl: './edit-question-screen.component.scss',
 })
 export class EditQuestionScreenComponent implements OnInit {
-  private readonly location = inject(Location);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
@@ -56,9 +57,6 @@ export class EditQuestionScreenComponent implements OnInit {
         }),
       });
     });
-  }
-  public goBack() {
-    this.location.back();
   }
 
   public getTopic(): string {

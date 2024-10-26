@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-
-import { QuizService } from '../core/quiz.service';
-import { CodeComponent } from '../shared/code/code.component';
-import { Question } from '../models';
-import { AuthService } from '../core/auth.service';
 import { UpperCasePipe } from '@angular/common';
+
+import { CodeComponent } from '../shared/code/code.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { QuizService } from '../core/quiz.service';
+import { AuthService } from '../core/auth.service';
 import { ROUTE_PATHES } from '../app.routes';
+import { Question } from '../models';
 
 @Component({
   selector: 'app-results-screen',
   standalone: true,
-  imports: [UpperCasePipe, CodeComponent, RouterLink],
+  imports: [UpperCasePipe, CodeComponent, HeaderComponent, RouterLink],
   templateUrl: './results-screen.component.html',
   styleUrl: './results-screen.component.scss',
 })

@@ -1,7 +1,4 @@
-<header>
-  <a class="app-button yellow" (click)="goBack()">НАЗАД</a>
-  <h1>Редактировать вопрос</h1>
-</header>
+<app-header goToOnClick="back" topText="Редактировать вопрос" />
 <main>
   @if (questionForm) {
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">

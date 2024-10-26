@@ -11,13 +11,13 @@
       @let questions = state.data;
       @let question = questions[index];
 
-      <header>
-        <a class="app-button yellow" routerLink="/">МЕНЮ</a>
-        <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
-        <h3>{{ question.topic }}</h3>
-        <app-progress-bar [questions]="questions" [index]="index" />
-      </header>
+      <app-header
+        goToOnClick="menu"
+        topText="Вопрос номер {{ index + 1 }} из {{ questions.length }}"
+        bottomText="Тема: {{ question.topic }}"
+      />
       <main>
+        <app-progress-bar [questions]="questions" [index]="index" />
         <p>{{ question.text }}</p>
         @if (question.code) {
           <app-code [code]="question.code" />

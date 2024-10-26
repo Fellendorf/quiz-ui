@@ -1,6 +1,8 @@
-import { UpperCasePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Location, UpperCasePipe } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+type goToOnClick = 'menu' | 'back';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +12,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  @Input({
-    required: true,
-  })
+  @Input({ required: true })
+  public goToOnClick!: goToOnClick;
+
+  @Input({ required: true })
   public topText!: string;
 
   @Input()
   public bottomText?: string;
+
+  private readonly location = inject(Location);
+
+  public goBack() {
+    this.location.back();
+  }
 }

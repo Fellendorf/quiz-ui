@@ -1,31 +1,30 @@
 @use "../../../styles.variables.scss" as *;
 
 :host {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-template-areas:
-    "button h2"
-    "button h3";
+  display: flex;
 
   .app-button {
-    grid-area: button;
     margin-right: 1.5rem;
 
     a {
       text-decoration: none;
     }
   }
-  h2 {
-    grid-area: h2;
-    align-self: center;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
 
-  h3 {
-    grid-area: h3;
-    align-self: center;
-    color: $gray-light;
-    font-size: 1rem;
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h2 {
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+
+    h3 {
+      color: $gray-light;
+      font-size: 1rem;
+    }
   }
 }

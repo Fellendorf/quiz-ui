@@ -5,27 +5,8 @@
   flex-direction: column;
   padding: 20px;
 
-  header {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-areas: "button h1";
+  app-header {
     margin-bottom: 30px;
-
-    .app-button {
-      grid-area: button;
-      margin-right: 1.5rem;
-
-      a {
-        text-decoration: none;
-      }
-    }
-
-    h1 {
-      grid-area: h1;
-      align-self: center;
-      font-weight: 500;
-      font-size: 1.1rem;
-    }
   }
   main {
     display: flex;

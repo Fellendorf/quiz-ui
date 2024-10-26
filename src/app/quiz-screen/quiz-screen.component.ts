@@ -16,6 +16,7 @@ import { GlobalEvents, Question, QuizParams } from '../models';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { ROUTE_PATHES } from '../app.routes';
+import { HeaderComponent } from '../shared/header/header.component';
 
 @Component({
   selector: 'app-quiz',
@@ -25,6 +26,7 @@ import { ROUTE_PATHES } from '../app.routes';
     AnswersComponent,
     LoadingScreenComponent,
     ProgressBarComponent,
+    HeaderComponent,
     AsyncPipe,
     RouterLink,
   ],

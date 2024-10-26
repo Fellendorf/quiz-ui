@@ -1,10 +1,10 @@
-<header>
-  <a class="app-button yellow" routerLink="/">МЕНЮ</a>
-  <h1>
-    Верных ответов: {{ getNumberCorrectAnswers() }} из
-    {{ quizService.questions.length }}
-  </h1>
-</header>
+<app-header
+  goToOnClick="menu"
+  topText="Верных ответов: {{ getNumberCorrectAnswers() }} из {{
+    quizService.questions.length
+  }}"
+  bottomText="Тема: {{ question.topic }}"
+/>
 <main>
   <fieldset>
     @for (q of quizService.questions; track $index) {
@@ -27,7 +27,6 @@
   @if (question) {
     <header>
       <h2>Вопрос номер {{ index + 1 }}</h2>
-      <h3>{{ question.topic }}</h3>
     </header>
     <p>{{ question.text }}</p>
     @if (question.code) {
