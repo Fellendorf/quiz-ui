@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
+  EventEmitter,
   Input,
+  Output,
 } from '@angular/core';
 
-import { QuizService } from '../../core/quiz.service';
-import { Topic } from '../../models';
+import { TopicInfo } from '../../models';
 
 @Component({
   selector: 'app-topic-options',
@@ -17,15 +17,19 @@ import { Topic } from '../../models';
 })
 export class TopicOptionsComponent {
   @Input({ required: true })
-  public topics!: Topic[];
+  public topicsInfo!: TopicInfo[];
 
-  private readonly quizService = inject(QuizService);
+  @Input()
+  public preselectedTopic?: string;
 
-  public isTopicChecked(topic: Topic): boolean {
-    return topic.name === this.quizService.getQuizParams()?.topic;
+  @Output()
+  public selectTopicEvent = new EventEmitter<string>();
+
+  public selectTopic(topic: string) {
+    this.selectTopicEvent.emit(topic);
   }
 
-  public setTopic(topic: Topic): void {
-    this.quizService.setTopic(topic);
+  public isTopicSelected(topic: string): boolean {
+    return topic === this.preselectedTopic;
   }
 }

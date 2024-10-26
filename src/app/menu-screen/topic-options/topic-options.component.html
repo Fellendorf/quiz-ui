@@ -1,11 +1,14 @@
-@for (topic of topics; track $index) {
+@for (topicInfo of topicsInfo; track $index) {
+  @let topic = topicInfo.name;
+  @let questionCount = topicInfo.questionCount;
+
   <label class="app-button gray">
     <input
       type="radio"
       name="select-topic"
-      [checked]="isTopicChecked(topic)"
-      (change)="setTopic(topic)"
+      [checked]="isTopicSelected(topic)"
+      (change)="selectTopic(topic)"
     />
-    <span>{{ topic.name }}</span> <span>{{ topic.questionCount }}</span>
+    <span>{{ topic }}</span> <span>{{ questionCount }}</span>
   </label>
 }
