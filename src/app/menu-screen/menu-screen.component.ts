@@ -66,16 +66,20 @@ export class MenuScreenComponent {
   }
 
   public isStartButtonDisabled(topicData: TopicData[]): boolean {
+    return (
+      this.quizService.getTopic() === null ||
+      this.quizService.getCount() === null ||
+      this.isPreviousOptionInCurrentOptions(topicData)
+    );
+  }
+
+  private isPreviousOptionInCurrentOptions(topicData: TopicData[]) {
     const currentOptions = this.getCountOptions(topicData).map(
       ({ name }) => name,
     );
     const previousOption = this.quizService.getCount();
 
-    return (
-      this.quizService.getTopic() === null ||
-      this.quizService.getCount() === null ||
-      (!!previousOption && !currentOptions.includes(previousOption))
-    );
+    return !!previousOption && !currentOptions.includes(previousOption);
   }
 
   public goTo(destination: 'quizScreen' | 'settingsScreen' | 'adminScreen') {
