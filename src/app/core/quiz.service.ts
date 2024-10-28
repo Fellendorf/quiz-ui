@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Question, QuizParams, TopicInfo } from '../models';
+import { Question, QuizParams, TopicData } from '../models';
 import { LocalStorageService } from './local-storage.service';
 
 // TODO: change to NgRX
@@ -7,7 +7,8 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root',
 })
 export class QuizService {
-  private readonly QUIZ_PARAMS_LOCAL_STORAGE_KEY = 'quiz-params';
+  private readonly QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY = 'quiz-param-topic';
+  private readonly QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY = 'quiz-param-count';
 
   private readonly localStorageService = inject(LocalStorageService);
 
@@ -25,28 +26,33 @@ export class QuizService {
     this.questions = [];
   }
 
-  public getTopicName(): string {
-    return this.getQuizParams().topic;
-  }
-
-  public setTopic(topic: string): void {
-    this.setQuizParams({ ...this.getQuizParams(), topic });
-  }
-
-  public setCount(count: number): void {
-    this.setQuizParams({ ...this.getQuizParams(), count });
-  }
-
-  public getQuizParams(): QuizParams {
+  public getTopic(): string | null {
     return this.localStorageService.getData(
-      this.QUIZ_PARAMS_LOCAL_STORAGE_KEY,
-    ) as QuizParams;
+      this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
+    );
   }
 
-  private setQuizParams(params: QuizParams): void {
-    this.localStorageService.setData(
-      this.QUIZ_PARAMS_LOCAL_STORAGE_KEY,
-      params,
+  public setTopic(topic: string | null): void {
+    if (topic) {
+      this.localStorageService.setData(
+        this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
+        topic,
+      );
+    }
+  }
+
+  public getCount(): number | null {
+    return this.localStorageService.getData(
+      this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,
     );
+  }
+
+  public setCount(count: number | null): void {
+    if (count) {
+      this.localStorageService.setData(
+        this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,
+        count,
+      );
+    }
   }
 }

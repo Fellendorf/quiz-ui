@@ -8,10 +8,9 @@ import { ApiService } from '../core/api.service';
 import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
-import { TopicOptionsComponent } from './topic-options/topic-options.component';
-import { CountOptionsComponent } from './count-options/count-options.component';
+import { Option, OptionsComponent } from '../shared/options/options.component';
 import { ROUTE_PATHES } from '../app.routes';
-import { TopicInfo } from '../models';
+import { TopicData } from '../models';
 
 @Component({
   selector: 'app-menu-screen',
@@ -21,8 +20,7 @@ import { TopicInfo } from '../models';
     AsyncPipe,
     UpperCasePipe,
     LoadingScreenComponent,
-    TopicOptionsComponent,
-    CountOptionsComponent,
+    OptionsComponent,
   ],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
@@ -30,38 +28,63 @@ import { TopicInfo } from '../models';
 export class MenuScreenComponent {
   private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
-  private readonly quizService = inject(QuizService);
   private readonly authService = inject(AuthService);
+  public readonly quizService = inject(QuizService);
 
   public isAdmin$ = of(this.authService.isAdmin);
-
-  public topicsLoadingState$ = toLoadingStateStream<TopicInfo[]>(
+  public topicsLoadingState$ = toLoadingStateStream<TopicData[]>(
     this.apiService.getTopics(),
   );
 
-  public getPreselectedTopicName() {
-    return this.quizService.getTopicName();
+  public getTopicOptions(topicData: TopicData[]): Option<string>[] {
+    return topicData.map(({ name, questionCount }) => ({
+      name,
+      info: String(questionCount),
+    }));
   }
 
-  public setSelectedTopic(topic: string): void {
-    this.quizService.setTopic(topic);
+  public getCountOptions(topicData: TopicData[]): Option<number>[] {
+    const defaultOptions = [10, 20, 40];
+
+    const questionCount = topicData.find(
+      ({ name }) => name === this.quizService.getTopic(),
+    )!.questionCount;
+
+    const filteredOptions = defaultOptions.filter(
+      (option) => option <= questionCount,
+    );
+
+    return filteredOptions.length
+      ? filteredOptions.map((option) => ({
+          name: option,
+        }))
+      : [{ name: questionCount }];
   }
 
   public isStartButtonDisabled(): boolean {
-    const quizParams = this.quizService.getQuizParams();
-    return quizParams?.topic === undefined || quizParams?.count === undefined;
+    return (
+      this.quizService.getTopic() === null ||
+      this.quizService.getCount() === null
+    );
   }
 
-  public goToQuizScreen(): void {
-    this.router.navigate([ROUTE_PATHES.QUIZ]);
-  }
+  public goTo(destination: 'quizScreen' | 'settingsScreen' | 'adminScreen') {
+    const queryParams = {
+      quizScreen: {
+        topic: this.quizService.getTopic(),
+        count: this.quizService.getCount(),
+      },
+      settingsScreen: null,
+      adminScreen: null,
+    };
 
-  public goToSettingsScreen(): void {
-    this.router.navigate([ROUTE_PATHES.SETTINGS]);
-  }
-
-  public goToEditQuestionsScreen(): void {
-    const quizParams = this.quizService.getQuizParams();
-    this.router.navigate([ROUTE_PATHES.ADMIN_QUESTIONS, quizParams.topic]);
+    const commands = {
+      quizScreen: [ROUTE_PATHES.QUIZ],
+      settingsScreen: [ROUTE_PATHES.SETTINGS],
+      adminScreen: [ROUTE_PATHES.ADMIN_QUESTIONS, this.quizService.getTopic()],
+    };
+    return this.router.navigate(commands[destination], {
+      queryParams: queryParams[destination],
+    });
   }
 }

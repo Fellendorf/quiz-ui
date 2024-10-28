@@ -8,22 +8,33 @@
       <!-- Error: {{ state.error.message }} -->
     }
     @case ("loaded") {
-      @let TopicsInfo = state.data;
+      @let topicsData = state.data;
 
       <main>
         <h2>{{ "Тема:" | uppercase }}</h2>
-        <app-topic-options
-          [topicsInfo]="TopicsInfo"
-          [preselectedTopic]="getPreselectedTopicName()"
-          (selectTopicEvent)="setSelectedTopic($event)"
-        />
 
-        <h2>{{ "Количество вопросов:" | uppercase }}</h2>
-        <app-count-options [countOptions]="[10, 20, 40]" />
+        <div class="select-topic-container">
+          <app-options
+            name="select-topic"
+            [options]="getTopicOptions(topicsData)"
+            [default]="quizService.getTopic()"
+            (optionChange)="quizService.setTopic($event)"
+          />
+        </div>
+
+        @if (quizService.getTopic()) {
+          <h2>{{ "Количество вопросов:" | uppercase }}</h2>
+          <app-options
+            name="select-count"
+            [options]="getCountOptions(topicsData)"
+            [default]="quizService.getCount()"
+            (optionChange)="quizService.setCount($event)"
+          />
+        }
 
         <button
           class="app-button yellow start"
-          (click)="goToQuizScreen()"
+          (click)="goTo('quizScreen')"
           [disabled]="isStartButtonDisabled()"
         >
           {{ "Начать тест" | uppercase }}
@@ -32,11 +43,11 @@
 
       <footer>
         @if (isAdmin$ | async) {
-          <button class="app-button gray" (click)="goToEditQuestionsScreen()">
+          <button class="app-button gray" (click)="goTo('adminScreen')">
             {{ "Редактировать вопросы" | uppercase }}
           </button>
         }
-        <button class="app-button gray" (click)="goToSettingsScreen()">
+        <button class="app-button gray" (click)="goTo('settingsScreen')">
           {{ "Настройки" | uppercase }}
         </button>
       </footer>

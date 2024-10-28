@@ -1,0 +1,19 @@
+@for (option of options; track $index) {
+  @let name = option.name;
+  @let info = option.info;
+
+  <label class="app-button gray">
+    <input
+      type="radio"
+      [name]="name"
+      [checked]="isSelected(name)"
+      (change)="selectOption(name)"
+    />
+    <span>
+      {{ name }}
+    </span>
+    @if (info) {
+      <span class="info">{{ info }}</span>
+    }
+  </label>
+}

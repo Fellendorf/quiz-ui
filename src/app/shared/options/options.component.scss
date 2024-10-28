@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  label {
+    display: flex;
+
+    &:has(.info) {
+      justify-content: space-between;
+    }
+    justify-content: center;
+    width: 100%;
+  }
+
+  input {
+    display: none;
+  }
+}

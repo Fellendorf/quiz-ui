@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CountOptionsComponent } from './count-options.component';
+import { OptionsComponent } from './options.component';
 
-describe('CountOptionsComponent', () => {
-  let component: CountOptionsComponent;
-  let fixture: ComponentFixture<CountOptionsComponent>;
+describe('OptionsComponent', () => {
+  let component: OptionsComponent;
+  let fixture: ComponentFixture<OptionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CountOptionsComponent]
+      imports: [OptionsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CountOptionsComponent);
+    fixture = TestBed.createComponent(OptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
