@@ -5,12 +5,12 @@
 
   label {
     display: flex;
+    justify-content: center;
+    width: 100%;
 
     &:has(.info) {
       justify-content: space-between;
     }
-    justify-content: center;
-    width: 100%;
   }
 
   input {

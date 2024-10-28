@@ -1,22 +1,19 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { switchMap, tap } from 'rxjs';
 
+import { toLoadingStateStream } from '../shared/loading-state/loading-state';
 import { CodeComponent } from '../shared/code/code.component';
 import { AnswersComponent } from './answers/answers.component';
-import { ApiService } from '../core/api.service';
-import { EventService } from '../core/event.service';
-import {
-  LoadingState,
-  toLoadingStateStream,
-} from '../shared/loading-state/loading-state';
-import { QuizService } from '../core/quiz.service';
-import { GlobalEvents, Question, QuizParams } from '../models';
+import { HeaderComponent } from '../shared/header/header.component';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ApiService } from '../core/api.service';
+import { EventService } from '../core/event.service';
+import { QuizService } from '../core/quiz.service';
+import { GlobalEvents, Question } from '../models';
 import { ROUTE_PATHES } from '../app.routes';
-import { HeaderComponent } from '../shared/header/header.component';
 
 @Component({
   selector: 'app-quiz',
@@ -33,32 +30,30 @@ import { HeaderComponent } from '../shared/header/header.component';
   templateUrl: './quiz-screen.component.html',
   styleUrl: './quiz-screen.component.scss',
 })
-export class QuizScreenComponent implements OnInit {
+export class QuizScreenComponent {
   private readonly apiService = inject(ApiService);
   private readonly eventService = inject(EventService);
-  public readonly quizService = inject(QuizService);
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  public readonly quizService = inject(QuizService);
 
-  private readonly resultScreenPath = `/${ROUTE_PATHES.RESULTS}`;
-
-  public quizParams!: QuizParams;
-  public questionsLoadingState$!: Observable<LoadingState<Question[]>>;
   public index: number = 0;
 
-  public ngOnInit(): void {
-    const topic = this.quizService.getTopic()!;
-    const count = this.quizService.getCount()!;
-
-    this.questionsLoadingState$ = toLoadingStateStream<Question[]>(
-      this.apiService
-        .getQuestions(topic, count)
-        .pipe(tap((questions) => (this.quizService.questions = questions))),
-    );
-  }
+  public questionsLoadingState$ = this.activatedRoute.queryParams.pipe(
+    switchMap((params) => {
+      const topic = params['topic'];
+      const count = params['count'];
+      return toLoadingStateStream<Question[]>(
+        this.apiService
+          .getQuestions(topic, count)
+          .pipe(tap((questions) => (this.quizService.questions = questions))),
+      );
+    }),
+  );
 
   public confirmAnswer() {
     if (this.quizService.isAnswered(this.index)) {
-      this.gotoNextQuestion();
+      this.goToNextQuestion();
     } else {
       console.log('Choose answer');
       //TODO: let a user know somehow
@@ -67,13 +62,16 @@ export class QuizScreenComponent implements OnInit {
 
   public confirmNoAnswer() {
     this.quizService.setAnswer(this.index, null);
-    this.gotoNextQuestion();
+    this.goToNextQuestion();
   }
 
-  private gotoNextQuestion() {
+  private goToNextQuestion() {
     this.index++;
-    if (this.index >= this.quizParams.count) {
-      this.router.navigateByUrl(this.resultScreenPath);
+    if (
+      this.index >=
+      Number(this.activatedRoute.snapshot.queryParamMap.get('count'))
+    ) {
+      this.router.navigate([ROUTE_PATHES.RESULTS]);
     }
     this.eventService.emit(GlobalEvents.questionChanged);
   }
