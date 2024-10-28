@@ -61,10 +61,16 @@ export class MenuScreenComponent {
       : [{ name: questionCount }];
   }
 
-  public isStartButtonDisabled(): boolean {
+  public isStartButtonDisabled(topicData: TopicData[]): boolean {
+    const currentOptions = this.getCountOptions(topicData).map(
+      ({ name }) => name,
+    );
+    const previousOption = this.quizService.getCount()!;
+
     return (
       this.quizService.getTopic() === null ||
-      this.quizService.getCount() === null
+      this.quizService.getCount() === null ||
+      !currentOptions.includes(previousOption)
     );
   }
 
