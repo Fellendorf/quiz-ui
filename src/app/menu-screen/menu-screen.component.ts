@@ -48,29 +48,33 @@ export class MenuScreenComponent {
 
     const questionCount = topicData.find(
       ({ name }) => name === this.quizService.getTopic(),
-    )!.questionCount;
+    )?.questionCount;
 
-    const filteredOptions = defaultOptions.filter(
-      (option) => option <= questionCount,
-    );
-
-    return filteredOptions.length
-      ? filteredOptions.map((option) => ({
-          name: option,
-        }))
-      : [{ name: questionCount }];
+    if (questionCount) {
+      const filteredOptions = defaultOptions.filter(
+        (option) => option <= questionCount,
+      );
+      return filteredOptions.length
+        ? filteredOptions.map((option) => ({
+            name: option,
+          }))
+        : [{ name: questionCount }];
+    }
+    return defaultOptions.map((option) => ({
+      name: option,
+    }));
   }
 
   public isStartButtonDisabled(topicData: TopicData[]): boolean {
     const currentOptions = this.getCountOptions(topicData).map(
       ({ name }) => name,
     );
-    const previousOption = this.quizService.getCount()!;
+    const previousOption = this.quizService.getCount();
 
     return (
       this.quizService.getTopic() === null ||
       this.quizService.getCount() === null ||
-      !currentOptions.includes(previousOption)
+      (!!previousOption && !currentOptions.includes(previousOption))
     );
   }
 
