@@ -1,24 +1,21 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Question, QuizParams, TopicData } from '../models';
+import { Question, TopicData } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  //TODO: add error handling
-  private readonly API_BASE_URL = import.meta.env.NG_APP_API_URL;
-
   private readonly http = inject(HttpClient);
 
   public getTopics(): Observable<TopicData[]> {
-    return this.http.get<TopicData[]>(`${this.API_BASE_URL}/topics`);
+    return this.http.get<TopicData[]>('/topics');
   }
 
   public getQuestions(topic: string, count = 0): Observable<Question[]> {
     return this.http
-      .get<Question[]>(`${this.API_BASE_URL}/questions`, {
+      .get<Question[]>('/questions', {
         params: {
           'topics[]': topic,
           count,
@@ -36,6 +33,12 @@ export class ApiService {
   }
 
   public updateQuestion(question: Question) {
-    return this.http.put<Question>(`${this.API_BASE_URL}/question`, question);
+    return this.http.put<Question>('/question', question);
+  }
+
+  public checkPassword(password: string) {
+    return this.http.post<boolean>('/password', {
+      password,
+    });
   }
 }
