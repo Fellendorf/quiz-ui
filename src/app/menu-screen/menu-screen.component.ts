@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { of } from 'rxjs';
 
 import { toLoadingStateStream } from '../shared/loading-state/loading-state';
 import { ApiService } from '../core/api.service';
@@ -24,17 +23,21 @@ import { TopicData } from '../models';
   ],
   templateUrl: './menu-screen.component.html',
   styleUrl: './menu-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuScreenComponent {
   private readonly router = inject(Router);
   private readonly apiService = inject(ApiService);
   private readonly authService = inject(AuthService);
-  public readonly quizService = inject(QuizService);
+  private readonly quizService = inject(QuizService);
 
-  public isAdmin$ = of(this.authService.isAdmin);
+  public isAdmin = this.authService.isAdmin;
   public topicsLoadingState$ = toLoadingStateStream<TopicData[]>(
     this.apiService.getTopics(),
   );
+
+  public topic = this.quizService.topic;
+  public count = this.quizService.count;
 
   public getTopicOptions(topicData: TopicData[]): Option<string>[] {
     return topicData.map(({ name, questionCount }) => ({
@@ -47,7 +50,7 @@ export class MenuScreenComponent {
     const defaultOptions = [10, 20, 40];
 
     const questionCount = topicData.find(
-      ({ name }) => name === this.quizService.getTopic(),
+      ({ name }) => name === this.topic(),
     )?.questionCount;
 
     if (questionCount) {
@@ -67,8 +70,8 @@ export class MenuScreenComponent {
 
   public isStartButtonDisabled(topicData: TopicData[]): boolean {
     return (
-      this.quizService.getTopic() === null ||
-      this.quizService.getCount() === null ||
+      this.topic() === null ||
+      this.count() === null ||
       this.isPreviousOptionInCurrentOptions(topicData)
     );
   }
@@ -77,7 +80,7 @@ export class MenuScreenComponent {
     const currentOptions = this.getCountOptions(topicData).map(
       ({ name }) => name,
     );
-    const previousOption = this.quizService.getCount();
+    const previousOption = this.count();
 
     return !!previousOption && !currentOptions.includes(previousOption);
   }
@@ -85,8 +88,8 @@ export class MenuScreenComponent {
   public goTo(destination: 'quizScreen' | 'settingsScreen' | 'adminScreen') {
     const queryParams = {
       quizScreen: {
-        topic: this.quizService.getTopic(),
-        count: this.quizService.getCount(),
+        topic: this.topic(),
+        count: this.count(),
       },
       settingsScreen: null,
       adminScreen: null,
@@ -95,7 +98,7 @@ export class MenuScreenComponent {
     const commands = {
       quizScreen: [ROUTE_PATHES.QUIZ],
       settingsScreen: [ROUTE_PATHES.SETTINGS],
-      adminScreen: [ROUTE_PATHES.ADMIN_QUESTIONS, this.quizService.getTopic()],
+      adminScreen: [ROUTE_PATHES.ADMIN_QUESTIONS, this.topic()],
     };
     return this.router.navigate(commands[destination], {
       queryParams: queryParams[destination],

@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { of } from 'rxjs';
 
 import { CodeComponent } from '../shared/code/code.component';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -35,7 +34,7 @@ export class ResultsScreenComponent {
   private readonly quizService = inject(QuizService);
   private readonly authService = inject(AuthService);
 
-  public isAdmin$ = of(this.authService.isAdmin); // change to signal
+  public isAdmin = this.authService.isAdmin;
 
   public questions = this.quizService.questions;
   public userAnswers = this.quizService.userAnswers;

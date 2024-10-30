@@ -51,7 +51,7 @@
       <p>{{ q.answer.explanation }}</p>
     }
 
-    @if (isAdmin$ | async) {
+    @if (isAdmin()) {
       <h4>Вопрос верифицирован:</h4>
       <p>{{ q.meta?.reviewed ? "Да" : "Нет" }}</p>
       <button class="app-button gray" (click)="goToEditQuestionScreen()">

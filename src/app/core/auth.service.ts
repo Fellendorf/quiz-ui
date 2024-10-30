@@ -1,16 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _isAdmin: boolean = true;
-
-  public get isAdmin(): boolean {
-    return this._isAdmin;
-  }
-
-  public set isAdmin(value: boolean) {
-    this._isAdmin = value;
-  }
+  public isAdmin = signal<boolean>(true);
 }

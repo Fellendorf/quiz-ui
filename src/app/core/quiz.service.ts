@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 
 import { LocalStorageService } from './local-storage.service';
 import { Question } from '../models';
@@ -37,7 +37,7 @@ export class QuizService {
   }
 
   public isAnswerProvided(index: number): boolean {
-    return this.userAnswers()[index] != undefined;
+    return this.userAnswers()[index] !== undefined;
   }
 
   public resetUserAnswers(): void {
@@ -45,34 +45,26 @@ export class QuizService {
   }
 
   // "Topic" part:
-  public getTopic(): string | null {
-    return this.localStorageService.getData(
-      this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
-    );
-  }
+  public topic = signal<string | null>(
+    this.localStorageService.getData(this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY),
+  );
 
-  public setTopic(topic: string | null): void {
-    if (topic) {
-      this.localStorageService.setData(
-        this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
-        topic,
-      );
-    }
-  }
+  private setTopicToLocalStorage = effect(() => {
+    this.localStorageService.setData(
+      this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
+      this.topic(),
+    );
+  });
 
   // "Count" part:
-  public getCount(): number | null {
-    return this.localStorageService.getData(
-      this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,
-    );
-  }
+  public count = signal<number | null>(
+    this.localStorageService.getData(this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY),
+  );
 
-  public setCount(count: number | null): void {
-    if (count) {
-      this.localStorageService.setData(
-        this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,
-        count,
-      );
-    }
-  }
+  private setCountToLocalStorage = effect(() => {
+    this.localStorageService.setData(
+      this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,
+      this.count(),
+    );
+  });
 }

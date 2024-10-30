@@ -17,18 +17,18 @@
           <app-options
             name="select-topic"
             [options]="getTopicOptions(topicsData)"
-            [default]="quizService.getTopic()"
-            (optionChange)="quizService.setTopic($event)"
+            [default]="topic()"
+            (optionChange)="topic.set($event)"
           />
         </div>
 
-        @if (quizService.getTopic()) {
+        @if (topic()) {
           <h2>{{ "Количество вопросов:" | uppercase }}</h2>
           <app-options
             name="select-count"
             [options]="getCountOptions(topicsData)"
-            [default]="quizService.getCount()"
-            (optionChange)="quizService.setCount($event)"
+            [default]="count()"
+            (optionChange)="count.set($event)"
           />
         }
 
@@ -42,7 +42,7 @@
       </main>
 
       <footer>
-        @if (isAdmin$ | async) {
+        @if (isAdmin()) {
           <button class="app-button gray" (click)="goTo('adminScreen')">
             {{ "Редактировать вопросы" | uppercase }}
           </button>
