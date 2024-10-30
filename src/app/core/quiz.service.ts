@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core';
-import { Question, QuizParams, TopicData } from '../models';
-import { LocalStorageService } from './local-storage.service';
+import { inject, Injectable, signal } from '@angular/core';
 
-// TODO: change to NgRX
+import { LocalStorageService } from './local-storage.service';
+import { Question } from '../models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,20 +12,39 @@ export class QuizService {
 
   private readonly localStorageService = inject(LocalStorageService);
 
-  public questions!: Array<Question>;
+  // "Questions part":
+  public questions = signal<Question[]>([]);
 
-  public setAnswer(index: number, userAnswer: Question['userAnswer']): void {
-    this.questions[index].userAnswer = userAnswer;
+  public getCorrectQuestionCount(): number {
+    const userAnswers = this.userAnswers();
+    return this.questions().filter(
+      (question, index) => question.answer.index === userAnswers[index],
+    ).length;
   }
 
-  public isAnswered(index: number): boolean {
-    return this.questions[index].hasOwnProperty('userAnswer');
+  // "User Answers" part:
+  public userAnswers = signal<Array<number>>([]);
+
+  public getUserAnswer(index: number): number {
+    return this.userAnswers()[index];
   }
 
-  public resetQuestions(): void {
-    this.questions = [];
+  public setUserAnswer(index: number, userAnswer: number): void {
+    this.userAnswers.update((answers) => {
+      answers[index] = userAnswer;
+      return answers;
+    });
   }
 
+  public isAnswerProvided(index: number): boolean {
+    return this.userAnswers()[index] != undefined;
+  }
+
+  public resetUserAnswers(): void {
+    this.userAnswers.set([]);
+  }
+
+  // "Topic" part:
   public getTopic(): string | null {
     return this.localStorageService.getData(
       this.QUIZ_PARAM_TOPIC_LOCAL_STORAGE_KEY,
@@ -41,6 +60,7 @@ export class QuizService {
     }
   }
 
+  // "Count" part:
   public getCount(): number | null {
     return this.localStorageService.getData(
       this.QUIZ_PARAM_COUNT_LOCAL_STORAGE_KEY,

@@ -1,17 +1,19 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { QuizService } from '../core/quiz.service';
-import { Question } from '../models';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ApiService } from '../core/api.service';
-import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
+
 import { HeaderComponent } from '../shared/header/header.component';
+import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
+import { QuizService } from '../core/quiz.service';
+import { ApiService } from '../core/api.service';
+import { ROUTE_PATHES } from '../app.routes';
+import { Question } from '../models';
 
 @Component({
   selector: 'app-edit-question-screen',
@@ -37,12 +39,12 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      const question = this.quizService.questions?.find(
-        (question) => question._id === params['id'],
-      );
+      const question = this.quizService
+        .questions()
+        .find((question) => question._id === params['id']);
 
       if (!question) {
-        this.router.navigateByUrl('/');
+        this.router.navigate([ROUTE_PATHES.MENU]);
         return;
       }
       this.questionForm = this.formBuilder.group({
@@ -72,8 +74,10 @@ export class EditQuestionScreenComponent implements OnInit {
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
     this.apiService.updateQuestion(modifiedQuestion).subscribe(() => {
-      this.quizService.questions = this.quizService.questions.map((question) =>
-        modifiedQuestion._id === question._id ? modifiedQuestion : question,
+      this.quizService.questions.update((questions) =>
+        questions.map((question) =>
+          modifiedQuestion._id === question._id ? modifiedQuestion : question,
+        ),
       );
       this.router.navigateByUrl('/results');
     });

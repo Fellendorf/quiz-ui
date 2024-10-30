@@ -17,14 +17,18 @@
         bottomText="Тема: {{ question.topic }}"
       />
       <main>
-        <app-progress-bar [questions]="questions" [index]="index" />
+        <app-progress-bar
+          [questions]="questions"
+          [index]="index"
+          [userAnswers]="userAnswers()"
+        />
         <p>{{ question.text }}</p>
         @if (question.code) {
           <app-code [code]="question.code" />
         }
         <app-answers
           [options]="question.options"
-          (answer)="quizService.setAnswer(index, $event)"
+          (answer)="setUserAnswer(index, $event)"
         />
       </main>
       <footer>

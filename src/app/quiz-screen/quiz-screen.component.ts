@@ -35,7 +35,10 @@ export class QuizScreenComponent {
   private readonly eventService = inject(EventService);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
-  public readonly quizService = inject(QuizService);
+  private readonly quizService = inject(QuizService);
+
+  public userAnswers = this.quizService.userAnswers;
+  public setUserAnswer = this.quizService.setUserAnswer;
 
   public index: number = 0;
 
@@ -44,15 +47,18 @@ export class QuizScreenComponent {
       const topic = params['topic'];
       const count = params['count'];
       return toLoadingStateStream<Question[]>(
-        this.apiService
-          .getQuestions(topic, count)
-          .pipe(tap((questions) => (this.quizService.questions = questions))),
+        this.apiService.getQuestions(topic, count).pipe(
+          tap((questions) => {
+            this.quizService.questions.set(questions);
+            this.quizService.resetUserAnswers();
+          }),
+        ),
       );
     }),
   );
 
   public confirmAnswer() {
-    if (this.quizService.isAnswered(this.index)) {
+    if (this.quizService.isAnswerProvided(this.index)) {
       this.goToNextQuestion();
     } else {
       console.log('Choose answer');
@@ -61,7 +67,7 @@ export class QuizScreenComponent {
   }
 
   public confirmNoAnswer() {
-    this.quizService.setAnswer(this.index, null);
+    this.quizService.setUserAnswer(this.index, -1);
     this.goToNextQuestion();
   }
 

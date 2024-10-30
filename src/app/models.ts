@@ -10,7 +10,6 @@ export interface Question {
   code?: QuestionCode;
   options: string[];
   answer: Answer;
-  userAnswer?: number | null;
   meta?: Meta;
 }
 

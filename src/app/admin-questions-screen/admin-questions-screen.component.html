@@ -28,7 +28,7 @@
           }
           <app-answers
             [options]="question.options"
-            (answer)="quizService.setAnswer(index, $event)"
+            (answer)="quizService.setUserAnswer(index, $event)"
           />
         </main>
         <footer>

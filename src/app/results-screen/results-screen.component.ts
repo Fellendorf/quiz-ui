@@ -1,6 +1,13 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { of } from 'rxjs';
 
 import { CodeComponent } from '../shared/code/code.component';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -12,45 +19,64 @@ import { Question } from '../models';
 @Component({
   selector: 'app-results-screen',
   standalone: true,
-  imports: [UpperCasePipe, CodeComponent, HeaderComponent, RouterLink],
+  imports: [
+    UpperCasePipe,
+    AsyncPipe,
+    CodeComponent,
+    HeaderComponent,
+    RouterLink,
+  ],
   templateUrl: './results-screen.component.html',
   styleUrl: './results-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultsScreenComponent {
   private readonly router = inject(Router);
-  public readonly quizService = inject(QuizService);
-  public readonly authService = inject(AuthService);
+  private readonly quizService = inject(QuizService);
+  private readonly authService = inject(AuthService);
 
-  public index = 0;
-  public question!: Question;
+  public isAdmin$ = of(this.authService.isAdmin); // change to signal
 
-  public ngOnInit() {
-    if (!this.quizService.questions) {
-      this.router.navigateByUrl('/');
+  public questions = this.quizService.questions;
+  public userAnswers = this.quizService.userAnswers;
+  public getUserAnswer = this.quizService.getUserAnswer;
+  public getCorrectQuestionCount = this.quizService.getCorrectQuestionCount;
+
+  constructor() {
+    if (!this.questions().length) {
+      this.router.navigate([ROUTE_PATHES.MENU]);
     }
-    this.question = this.quizService.questions[this.index];
   }
 
-  public getNumberCorrectAnswers(): number {
-    return this.quizService.questions.filter(
-      (question) => question.answer.index === question.userAnswer,
-    ).length;
-  }
+  public index = signal(0);
+  public question = computed(() => this.questions()[this.index()]);
+
+  public correctAnswerText = computed(() => {
+    const questions = this.question();
+    return questions.options[questions.answer.index];
+  });
+  public userAnswerText = computed(() => {
+    const userAnswer = this.getUserAnswer(this.index());
+    return userAnswer >= 0
+      ? this.question().options[userAnswer]
+      : 'Вы не дали ответ';
+  });
 
   public setQuestion(index: number): void {
-    this.index = index;
-    this.question = this.quizService.questions[index];
+    this.index.set(index);
   }
 
-  public setColor(question: Question) {
-    return question.answer.index === question.userAnswer ? 'green' : 'red';
+  public setColor(question: Question, index: number): 'green' | 'red' {
+    return question.answer.index === this.userAnswers()[index]
+      ? 'green'
+      : 'red';
   }
 
   public isQuestionChecked(index: number): boolean {
-    return this.index === index;
+    return this.index() === index;
   }
 
   public goToEditQuestionScreen() {
-    this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, this.question._id]);
+    this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, this.question()._id]);
   }
 }

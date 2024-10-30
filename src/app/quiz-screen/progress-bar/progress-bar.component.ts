@@ -23,6 +23,9 @@ export class ProgressBarComponent {
   public questions!: Question[];
 
   @Input()
+  public userAnswers!: number[];
+
+  @Input()
   public index!: number;
 
   private readonly eventService = inject(EventService);
@@ -34,10 +37,11 @@ export class ProgressBarComponent {
     });
   }
 
-  public setColor(question: Question): state {
-    if (question.userAnswer === undefined) {
+  public setColor(question: Question, index: number): state {
+    const userAnswer = this.userAnswers[index];
+    if (userAnswer === undefined) {
       return 'untouched';
-    } else if (question.answer.index === question.userAnswer) {
+    } else if (question.answer.index === userAnswer) {
       return 'correct';
     } else {
       return 'incorrect';

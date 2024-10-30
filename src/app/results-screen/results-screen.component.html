@@ -1,16 +1,17 @@
 <app-header
   goToOnClick="menu"
-  topText="Верных ответов: {{ getNumberCorrectAnswers() }} из {{
-    quizService.questions.length
+  topText="Верных ответов: {{ getCorrectQuestionCount() }} из {{
+    questions().length
   }}"
-  bottomText="Тема: {{ question.topic }}"
+  bottomText="Тема: {{ question().topic }}"
 />
 <main>
+  <!-- Move to component -->
   <fieldset>
-    @for (q of quizService.questions; track $index) {
+    @for (q of questions(); track $index) {
       <div class="button-container">
         <label
-          [class]="['app-button', setColor(q)]"
+          [class]="['app-button', setColor(q, $index)]"
           (click)="setQuestion($index)"
         >
           <input
@@ -24,32 +25,35 @@
       </div>
     }
   </fieldset>
-  @if (question) {
+
+  @if (question()) {
+    @let q = question();
+
     <header>
-      <h2>Вопрос номер {{ index + 1 }}</h2>
+      <h2>Вопрос номер {{ index() + 1 }}</h2>
     </header>
-    <p>{{ question.text }}</p>
-    @if (question.code) {
-      <app-code [code]="question.code" />
-    }
-    <h4>Правильный ответ:</h4>
-    <p>{{ question.options[question.answer.index] }}</p>
-    <h4>Ваш ответ:</h4>
-    <p>
-      {{
-        question.userAnswer != null
-          ? question.options[question.userAnswer]
-          : "Вы не дали ответ"
-      }}
-    </p>
-    @if (question.answer.explanation) {
-      <h4>Объяснение:</h4>
-      <p>{{ question.answer.explanation }}</p>
+
+    <p>{{ q.text }}</p>
+
+    @if (q.code) {
+      <app-code [code]="q.code" />
     }
 
-    @if (authService.isAdmin) {
+    <h4>Правильный ответ:</h4>
+    <p>{{ correctAnswerText() }}</p>
+
+    <h4>Ваш ответ:</h4>
+    <p>
+      {{ userAnswerText() }}
+    </p>
+    @if (q.answer.explanation) {
+      <h4>Объяснение:</h4>
+      <p>{{ q.answer.explanation }}</p>
+    }
+
+    @if (isAdmin$ | async) {
       <h4>Вопрос верифицирован:</h4>
-      <p>{{ question.meta?.reviewed ? "Да" : "Нет" }}</p>
+      <p>{{ q.meta?.reviewed ? "Да" : "Нет" }}</p>
       <button class="app-button gray" (click)="goToEditQuestionScreen()">
         {{ "Редактировать вопрос" | uppercase }}
       </button>
