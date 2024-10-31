@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  app-header {
+    margin-bottom: 30px;
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+}

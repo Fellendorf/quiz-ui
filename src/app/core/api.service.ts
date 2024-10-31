@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
+
 import { Question, TopicData } from '../models';
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ApiService {
   }
 
   public checkPassword(password: string) {
-    return this.http.post<boolean>('/password', {
+    return this.http.post<{ isAdmin: boolean }>('/password', {
       password,
     });
   }

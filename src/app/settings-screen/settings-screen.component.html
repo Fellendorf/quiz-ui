@@ -1,1 +1,7 @@
-<p>settings-screen works!</p>
+<app-header goToOnClick="menu" topText="Настройки" />
+<main>
+  <label>
+    <span>Is Admin:</span>
+    <input type="checkbox" [(ngModel)]="isAdmin" (change)="toggleIsAdmin()" />
+  </label>
+</main>
