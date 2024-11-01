@@ -10,35 +10,19 @@
     @case ("loaded") {
       @let questions = state.data;
 
-      @for (question of questions; track $index) {
-        <p>{{ $index + 1 }}. {{ question.text }}</p>
-      }
-      <!-- @let question = questions[index];
-  
-        <header>
-          <a class="app-button yellow" routerLink="/">МЕНЮ</a>
-          <h2>Вопрос номер {{ index + 1 }} из {{ questions.length }}</h2>
-          <h3>{{ question.topic }}</h3>
-          <app-progress-bar [questions]="questions" [index]="index" />
-        </header>
-        <main>
-          <p>{{ question.text }}</p>
-          @if (question.code) {
-            <app-code [code]="question.code" />
-          }
-          <app-answers
-            [options]="question.options"
-            (answer)="quizService.setUserAnswer(index, $event)"
+      <app-header goToOnClick="menu" topText="Администрирование вопросов:" />
+      <main>
+        <div class="select-question-container">
+          <app-options
+            name="select-question"
+            [options]="getQuestionOptions(questions)"
+            (optionChange)="setQuestion(questions, $event)"
           />
-        </main>
-        <footer>
-          <button class="app-button yellow" (click)="confirmAnswer()">
-            ОТВЕТИТЬ
-          </button>
-          <button class="app-button yellow" (click)="confirmNoAnswer()">
-            НЕТ ОТВЕТА
-          </button>
-        </footer> -->
+        </div>
+        <button class="app-button gray" (click)="goToEditQuestionScreen()">
+          {{ "Редактировать вопрос" | uppercase }}
+        </button>
+      </main>
     }
   }
 }

@@ -1,0 +1,29 @@
+@use "../../styles.variables.scss" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+
+  app-header {
+    margin-bottom: 20px;
+  }
+
+  .select-question-container {
+    display: block;
+    margin-bottom: 20px;
+    max-height: 50svh;
+    overflow: auto;
+    scrollbar-color: $gray-dark transparent;
+    scrollbar-width: thin;
+
+    app-options {
+      flex-direction: column;
+
+      .app-button {
+        background: #000;
+      }
+    }
+  }
+}

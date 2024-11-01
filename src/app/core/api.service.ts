@@ -33,8 +33,16 @@ export class ApiService {
       );
   }
 
+  public getQuestion(id: string) {
+    return this.http.get<Question>('/question', {
+      params: {
+        id,
+      },
+    });
+  }
+
   public updateQuestion(question: Question) {
-    return this.http.put<Question>('/question', question);
+    return this.http.put<{ message: boolean }>('/question', question);
   }
 
   public checkPassword(password: string) {

@@ -26,6 +26,7 @@
           @media (max-width: 480px) {
             width: 2rem;
             height: 2rem;
+            min-height: 2rem;
           }
 
           &:has(input:checked) {
