@@ -2,26 +2,45 @@
 <main>
   @if (questionForm) {
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-      <label for="topic">
-        {{ "Тема:" | uppercase }}
-      </label>
-      <input id="topic" type="text" disabled [value]="getTopic()" />
-      <label for="question">
-        {{ "Вопрос:" | uppercase }}
-      </label>
+      <label for="topic"> Тема: </label>
+      <input id="topic" type="text" formControlName="topic" />
+
+      <label for="question-text"> Вопрос: </label>
       <textarea
-        id="question"
+        id="question-text"
         formControlName="text"
         appTextareaAutoresize
       ></textarea>
-      <label for="correct-answer">
-        {{ "Ответ:" | uppercase }}
-      </label>
-      <input id="correct-answer" type="text" disabled [value]="getAnswer()" />
+
+      <label for="options"> Варианты ответов: </label>
+      <div formArrayName="options" id="options">
+        <!-- TODO: add the Angular bug into questions: https://github.com/angular/angular/issues/21682 -->
+        @for (option of options.controls; track option.value) {
+          <div class="option">
+            <input type="radio" name="temp" title="Выбери верный вариант" />
+            <textarea
+              type="text"
+              [formControlName]="$index"
+              appTextareaAutoresize
+            ></textarea>
+            <button
+              class="app-button yellow"
+              type="button"
+              (click)="removeOption($index)"
+            >
+              {{ "Удалить" | uppercase }}
+            </button>
+          </div>
+        }
+        <button class="app-button yellow" type="button" (click)="addOption()">
+          {{ "Добавить опцию" | uppercase }}
+        </button>
+      </div>
+
       <div formGroupName="answer">
-        <label for="explanation">
-          {{ "Объяснение:" | uppercase }}
-        </label>
+        <label for="correct-answer"> Ответ: </label>
+        <input id="correct-answer" type="text" formControlName="index" />
+        <label for="explanation"> Объяснение: </label>
         <textarea
           id="explanation"
           type="text"
@@ -30,7 +49,7 @@
         ></textarea>
       </div>
       <button class="app-button yellow" type="submit">
-        {{ "Подтвердить" | uppercase }}
+        {{ "Сохранить" | uppercase }}
       </button>
     </form>
   }

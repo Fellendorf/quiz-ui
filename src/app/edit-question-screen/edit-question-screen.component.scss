@@ -53,5 +53,32 @@
       overflow: hidden;
       resize: vertical;
     }
+
+    #options {
+      margin-bottom: 20px;
+      .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        input {
+          outline: none;
+          width: 20px;
+        }
+
+        input,
+        textarea {
+          margin-right: 10px;
+        }
+
+        input,
+        textarea {
+          display: inline-block;
+          margin-bottom: 0;
+          // width: auto;
+        }
+      }
+    }
   }
 }

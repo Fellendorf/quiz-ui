@@ -2,7 +2,9 @@ import { UpperCasePipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -37,17 +39,19 @@ export class EditQuestionScreenComponent implements OnInit {
   private readonly quizService = inject(QuizService);
 
   public question = signal<Question | null>(null);
+  public questionForm!: FormGroup;
 
   private questionEffect = effect(() => {
     console.log(this.question());
+
     const question = this.question()!;
     if (question) {
       this.questionForm = this.formBuilder.group({
         _id: [question._id],
-        topic: [question.topic],
+        topic: [question.topic, Validators.required],
         text: [question.text, Validators.required],
         code: [question.code],
-        options: [question.options],
+        options: this.formBuilder.array(question.options, Validators.required),
         answer: this.formBuilder.group({
           index: [question.answer.index],
           explanation: [question.answer.explanation],
@@ -55,8 +59,6 @@ export class EditQuestionScreenComponent implements OnInit {
       });
     }
   });
-
-  public questionForm!: FormGroup;
 
   public async ngOnInit(): Promise<void> {
     this.activatedRoute.params
@@ -70,14 +72,16 @@ export class EditQuestionScreenComponent implements OnInit {
       });
   }
 
-  public getTopic(): string {
-    return this.questionForm.get('topic')?.value;
+  get options() {
+    return this.questionForm.get('options') as FormArray;
   }
 
-  public getAnswer(): string {
-    const options = this.questionForm.get('options')?.value;
-    const index = this.questionForm.get('answer')?.get('index')?.value;
-    return options[index];
+  public addOption(): void {
+    this.options.push(this.formBuilder.control(['']));
+  }
+
+  public removeOption(index: number): void {
+    this.options.removeAt(index);
   }
 
   public onSubmit(): void {
