@@ -6,26 +6,25 @@ export interface TopicData {
 export interface Question {
   _id: string;
   topic: string;
+  subtopic?: string;
   text: string;
-  code?: QuestionCode;
-  options: string[];
-  answer: Answer;
-  meta?: Meta;
-}
-
-export interface Answer {
-  index: number;
+  code?: Code;
+  options: Option[];
   explanation?: string;
-}
-
-export interface QuestionCode {
-  text: string;
-  language: 'typescript' | 'javascript' | 'html' | 'css';
-}
-
-interface Meta {
   reviewed?: boolean;
   difficult?: Difficulty;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Option {
+  text: string;
+  isCorrect: boolean;
+}
+
+export interface Code {
+  text: string;
+  language: 'typescript' | 'javascript' | 'html' | 'css';
 }
 
 type Difficulty = 'easy' | 'medium' | 'hard';

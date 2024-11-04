@@ -2,7 +2,7 @@
   @for (option of options; track $index) {
     <label class="app-button gray">
       <input #input type="radio" name="option" (change)="answer.emit($index)" />
-      {{ option }}
+      {{ option.text }}
     </label>
   }
 </fieldset>

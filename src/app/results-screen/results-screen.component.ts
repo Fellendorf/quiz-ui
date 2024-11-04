@@ -13,7 +13,6 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
 import { ROUTE_PATHES } from '../app.routes';
-import { Question } from '../models';
 
 @Component({
   selector: 'app-results-screen',
@@ -40,6 +39,7 @@ export class ResultsScreenComponent {
   public userAnswers = this.quizService.userAnswers;
   public getUserAnswer = this.quizService.getUserAnswer;
   public getCorrectQuestionCount = this.quizService.getCorrectQuestionCount;
+  public isUserAnswerCorrect = this.quizService.isUserAnswerCorrect;
 
   constructor() {
     if (!this.questions().length) {
@@ -47,32 +47,27 @@ export class ResultsScreenComponent {
     }
   }
 
-  public index = signal(0);
-  public question = computed(() => this.questions()[this.index()]);
+  public questionIndex = signal(0);
+  public question = computed(() => this.questions()[this.questionIndex()]);
 
   public correctAnswerText = computed(() => {
     const questions = this.question();
-    return questions.options[questions.answer.index];
+    return questions.options.find((option) => option.isCorrect)?.text;
   });
+
   public userAnswerText = computed(() => {
-    const userAnswer = this.getUserAnswer(this.index());
+    const userAnswer = this.getUserAnswer(this.questionIndex());
     return userAnswer >= 0
-      ? this.question().options[userAnswer]
+      ? this.question().options[userAnswer]?.text
       : 'Вы не дали ответ';
   });
 
   public setQuestion(index: number): void {
-    this.index.set(index);
-  }
-
-  public setColor(question: Question, index: number): 'green' | 'red' {
-    return question.answer.index === this.userAnswers()[index]
-      ? 'green'
-      : 'red';
+    this.questionIndex.set(index);
   }
 
   public isQuestionChecked(index: number): boolean {
-    return this.index() === index;
+    return this.questionIndex() === index;
   }
 
   public goToEditQuestionScreen() {

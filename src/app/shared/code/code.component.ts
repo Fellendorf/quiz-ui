@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import hljs from 'highlight.js';
-import { QuestionCode } from '../../models';
+import { Code } from '../../models';
 
 @Component({
   selector: 'app-code',
@@ -11,7 +11,7 @@ import { QuestionCode } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeComponent {
-  @Input() public code!: QuestionCode;
+  @Input() public code!: Code;
 
   public highlightCode(code: string, language: string): string {
     return hljs.highlight(code, { language }).value;

@@ -5,7 +5,7 @@ import { switchMap, tap } from 'rxjs';
 
 import { toLoadingStateStream } from '../shared/loading-state/loading-state';
 import { CodeComponent } from '../shared/code/code.component';
-import { AnswersComponent } from './answers/answers.component';
+import { OptionsComponent } from './options/options.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
@@ -20,7 +20,7 @@ import { ROUTE_PATHES } from '../app.routes';
   standalone: true,
   imports: [
     CodeComponent,
-    AnswersComponent,
+    OptionsComponent,
     LoadingScreenComponent,
     ProgressBarComponent,
     HeaderComponent,
@@ -40,7 +40,7 @@ export class QuizScreenComponent {
   public userAnswers = this.quizService.userAnswers;
   public setUserAnswer = this.quizService.setUserAnswer;
 
-  public index: number = 0;
+  public questionIndex: number = 0;
 
   public questionsLoadingState$ = this.activatedRoute.queryParams.pipe(
     switchMap((params) => {
@@ -58,7 +58,7 @@ export class QuizScreenComponent {
   );
 
   public confirmAnswer() {
-    if (this.quizService.isAnswerProvided(this.index)) {
+    if (this.quizService.isAnswerProvided(this.questionIndex)) {
       this.goToNextQuestion();
     } else {
       console.log('Choose answer');
@@ -67,14 +67,14 @@ export class QuizScreenComponent {
   }
 
   public confirmNoAnswer() {
-    this.quizService.setUserAnswer(this.index, -1);
+    this.quizService.setUserAnswer(this.questionIndex, -1);
     this.goToNextQuestion();
   }
 
   private goToNextQuestion() {
-    this.index++;
+    this.questionIndex++;
     if (
-      this.index >=
+      this.questionIndex >=
       Number(this.activatedRoute.snapshot.queryParamMap.get('count'))
     ) {
       this.router.navigate([ROUTE_PATHES.RESULTS]);

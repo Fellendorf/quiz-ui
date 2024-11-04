@@ -9,26 +9,26 @@
     }
     @case ("loaded") {
       @let questions = state.data;
-      @let question = questions[index];
+      @let question = questions[questionIndex];
 
       <app-header
         goToOnClick="menu"
-        topText="Вопрос номер {{ index + 1 }} из {{ questions.length }}"
+        topText="Вопрос номер {{ questionIndex + 1 }} из {{ questions.length }}"
         bottomText="Тема: {{ question.topic }}"
       />
       <main>
         <app-progress-bar
           [questions]="questions"
-          [index]="index"
+          [questionIndex]="questionIndex"
           [userAnswers]="userAnswers()"
         />
         <p>{{ question.text }}</p>
         @if (question.code) {
           <app-code [code]="question.code" />
         }
-        <app-answers
+        <app-options
           [options]="question.options"
-          (answer)="setUserAnswer(index, $event)"
+          (answer)="setUserAnswer(questionIndex, $event)"
         />
       </main>
       <footer>

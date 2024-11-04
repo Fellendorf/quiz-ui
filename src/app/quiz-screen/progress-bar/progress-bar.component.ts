@@ -26,7 +26,7 @@ export class ProgressBarComponent {
   public userAnswers!: number[];
 
   @Input()
-  public index!: number;
+  public questionIndex!: number;
 
   private readonly eventService = inject(EventService);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -37,18 +37,18 @@ export class ProgressBarComponent {
     });
   }
 
-  public setColor(question: Question, index: number): state {
-    const userAnswer = this.userAnswers[index];
+  public setState(question: Question, questionIndex: number): state {
+    const userAnswer = this.userAnswers[questionIndex];
     if (userAnswer === undefined) {
       return 'untouched';
-    } else if (question.answer.index === userAnswer) {
+    } else if (question.options[userAnswer]?.isCorrect) {
       return 'correct';
     } else {
       return 'incorrect';
     }
   }
 
-  public markCurrent(itemIndex: number): string {
-    return itemIndex === this.index ? 'current' : '';
+  public markCurrent(questionIndex: number): string {
+    return questionIndex === this.questionIndex ? 'current' : '';
   }
 }

@@ -1,5 +1,7 @@
-@for (q of questions; track $index) {
+@for (question of questions; track $index) {
   <div class="item-container">
-    <div [class]="['item', setColor(q, $index), markCurrent($index)]"></div>
+    <div
+      [class]="['item', setState(question, $index), markCurrent($index)]"
+    ></div>
   </div>
 }

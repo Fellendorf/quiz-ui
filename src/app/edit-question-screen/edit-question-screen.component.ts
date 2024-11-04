@@ -1,10 +1,16 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -37,14 +43,14 @@ export class EditQuestionScreenComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
   private readonly quizService = inject(QuizService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   public question = signal<Question | null>(null);
   public questionForm!: FormGroup;
 
   private questionEffect = effect(() => {
-    console.log(this.question());
+    const question = this.question();
 
-    const question = this.question()!;
     if (question) {
       this.questionForm = this.formBuilder.group({
         _id: [question._id],
@@ -52,10 +58,10 @@ export class EditQuestionScreenComponent implements OnInit {
         text: [question.text, Validators.required],
         code: [question.code],
         options: this.formBuilder.array(question.options, Validators.required),
-        answer: this.formBuilder.group({
-          index: [question.answer.index],
-          explanation: [question.answer.explanation],
-        }),
+        // answer: this.formBuilder.group({
+        //   index: [question.answer.index, Validators.required],
+        //   explanation: [question.answer.explanation],
+        // }),
       });
     }
   });
@@ -82,14 +88,27 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public removeOption(index: number): void {
     this.options.removeAt(index);
+    this.cdr.detectChanges(); // trigger UI update to reflect changes in options array length
+  }
+
+  public isAddButtonDisabled(index: number): boolean {
+    return (
+      this.questionForm.get('answer')?.get('index')?.value === index ||
+      this.options.length === 2 // minimum 2 options must be available
+    );
+  }
+
+  public test() {
+    console.log('changed');
   }
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
-    this.apiService.updateQuestion(modifiedQuestion).subscribe((response) => {
-      if (response?.message) {
-        alert(response.message);
-      }
-    });
+    console.log(modifiedQuestion);
+    // this.apiService.updateQuestion(modifiedQuestion).subscribe((response) => {
+    //   if (response?.message) {
+    //     alert(response.message);
+    //   }
+    // });
   }
 }

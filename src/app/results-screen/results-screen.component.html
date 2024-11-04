@@ -11,7 +11,10 @@
     @for (q of questions(); track $index) {
       <div class="button-container">
         <label
-          [class]="['app-button', setColor(q, $index)]"
+          [class]="[
+            'app-button',
+            isUserAnswerCorrect($index) ? 'green' : 'red',
+          ]"
           (click)="setQuestion($index)"
         >
           <input
@@ -30,7 +33,7 @@
     @let q = question();
 
     <header>
-      <h2>Вопрос номер {{ index() + 1 }}</h2>
+      <h2>Вопрос номер {{ questionIndex() + 1 }}</h2>
     </header>
 
     <p>{{ q.text }}</p>
@@ -46,14 +49,14 @@
     <p>
       {{ userAnswerText() }}
     </p>
-    @if (q.answer.explanation) {
+    @if (q.explanation) {
       <h4>Объяснение:</h4>
-      <p>{{ q.answer.explanation }}</p>
+      <p>{{ q.explanation }}</p>
     }
 
     @if (isAdmin()) {
       <h4>Вопрос верифицирован:</h4>
-      <p>{{ q.meta?.reviewed ? "Да" : "Нет" }}</p>
+      <p>{{ q.reviewed ? "Да" : "Нет" }}</p>
       <button class="app-button gray" (click)="goToEditQuestionScreen()">
         {{ "Редактировать вопрос" | uppercase }}
       </button>

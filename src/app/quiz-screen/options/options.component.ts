@@ -10,18 +10,18 @@ import {
 } from '@angular/core';
 
 import { EventService } from '../../core/event.service';
-import { Question, GlobalEvents } from '../../models';
+import { GlobalEvents, Option } from '../../models';
 
 @Component({
-  selector: 'app-answers',
+  selector: 'app-options',
   standalone: true,
   imports: [],
-  templateUrl: './answers.component.html',
-  styleUrl: './answers.component.scss',
+  templateUrl: './options.component.html',
+  styleUrl: './options.component.scss',
 })
-export class AnswersComponent implements OnInit {
+export class OptionsComponent implements OnInit {
   @Input()
-  public options!: Question['options'];
+  public options!: Option[];
 
   @Output()
   public answer = new EventEmitter<number>();

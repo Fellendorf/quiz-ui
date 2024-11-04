@@ -16,24 +16,31 @@ export class QuizService {
   public questions = signal<Question[]>([]);
 
   public getCorrectQuestionCount(): number {
-    const userAnswers = this.userAnswers();
-    return this.questions().filter(
-      (question, index) => question.answer.index === userAnswers[index],
+    const questions = this.questions();
+    return this.userAnswers().filter(
+      (userAnswer, questionIndex) =>
+        questions[questionIndex].options[userAnswer]?.isCorrect,
     ).length;
   }
 
   // "User Answers" part:
   public userAnswers = signal<Array<number>>([]);
 
-  public getUserAnswer(index: number): number {
-    return this.userAnswers()[index];
+  public getUserAnswer(questionIndex: number): number {
+    return this.userAnswers()[questionIndex];
   }
 
-  public setUserAnswer(index: number, userAnswer: number): void {
+  public setUserAnswer(questionIndex: number, answerIndex: number): void {
     this.userAnswers.update((answers) => {
-      answers[index] = userAnswer;
+      answers[questionIndex] = answerIndex;
       return answers;
     });
+  }
+
+  public isUserAnswerCorrect(questionIndex: number): boolean {
+    const userAnswer = this.userAnswers()[questionIndex];
+    const question = this.questions()[questionIndex];
+    return question.options[userAnswer]?.isCorrect;
   }
 
   public isAnswerProvided(index: number): boolean {

@@ -15,22 +15,12 @@ export class ApiService {
   }
 
   public getQuestions(topic: string, count = 0): Observable<Question[]> {
-    return this.http
-      .get<Question[]>('/questions', {
-        params: {
-          'topics[]': topic,
-          count,
-        },
-      })
-      .pipe(
-        map((questions) =>
-          questions.map((question) =>
-            !question.meta
-              ? { ...question, meta: { reviewed: false } }
-              : question,
-          ),
-        ),
-      );
+    return this.http.get<Question[]>('/questions', {
+      params: {
+        'topics[]': topic,
+        count,
+      },
+    });
   }
 
   public getQuestion(id: string) {

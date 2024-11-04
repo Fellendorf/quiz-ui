@@ -29,7 +29,7 @@
       border: none;
       border-radius: 1.2rem;
       //   text-decoration: none;
-      background-color: $gray-dark;
+      background-color: $gray-saturated;
       padding: 10px 20px;
       width: 100%;
       min-height: 2.4rem;
@@ -53,31 +53,52 @@
       overflow: hidden;
       resize: vertical;
     }
-
-    #options {
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       margin-bottom: 20px;
-      .option {
+
+      .option-container {
         display: flex;
-        justify-content: space-between;
+        flex-direction: row;
         align-items: center;
-        margin-bottom: 10px;
+        gap: 10px;
 
-        input {
-          outline: none;
-          width: 20px;
+        label {
+          cursor: pointer;
+          margin: 0;
+          border-radius: 1rem;
+          background: #ffffff;
+          min-width: 1.6rem;
+          height: 1.6rem;
+
+          input {
+            display: none;
+          }
+
+          &:has(input:checked) {
+            outline: $green solid 8px;
+            outline-offset: -12px;
+          }
         }
 
-        input,
         textarea {
-          margin-right: 10px;
+          margin: 0;
         }
 
-        input,
-        textarea {
-          display: inline-block;
-          margin-bottom: 0;
-          // width: auto;
+        [formArrayName="options"] {
+          line-height: 1px;
         }
+
+        [formArrayName="options"],
+        textarea {
+          width: 100%;
+        }
+      }
+
+      & > button {
+        width: max-content;
       }
     }
   }
