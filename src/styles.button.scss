@@ -39,10 +39,13 @@
     }
 
     &:hover:not(:disabled) {
-      background-color: $yellow-dark;
+      background-color: $yellow-saturated;
     }
     &:active {
       background-color: $yellow;
+    }
+    &:disabled {
+      background-color: $yellow-pale;
     }
   }
 
@@ -56,7 +59,7 @@
     }
   }
   &.gray:hover {
-    background-color: $gray-dark;
+    background-color: $gray-saturated;
   }
   &.gray:active {
     background-color: $gray;
@@ -67,7 +70,7 @@
     color: $text-light;
   }
   &.red:hover {
-    background-color: $red-dark;
+    background-color: $red-saturated;
   }
   &.red:active {
     background-color: $red;
@@ -78,7 +81,7 @@
     color: $text-light;
   }
   &.green:hover {
-    background-color: $green-dark;
+    background-color: $green-saturated;
   }
   &.green:active {
     background-color: $green;

@@ -1,15 +1,16 @@
 $yellow: #f9d57f;
-$yellow-dark: #e4b257;
+$yellow-saturated: #e4b257;
+$yellow-pale: #a8883d;
 
 $gray: #5a5a5a;
-$gray-dark: #484848;
+$gray-saturated: #484848;
 $gray-light: #7a7a7a;
 
 $red: #c33333;
-$red-dark: #991a1a;
+$red-saturated: #991a1a;
 
 $green: #1d7f3a;
-$green-dark: #0f5e27;
+$green-saturated: #0f5e27;
 
 $text-dark: #333;
 $text-light: white;
@@ -17,6 +18,6 @@ $text-light: white;
 $background-black: #010101;
 $background-gray: #2b2b2b;
 
-$question-untouched: $gray-dark;
+$question-untouched: $gray-saturated;
 $question-correct: $green;
 $question-incorrect: $red;
