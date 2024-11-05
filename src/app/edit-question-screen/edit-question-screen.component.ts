@@ -14,7 +14,7 @@ import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.direc
 import { ApiService } from '../core/api.service';
 import { ROUTE_PATHES } from '../app.routes';
 import { Question } from '../models';
-import { switchMap } from 'rxjs';
+import { iif, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-question-screen',
@@ -34,6 +34,8 @@ export class EditQuestionScreenComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
+
+  public mode = signal<'new' | 'edit'>('new');
 
   public question = signal<Question | null>(null);
   public questionForm!: FormGroup;
@@ -62,16 +64,34 @@ export class EditQuestionScreenComponent implements OnInit {
         difficult: [question.difficult],
       });
     }
+    // console.log(this.questionForm);
   });
 
   public async ngOnInit(): Promise<void> {
     this.activatedRoute.params
-      .pipe(switchMap((params) => this.apiService.getQuestion(params['id'])))
+      .pipe(
+        switchMap((params) => {
+          if (params['id'] === 'new-question') {
+            return of({
+              topic: '',
+              text: '',
+              options: [
+                { text: '', isCorrect: false },
+                { text: '', isCorrect: false },
+              ],
+            } as Question);
+          } else {
+            this.mode.set('edit');
+            return this.apiService.getQuestion(params['id']);
+          }
+        }),
+      )
       .subscribe((question: Question) => {
         if (!question) {
           this.router.navigate([ROUTE_PATHES.MENU]);
           return;
         }
+        // console.log(question);
         this.question.set(question);
       });
   }
@@ -81,7 +101,12 @@ export class EditQuestionScreenComponent implements OnInit {
   }
 
   public addOption(): void {
-    this.options.push(this.formBuilder.control(['']));
+    this.options.push(
+      this.formBuilder.group({
+        text: ['', Validators.required],
+        isCorrect: [false],
+      }),
+    );
   }
 
   public removeOption(index: number): void {
@@ -101,7 +126,14 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
-    this.apiService.updateQuestion(modifiedQuestion).subscribe((response) => {
+    if (this.mode() === 'new') {
+      delete modifiedQuestion['_id'];
+    }
+    iif(
+      () => this.mode() === 'new',
+      this.apiService.createQuestion(modifiedQuestion),
+      this.apiService.updateQuestion(modifiedQuestion),
+    ).subscribe((response) => {
       if (response?.message) {
         alert(response.message);
       }

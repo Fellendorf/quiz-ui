@@ -47,7 +47,7 @@
         background-color: $gray-light;
         color: black;
       }
-      &.ng-invalid {
+      &.ng-invalid.ng-dirty {
         outline: $red solid 3px;
       }
     }

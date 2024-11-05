@@ -26,4 +26,13 @@
       }
     }
   }
+
+  .buttons-container {
+    display: flex;
+    gap: 20px;
+
+    .app-button {
+      width: 100%;
+    }
+  }
 }

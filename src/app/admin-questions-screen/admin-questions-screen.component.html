@@ -19,13 +19,18 @@
             (optionChange)="setQuestion(questions, $event)"
           />
         </div>
-        <button
-          class="app-button yellow"
-          [disabled]="!question()"
-          (click)="goToEditQuestionScreen()"
-        >
-          {{ "Редактировать вопрос" | uppercase }}
-        </button>
+        <div class="buttons-container">
+          <button
+            class="app-button yellow"
+            [disabled]="!question()"
+            (click)="goToEditQuestionScreen()"
+          >
+            {{ "Редактировать вопрос" | uppercase }}
+          </button>
+          <button class="app-button yellow" (click)="goToEditQuestionScreen()">
+            {{ "Создать вопрос" | uppercase }}
+          </button>
+        </div>
       </main>
     }
   }

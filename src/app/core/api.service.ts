@@ -32,7 +32,11 @@ export class ApiService {
   }
 
   public updateQuestion(question: Question) {
-    return this.http.put<{ message: boolean }>('/question', question);
+    return this.http.put<{ message: string }>('/question', question);
+  }
+
+  public createQuestion(question: Question) {
+    return this.http.post<{ message: string }>('/question', question);
   }
 
   public checkPassword(password: string) {

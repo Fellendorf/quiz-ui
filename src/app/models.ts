@@ -4,7 +4,7 @@ export interface TopicData {
 }
 
 export interface Question {
-  _id: string;
+  _id?: string;
   topic: string;
   subtopic?: string;
   text: string;

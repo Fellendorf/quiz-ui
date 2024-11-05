@@ -55,9 +55,12 @@ export class AdminQuestionsScreenComponent {
 
   public goToEditQuestionScreen() {
     const question = this.question();
-    console.log(question);
-    if (question) {
-      this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, question._id]);
-    }
+    this.router.navigate([
+      ROUTE_PATHES.EDIT_QUESTION,
+      question ? question?._id : 'new-question',
+    ]);
+    // if (question) {
+    //   this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, question._id]);
+    // }
   }
 }

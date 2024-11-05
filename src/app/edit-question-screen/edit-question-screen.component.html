@@ -1,4 +1,7 @@
-<app-header goToOnClick="back" topText="Редактировать вопрос" />
+<app-header
+  goToOnClick="back"
+  [topText]="mode() === 'new' ? 'Создать вопрос' : 'Редактировать вопрос'"
+/>
 <main>
   @if (questionForm) {
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
@@ -48,6 +51,9 @@
             </button>
           </div>
         }
+        <button class="app-button yellow" type="button" (click)="addOption()">
+          {{ "Добавить вариант ответа" | uppercase }}
+        </button>
       </div>
 
       <label for="difficult"> Сложность: </label>
