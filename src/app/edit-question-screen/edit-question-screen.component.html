@@ -5,6 +5,9 @@
       <label for="topic"> Тема: </label>
       <input id="topic" type="text" formControlName="topic" />
 
+      <label for="subtopic"> Подтема: </label>
+      <input id="subtopic" type="text" formControlName="subtopic" />
+
       <label for="question-text"> Вопрос: </label>
       <textarea
         id="question-text"
@@ -26,7 +29,6 @@
             <input
               type="checkbox"
               [value]="true"
-              (change)="test()"
               title="Выбери верный вариант"
               name="isCorrect"
               formControlName="isCorrect"
@@ -40,7 +42,7 @@
               class="app-button yellow"
               type="button"
               (click)="removeOption($index)"
-              [disabled]="isAddButtonDisabled($index)"
+              [disabled]="isRemoveButtonDisabled($index)"
             >
               <img src="trash-basket.svg" />
             </button>
@@ -88,43 +90,11 @@
           </label>
         }
       </div>
-
-      <!-- <label> Варианты ответов: </label>
-      <div class="answers">
-        @for (option of options.controls; track option.value) {
-          <div class="option-container">
-            <label formGroupName="answer">
-              <input
-                type="radio"
-                [value]="$index"
-                (change)="test()"
-                title="Выбери верный вариант"
-                name="index"
-                formControlName="index"
-              />
-            </label>
-            <div formArrayName="options">
-              <textarea
-                type="text"
-                [formControlName]="$index"
-                appTextareaAutoresize
-              ></textarea>
-            </div>
-            <button
-              class="app-button yellow"
-              type="button"
-              (click)="removeOption($index)"
-              [disabled]="isAddButtonDisabled($index)"
-            >
-              <img src="trash-basket.svg" />
-            </button>
-          </div>
-        }
-        <button class="app-button yellow" type="button" (click)="addOption()">
-          {{ "Добавить опцию" | uppercase }}
-        </button>
-      </div> -->
-      <button class="app-button yellow" type="submit">
+      <button
+        class="app-button yellow"
+        [disabled]="isSaveButtonDisabled()"
+        type="submit"
+      >
         {{ "Сохранить" | uppercase }}
       </button>
     </form>

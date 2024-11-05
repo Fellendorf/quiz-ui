@@ -47,6 +47,9 @@
         background-color: $gray-light;
         color: black;
       }
+      &.ng-invalid {
+        outline: $red solid 3px;
+      }
     }
 
     textarea {

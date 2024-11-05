@@ -45,6 +45,7 @@ export class EditQuestionScreenComponent implements OnInit {
       this.questionForm = this.formBuilder.group({
         _id: [question._id],
         topic: [question.topic, Validators.required],
+        subtopic: [question.subtopic],
         text: [question.text, Validators.required],
         code: [question.code],
         options: this.formBuilder.array(
@@ -85,17 +86,18 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public removeOption(index: number): void {
     this.options.removeAt(index);
-    this.questionForm.updateValueAndValidity(); // trigger UI update to reflect changes in options array length
   }
 
-  public isAddButtonDisabled(index: number): boolean {
+  public isRemoveButtonDisabled(index: number): boolean {
     return (
-      this.questionForm.get('options')?.get(String(index))?.get('isCorrect')
-        ?.value || this.options.length === 2 // minimum 2 options must be available
+      this.options?.get(String(index))?.get('isCorrect')?.value ||
+      this.options.length === 2 // minimum 2 options must be available
     );
   }
 
-  public test() {}
+  public isSaveButtonDisabled(): boolean {
+    return this.questionForm.invalid;
+  }
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
