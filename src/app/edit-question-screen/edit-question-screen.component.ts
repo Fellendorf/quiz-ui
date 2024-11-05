@@ -64,7 +64,6 @@ export class EditQuestionScreenComponent implements OnInit {
         difficult: [question.difficult],
       });
     }
-    // console.log(this.questionForm);
   });
 
   public async ngOnInit(): Promise<void> {
@@ -91,7 +90,6 @@ export class EditQuestionScreenComponent implements OnInit {
           this.router.navigate([ROUTE_PATHES.MENU]);
           return;
         }
-        // console.log(question);
         this.question.set(question);
       });
   }

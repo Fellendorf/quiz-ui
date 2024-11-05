@@ -40,7 +40,7 @@
       user-select: none;
       &:focus {
         outline: $yellow solid 3px;
-        background-color: $gray-light;
+        background-color: $gray;
       }
       &:disabled {
         cursor: not-allowed;
