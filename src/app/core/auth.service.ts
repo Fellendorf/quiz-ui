@@ -32,9 +32,8 @@ export class AuthService {
           password,
         );
       } else {
-        // TODO: add error message
         this.isAdmin.set(false);
-        console.log('Password is invalid');
+        alert('Password is invalid');
       }
     });
   }

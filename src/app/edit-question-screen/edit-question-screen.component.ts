@@ -1,12 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormArray,
@@ -18,7 +11,6 @@ import {
 
 import { HeaderComponent } from '../shared/header/header.component';
 import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
-import { QuizService } from '../core/quiz.service';
 import { ApiService } from '../core/api.service';
 import { ROUTE_PATHES } from '../app.routes';
 import { Question } from '../models';
@@ -42,8 +34,6 @@ export class EditQuestionScreenComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
-  private readonly quizService = inject(QuizService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
   public question = signal<Question | null>(null);
   public questionForm!: FormGroup;
@@ -57,11 +47,18 @@ export class EditQuestionScreenComponent implements OnInit {
         topic: [question.topic, Validators.required],
         text: [question.text, Validators.required],
         code: [question.code],
-        options: this.formBuilder.array(question.options, Validators.required),
-        // answer: this.formBuilder.group({
-        //   index: [question.answer.index, Validators.required],
-        //   explanation: [question.answer.explanation],
-        // }),
+        options: this.formBuilder.array(
+          question.options.map((option) =>
+            this.formBuilder.group({
+              text: [option.text, Validators.required],
+              isCorrect: [option.isCorrect],
+            }),
+          ),
+          Validators.required,
+        ),
+        explanation: [question.explanation],
+        reviewed: [question.reviewed],
+        difficult: [question.difficult],
       });
     }
   });
@@ -88,27 +85,24 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public removeOption(index: number): void {
     this.options.removeAt(index);
-    this.cdr.detectChanges(); // trigger UI update to reflect changes in options array length
+    this.questionForm.updateValueAndValidity(); // trigger UI update to reflect changes in options array length
   }
 
   public isAddButtonDisabled(index: number): boolean {
     return (
-      this.questionForm.get('answer')?.get('index')?.value === index ||
-      this.options.length === 2 // minimum 2 options must be available
+      this.questionForm.get('options')?.get(String(index))?.get('isCorrect')
+        ?.value || this.options.length === 2 // minimum 2 options must be available
     );
   }
 
-  public test() {
-    console.log('changed');
-  }
+  public test() {}
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
-    console.log(modifiedQuestion);
-    // this.apiService.updateQuestion(modifiedQuestion).subscribe((response) => {
-    //   if (response?.message) {
-    //     alert(response.message);
-    //   }
-    // });
+    this.apiService.updateQuestion(modifiedQuestion).subscribe((response) => {
+      if (response?.message) {
+        alert(response.message);
+      }
+    });
   }
 }

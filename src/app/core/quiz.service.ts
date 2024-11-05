@@ -16,35 +16,44 @@ export class QuizService {
   public questions = signal<Question[]>([]);
 
   public getCorrectQuestionCount(): number {
-    const questions = this.questions();
-    return this.userAnswers().filter(
-      (userAnswer, questionIndex) =>
-        questions[questionIndex].options[userAnswer]?.isCorrect,
-    ).length;
+    return this.userAnswers().filter((userAnswer, questionIndex) => {
+      return this.isUserAnswerCorrect(questionIndex);
+    }).length;
   }
 
   // "User Answers" part:
-  public userAnswers = signal<Array<number>>([]);
+  public userAnswers = signal<Array<number[]>>([]);
 
-  public getUserAnswer(questionIndex: number): number {
+  public getUserAnswer(questionIndex: number): number[] {
     return this.userAnswers()[questionIndex];
   }
 
-  public setUserAnswer(questionIndex: number, answerIndex: number): void {
+  public setUserAnswer(questionIndex: number, answerIndexes: number[]): void {
     this.userAnswers.update((answers) => {
-      answers[questionIndex] = answerIndex;
+      answers[questionIndex] = answerIndexes;
       return answers;
     });
   }
 
   public isUserAnswerCorrect(questionIndex: number): boolean {
     const userAnswer = this.userAnswers()[questionIndex];
-    const question = this.questions()[questionIndex];
-    return question.options[userAnswer]?.isCorrect;
+    const correctOptions = this.questions()[questionIndex].options.reduce(
+      (result, option, index) => {
+        if (option.isCorrect) {
+          result.push(index);
+        }
+        return result;
+      },
+      [] as number[],
+    );
+    return (
+      correctOptions.every((optionIndex) => userAnswer.includes(optionIndex)) &&
+      correctOptions.length === userAnswer.length
+    );
   }
 
   public isAnswerProvided(index: number): boolean {
-    return this.userAnswers()[index] !== undefined;
+    return !!this.userAnswers()[index]?.length;
   }
 
   public resetUserAnswers(): void {

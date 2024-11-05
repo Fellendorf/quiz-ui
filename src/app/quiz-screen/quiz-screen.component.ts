@@ -39,6 +39,7 @@ export class QuizScreenComponent {
 
   public userAnswers = this.quizService.userAnswers;
   public setUserAnswer = this.quizService.setUserAnswer;
+  public isAnswerProvided = this.quizService.isAnswerProvided;
 
   public questionIndex: number = 0;
 
@@ -61,13 +62,12 @@ export class QuizScreenComponent {
     if (this.quizService.isAnswerProvided(this.questionIndex)) {
       this.goToNextQuestion();
     } else {
-      console.log('Choose answer');
-      //TODO: let a user know somehow
+      alert('Please, choose answer');
     }
   }
 
   public confirmNoAnswer() {
-    this.quizService.setUserAnswer(this.questionIndex, -1);
+    this.quizService.setUserAnswer(this.questionIndex, []);
     this.goToNextQuestion();
   }
 

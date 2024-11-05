@@ -1,7 +1,12 @@
 <fieldset>
   @for (option of options; track $index) {
     <label class="app-button gray">
-      <input #input type="radio" name="option" (change)="answer.emit($index)" />
+      <input
+        #input
+        type="checkbox"
+        name="option"
+        (change)="changeAnswer($index)"
+      />
       {{ option.text }}
     </label>
   }

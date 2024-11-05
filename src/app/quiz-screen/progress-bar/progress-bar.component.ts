@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { GlobalEvents, Question } from '../../models';
 import { EventService } from '../../core/event.service';
+import { QuizService } from '../../core/quiz.service';
 
 type state = 'untouched' | 'correct' | 'incorrect';
 
@@ -23,12 +24,13 @@ export class ProgressBarComponent {
   public questions!: Question[];
 
   @Input()
-  public userAnswers!: number[];
+  public userAnswers!: number[][];
 
   @Input()
   public questionIndex!: number;
 
   private readonly eventService = inject(EventService);
+  private readonly quizService = inject(QuizService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
@@ -41,7 +43,7 @@ export class ProgressBarComponent {
     const userAnswer = this.userAnswers[questionIndex];
     if (userAnswer === undefined) {
       return 'untouched';
-    } else if (question.options[userAnswer]?.isCorrect) {
+    } else if (this.quizService.isUserAnswerCorrect(questionIndex)) {
       return 'correct';
     } else {
       return 'incorrect';

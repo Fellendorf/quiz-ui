@@ -32,7 +32,11 @@
         />
       </main>
       <footer>
-        <button class="app-button yellow" (click)="confirmAnswer()">
+        <button
+          class="app-button yellow"
+          [disabled]="!isAnswerProvided(questionIndex)"
+          (click)="confirmAnswer()"
+        >
           ОТВЕТИТЬ
         </button>
         <button class="app-button yellow" (click)="confirmNoAnswer()">

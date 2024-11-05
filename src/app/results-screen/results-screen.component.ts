@@ -13,6 +13,7 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
 import { ROUTE_PATHES } from '../app.routes';
+import { Option } from '../models';
 
 @Component({
   selector: 'app-results-screen',
@@ -52,13 +53,20 @@ export class ResultsScreenComponent {
 
   public correctAnswerText = computed(() => {
     const questions = this.question();
-    return questions.options.find((option) => option.isCorrect)?.text;
+    return questions.options
+      .filter((option) => option.isCorrect)
+      .map(({ text }) => text)
+      .join(', ');
   });
 
   public userAnswerText = computed(() => {
     const userAnswer = this.getUserAnswer(this.questionIndex());
-    return userAnswer >= 0
-      ? this.question().options[userAnswer]?.text
+
+    return userAnswer?.length
+      ? this.question()
+          .options.filter((option, index) => userAnswer.includes(index))
+          .map(({ text }) => text)
+          .join(', ')
       : 'Вы не дали ответ';
   });
 

@@ -12,7 +12,84 @@
         appTextareaAutoresize
       ></textarea>
 
-      <label> Варианты ответов: </label>
+      <label for="explanation"> Объяснение: </label>
+      <textarea
+        id="explanation"
+        formControlName="explanation"
+        appTextareaAutoresize
+      ></textarea>
+
+      <label for="options"> Варианты ответов: </label>
+      <div id="options" formArrayName="options">
+        @for (option of options.controls; track option.value) {
+          <div class="option-container" [formGroupName]="$index">
+            <input
+              type="checkbox"
+              [value]="true"
+              (change)="test()"
+              title="Выбери верный вариант"
+              name="isCorrect"
+              formControlName="isCorrect"
+            />
+            <textarea
+              type="text"
+              formControlName="text"
+              appTextareaAutoresize
+            ></textarea>
+            <button
+              class="app-button yellow"
+              type="button"
+              (click)="removeOption($index)"
+              [disabled]="isAddButtonDisabled($index)"
+            >
+              <img src="trash-basket.svg" />
+            </button>
+          </div>
+        }
+      </div>
+
+      <label for="difficult"> Сложность: </label>
+      <div id="difficult">
+        @for (
+          option of [
+            { value: "easy", text: "Легко" },
+            { value: "medium", text: "Нормально" },
+            { value: "hard", text: "Сложно" },
+          ];
+          track option.value
+        ) {
+          <label class="app-button gray">
+            <input
+              type="radio"
+              [value]="option.value"
+              formControlName="difficult"
+            />
+            <span>{{ option.text }}</span>
+          </label>
+        }
+      </div>
+
+      <label for="reviewed"> Проверено: </label>
+      <div id="reviewed">
+        @for (
+          option of [
+            { value: true, text: "Да" },
+            { value: false, text: "Нет" },
+          ];
+          track option.value
+        ) {
+          <label class="app-button gray">
+            <input
+              type="radio"
+              [value]="option.value"
+              formControlName="reviewed"
+            />
+            <span>{{ option.text }}</span>
+          </label>
+        }
+      </div>
+
+      <!-- <label> Варианты ответов: </label>
       <div class="answers">
         @for (option of options.controls; track option.value) {
           <div class="option-container">
@@ -46,17 +123,7 @@
         <button class="app-button yellow" type="button" (click)="addOption()">
           {{ "Добавить опцию" | uppercase }}
         </button>
-      </div>
-
-      <div formGroupName="answer">
-        <label for="explanation"> Объяснение: </label>
-        <textarea
-          id="explanation"
-          type="text"
-          formControlName="explanation"
-          appTextareaAutoresize
-        ></textarea>
-      </div>
+      </div> -->
       <button class="app-button yellow" type="submit">
         {{ "Сохранить" | uppercase }}
       </button>

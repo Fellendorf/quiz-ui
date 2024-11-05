@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  QueryList,
   ViewChildren,
 } from '@angular/core';
 
@@ -24,12 +25,14 @@ export class OptionsComponent implements OnInit {
   public options!: Option[];
 
   @Output()
-  public answer = new EventEmitter<number>();
+  public answer = new EventEmitter<number[]>();
 
   @ViewChildren('input')
-  private inputs!: ElementRef<HTMLInputElement>[];
+  private inputs!: QueryList<ElementRef<HTMLInputElement>>;
 
   private readonly eventService = inject(EventService);
+
+  private userAnswer: number[] = [];
 
   public ngOnInit(): void {
     this.eventService
@@ -37,7 +40,20 @@ export class OptionsComponent implements OnInit {
       ?.subscribe(() => this.questionChanged());
   }
 
+  public changeAnswer(optionIndex: number) {
+    const isChecked = this.inputs.get(optionIndex)?.nativeElement.checked;
+    if (isChecked) {
+      this.userAnswer.push(optionIndex);
+    } else {
+      this.userAnswer = this.userAnswer.filter(
+        (answer) => answer !== optionIndex,
+      );
+    }
+    this.answer.emit(this.userAnswer);
+  }
+
   private questionChanged() {
+    this.userAnswer = [];
     [...this.inputs].forEach((input) => (input.nativeElement.checked = false));
   }
 }

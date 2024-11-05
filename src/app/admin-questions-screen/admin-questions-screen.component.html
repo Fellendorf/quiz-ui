@@ -19,7 +19,11 @@
             (optionChange)="setQuestion(questions, $event)"
           />
         </div>
-        <button class="app-button gray" (click)="goToEditQuestionScreen()">
+        <button
+          class="app-button yellow"
+          [disabled]="!question()"
+          (click)="goToEditQuestionScreen()"
+        >
           {{ "Редактировать вопрос" | uppercase }}
         </button>
       </main>
