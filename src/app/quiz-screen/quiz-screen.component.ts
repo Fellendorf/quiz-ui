@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 
 import { toLoadingStateStream } from '../shared/loading-state/loading-state';
 import { CodeComponent } from '../shared/code/code.component';
@@ -49,6 +49,7 @@ export class QuizScreenComponent {
       const count = params['count'];
       return toLoadingStateStream<Question[]>(
         this.apiService.getQuestions(topic, count).pipe(
+          map((questions) => this.shuffleOptions(questions)),
           tap((questions) => {
             this.quizService.questions.set(questions);
             this.quizService.resetUserAnswers();
@@ -80,5 +81,21 @@ export class QuizScreenComponent {
       this.router.navigate([ROUTE_PATHES.RESULTS]);
     }
     this.eventService.emit(GlobalEvents.questionChanged);
+  }
+
+  private shuffleOptions(questions: Question[]) {
+    return questions.map((question) => {
+      const options = question.options;
+      const shuffledOptions = [...options];
+      for (let i = shuffledOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        console.log('i:', i, 'j: ', j);
+        [shuffledOptions[i], shuffledOptions[j]] = [
+          shuffledOptions[j],
+          shuffledOptions[i],
+        ];
+      }
+      return { ...question, options: shuffledOptions };
+    });
   }
 }
