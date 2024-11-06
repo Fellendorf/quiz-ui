@@ -18,12 +18,25 @@
         appTextareaAutoresize
       ></textarea>
 
-      <label for="explanation"> Объяснение: </label>
-      <textarea
-        id="explanation"
-        formControlName="explanation"
-        appTextareaAutoresize
-      ></textarea>
+      <label for="code"> Код: </label>
+      <div id="code" formGroupName="code">
+        <textarea formControlName="text" appTextareaAutoresize></textarea>
+        <div id="languages">
+          @for (
+            language of ["typescript", "javascript", "css", "html"];
+            track $index
+          ) {
+            <label class="app-button gray">
+              <input
+                type="radio"
+                [value]="language"
+                formControlName="language"
+              />
+              <span>{{ language }}</span>
+            </label>
+          }
+        </div>
+      </div>
 
       <label for="options"> Варианты ответов: </label>
       <div id="options" formArrayName="options">
@@ -55,6 +68,13 @@
           {{ "Добавить вариант ответа" | uppercase }}
         </button>
       </div>
+
+      <label for="explanation"> Объяснение: </label>
+      <textarea
+        id="explanation"
+        formControlName="explanation"
+        appTextareaAutoresize
+      ></textarea>
 
       <label for="difficult"> Сложность: </label>
       <div id="difficult">

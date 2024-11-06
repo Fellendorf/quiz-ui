@@ -11,7 +11,10 @@ import { Code } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeComponent {
-  @Input() public code!: Code;
+  @Input({
+    required: true,
+  })
+  public code!: Code;
 
   public highlightCode(code: string, language: string): string {
     return hljs.highlight(code, { language }).value;

@@ -49,7 +49,10 @@ export class EditQuestionScreenComponent implements OnInit {
         topic: [question.topic, Validators.required],
         subtopic: [question.subtopic],
         text: [question.text, Validators.required],
-        code: [question.code],
+        code: this.formBuilder.group({
+          text: [question.code?.text, Validators.required],
+          language: [question.code?.language, Validators.required],
+        }),
         options: this.formBuilder.array(
           question.options.map((option) =>
             this.formBuilder.group({
