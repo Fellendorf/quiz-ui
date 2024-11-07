@@ -2,6 +2,7 @@ import { UpperCasePipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -49,10 +50,20 @@ export class EditQuestionScreenComponent implements OnInit {
         topic: [question.topic, Validators.required],
         subtopic: [question.subtopic],
         text: [question.text, Validators.required],
-        code: this.formBuilder.group({
-          text: [question.code?.text, Validators.required],
-          language: [question.code?.language, Validators.required],
-        }),
+        code: this.formBuilder.group(
+          {
+            text: [question.code?.text],
+            language: [question.code?.language],
+          },
+          {
+            validators: [
+              (formGroup: FormGroup) =>
+                formGroup.value.text
+                  ? Validators.required(formGroup.get('language')!)
+                  : null,
+            ],
+          },
+        ),
         options: this.formBuilder.array(
           question.options.map((option) =>
             this.formBuilder.group({
