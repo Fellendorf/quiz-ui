@@ -45,10 +45,12 @@
     <h4>Правильный ответ:</h4>
     <p>{{ correctAnswerText() }}</p>
 
-    <h4>Ваш ответ:</h4>
-    <p>
-      {{ userAnswerText() }}
-    </p>
+    @if (!isUserAnswerCorrect(questionIndex())) {
+      <h4>Ваш ответ:</h4>
+      <p>
+        {{ userAnswerText() }}
+      </p>
+    }
     @if (q.explanation) {
       <h4>Объяснение:</h4>
       <p>{{ q.explanation }}</p>

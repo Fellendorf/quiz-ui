@@ -56,12 +56,10 @@ export class EditQuestionScreenComponent implements OnInit {
             language: [question.code?.language],
           },
           {
-            validators: [
-              (formGroup: FormGroup) =>
-                formGroup.value.text
-                  ? Validators.required(formGroup.get('language')!)
-                  : null,
-            ],
+            validators: (formGroup: AbstractControl) =>
+              formGroup.value.text
+                ? Validators.required(formGroup.get('language')!)
+                : null,
           },
         ),
         options: this.formBuilder.array(
