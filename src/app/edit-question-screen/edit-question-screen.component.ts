@@ -1,6 +1,6 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   AbstractControl,
   FormArray,
@@ -21,7 +21,6 @@ import { iif, of, switchMap } from 'rxjs';
   selector: 'app-edit-question-screen',
   standalone: true,
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     UpperCasePipe,
     TextareaAutoresizeDirective,
