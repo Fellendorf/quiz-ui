@@ -135,6 +135,10 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
+    // TODO: try to move the logic below to the form control:
+    if (!modifiedQuestion.code?.text && !modifiedQuestion.code?.language) {
+      delete modifiedQuestion.code;
+    }
     if (this.mode() === 'new') {
       delete modifiedQuestion['_id'];
     }
