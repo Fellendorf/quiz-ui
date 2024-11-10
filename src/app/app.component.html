@@ -1,5 +1,8 @@
 @if (isMobileLandscapeOrientation$ | async) {
   <p class="is-not-suppoted-message">Landscape orientation is not supported</p>
-} @else {
-  <router-outlet />
 }
+<div
+  [style.display]="(isMobileLandscapeOrientation$ | async) ? 'none' : 'block'"
+>
+  <router-outlet />
+</div>
