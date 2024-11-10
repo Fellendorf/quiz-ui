@@ -81,6 +81,30 @@
       }
     }
 
+    #links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+
+      .link-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        textarea {
+          margin: 0;
+          width: 100%;
+        }
+        input {
+          margin: 0;
+          outline: none;
+          width: auto;
+        }
+      }
+    }
+
     #difficult,
     #reviewed,
     #languages {
@@ -105,55 +129,6 @@
       label {
         margin-bottom: 0;
         width: 48%;
-      }
-    }
-
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-
-      .option-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-
-        label {
-          cursor: pointer;
-          margin: 0;
-          border-radius: 1rem;
-          background: #ffffff;
-          min-width: 1.6rem;
-          height: 1.6rem;
-
-          input {
-            display: none;
-          }
-
-          &:has(input:checked) {
-            outline: $green solid 8px;
-            outline-offset: -12px;
-          }
-        }
-
-        textarea {
-          margin: 0;
-        }
-
-        [formArrayName="options"] {
-          line-height: 1px;
-        }
-
-        [formArrayName="options"],
-        textarea {
-          width: 100%;
-        }
-      }
-
-      & > button {
-        width: max-content;
       }
     }
   }
