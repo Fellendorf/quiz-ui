@@ -28,7 +28,6 @@
       margin-bottom: 20px;
       border: none;
       border-radius: 1.2rem;
-      //   text-decoration: none;
       background-color: $gray-saturated;
       padding: 10px 20px;
       width: 100%;
@@ -48,6 +47,14 @@
         color: black;
       }
       &.ng-invalid.ng-dirty {
+        outline: $red solid 3px;
+      }
+    }
+
+    #code {
+      border-radius: 1.2rem;
+
+      &.ng-invalid {
         outline: $red solid 3px;
       }
     }

@@ -55,10 +55,14 @@ export class EditQuestionScreenComponent implements OnInit {
             language: [question.code?.language],
           },
           {
-            validators: (formGroup: AbstractControl) =>
-              formGroup.value.text
-                ? Validators.required(formGroup.get('language')!)
-                : null,
+            validators: [
+              (formGroup: AbstractControl) =>
+                formGroup.value.text
+                  ? Validators.required(formGroup.get('language')!)
+                  : formGroup.value.language
+                    ? Validators.required(formGroup.get('text')!)
+                    : null,
+            ],
           },
         ),
         options: this.formBuilder.array(
@@ -146,6 +150,12 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public isSaveButtonDisabled(): boolean {
     return this.questionForm.invalid;
+  }
+
+  public uncheckLanguage(language: string): void {
+    if (language === this.questionForm.value.code.language) {
+      this.questionForm.get('code')?.get('language')?.setValue(null);
+    }
   }
 
   public onSubmit(): void {
