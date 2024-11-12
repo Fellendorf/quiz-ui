@@ -63,6 +63,7 @@
     }
 
     p,
+    ul,
     app-code {
       margin-bottom: 20px;
     }
@@ -72,6 +73,15 @@
 
       &.explanation {
         white-space: pre-wrap;
+      }
+    }
+
+    ul {
+      margin-left: 25px;
+      list-style-type: disc;
+      a {
+        color: $text-light;
+        text-decoration: none;
       }
     }
 

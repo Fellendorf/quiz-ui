@@ -76,6 +76,33 @@
         appTextareaAutoresize
       ></textarea>
 
+      <label for="links"> Полезные ссылки: </label>
+      <div id="links" formArrayName="links">
+        @for (link of links.controls; track link) {
+          <div class="link-container">
+            <textarea
+              type="text"
+              [formControlName]="$index"
+              appTextareaAutoresize
+            ></textarea>
+            <button
+              class="app-button yellow"
+              type="button"
+              (click)="removeLink($index)"
+            >
+              <img src="trash-basket.svg" />
+            </button>
+          </div>
+        }
+        <button
+          class="app-button yellow"
+          type="button"
+          (click)="addEmptyLink()"
+        >
+          {{ "Добавить ссылку" | uppercase }}
+        </button>
+      </div>
+
       <label for="difficult"> Сложность: </label>
       <div id="difficult">
         @for (

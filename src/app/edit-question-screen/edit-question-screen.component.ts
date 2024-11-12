@@ -71,6 +71,9 @@ export class EditQuestionScreenComponent implements OnInit {
           Validators.required,
         ),
         explanation: [question.explanation],
+        links: this.formBuilder.array(
+          question.links?.map((link) => this.formBuilder.control(link)) ?? [],
+        ),
         reviewed: [question.reviewed],
         difficult: [question.difficult],
       });
@@ -105,6 +108,18 @@ export class EditQuestionScreenComponent implements OnInit {
       });
   }
 
+  get links() {
+    return this.questionForm.get('links') as FormArray;
+  }
+
+  public addEmptyLink(): void {
+    this.links.push(this.formBuilder.control(''));
+  }
+
+  public removeLink(index: number): void {
+    this.links.removeAt(index);
+  }
+
   get options() {
     return this.questionForm.get('options') as FormArray;
   }
@@ -135,6 +150,11 @@ export class EditQuestionScreenComponent implements OnInit {
 
   public onSubmit(): void {
     const modifiedQuestion = this.questionForm.value as Question;
+    Object.keys(modifiedQuestion).forEach((key) => {
+      if (!modifiedQuestion[key as keyof Question]) {
+        delete modifiedQuestion[key as keyof Question];
+      }
+    });
     // TODO: try to move the logic below to the form control:
     if (!modifiedQuestion.code?.text && !modifiedQuestion.code?.language) {
       delete modifiedQuestion.code;

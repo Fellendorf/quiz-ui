@@ -51,9 +51,20 @@
         {{ userAnswerText() }}
       </p>
     }
+
     @if (q.explanation) {
       <h4>Объяснение:</h4>
       <p class="explanation">{{ q.explanation }}</p>
+    }
+    @if (q.links?.length) {
+      <h4>Почитать:</h4>
+      <ul>
+        @for (link of q.links; track link) {
+          <li>
+            <a [href]="link" target="_blank">{{ formatLinkView(link) }}</a>
+          </li>
+        }
+      </ul>
     }
 
     @if (isAdmin()) {

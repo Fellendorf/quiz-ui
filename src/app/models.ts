@@ -11,8 +11,9 @@ export interface Question {
   code?: Code;
   options: Option[];
   explanation?: string;
-  reviewed?: boolean;
+  links?: string[];
   difficult?: Difficulty;
+  reviewed?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
