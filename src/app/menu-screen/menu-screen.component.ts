@@ -39,14 +39,19 @@ export class MenuScreenComponent {
   public topic = this.quizService.topic;
   public count = this.quizService.count;
 
-  public getTopicOptions(topicData: TopicData[]): Option<string>[] {
+  public getTopicOptions(
+    topicData: TopicData[],
+  ): Option<string, string, number>[] {
     return topicData.map(({ name, questionCount }) => ({
-      name,
-      info: String(questionCount),
+      id: name,
+      text: name,
+      info: questionCount,
     }));
   }
 
-  public getCountOptions(topicData: TopicData[]): Option<number>[] {
+  public getCountOptions(
+    topicData: TopicData[],
+  ): Option<number, number, null>[] {
     const defaultOptions = [10, 20, 40];
 
     const questionCount = topicData.find(
@@ -59,12 +64,14 @@ export class MenuScreenComponent {
       );
       return filteredOptions.length
         ? filteredOptions.map((option) => ({
-            name: option,
+            id: option,
+            text: option,
           }))
-        : [{ name: questionCount }];
+        : [{ id: questionCount, text: questionCount }];
     }
     return defaultOptions.map((option) => ({
-      name: option,
+      id: option,
+      text: option,
     }));
   }
 
@@ -78,7 +85,7 @@ export class MenuScreenComponent {
 
   private isPreviousOptionInCurrentOptions(topicData: TopicData[]) {
     const currentOptions = this.getCountOptions(topicData).map(
-      ({ name }) => name,
+      ({ text }) => text,
     );
     const previousOption = this.count();
 

@@ -6,33 +6,33 @@ import {
   Output,
 } from '@angular/core';
 
-export type Option<T> = {
-  name: T;
-  info?: string;
+export type Option<ID, TE, IN> = {
+  id: ID;
+  text: TE;
+  info?: IN;
 };
 
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OptionsComponent<T> {
+export class OptionsComponent<ID, TE, IN> {
   @Input({ required: true })
   public name!: string;
 
   @Input({ required: true })
-  public options!: Option<T>[];
+  public options!: Option<ID, TE, IN>[];
 
   @Input()
-  public default?: T | null;
+  public default?: ID | null;
 
-  public selected?: T;
+  public selected?: ID;
 
   @Output()
-  public optionChange = new EventEmitter<T>();
+  public optionChange = new EventEmitter<ID>();
 
   public ngOnInit(): void {
     if (this.default) {
@@ -40,12 +40,12 @@ export class OptionsComponent<T> {
     }
   }
 
-  public selectOption(option: T): void {
-    this.selected = option;
-    this.optionChange.emit(option);
+  public selectOption(optionId: ID): void {
+    this.selected = optionId;
+    this.optionChange.emit(optionId);
   }
 
-  public isSelected(option: T): boolean {
-    return option === this.selected;
+  public isSelected(optionId: ID): boolean {
+    return optionId === this.selected;
   }
 }

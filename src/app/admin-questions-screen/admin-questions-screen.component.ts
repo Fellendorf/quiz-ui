@@ -40,17 +40,18 @@ export class AdminQuestionsScreenComponent {
     }),
   );
 
-  public getQuestionOptions(questions: Question[]): Option<string>[] {
-    return questions.map(({ text }, index) => ({
-      name: text,
-      info: String(index + 1),
+  public getQuestionOptions(
+    questions: Question[],
+  ): Option<string, string, number>[] {
+    return questions.map(({ _id, text }, index) => ({
+      id: _id!,
+      text,
+      info: index + 1,
     }));
   }
 
-  public setQuestion(quesions: Question[], selectedQuestionText: string): void {
-    this.question.set(
-      quesions.find(({ text }) => text === selectedQuestionText) || null,
-    );
+  public setQuestion(quesions: Question[], questionId: string): void {
+    this.question.set(quesions.find(({ _id }) => _id === questionId) || null);
   }
 
   public goToEditQuestionScreen() {
@@ -59,8 +60,5 @@ export class AdminQuestionsScreenComponent {
       ROUTE_PATHES.EDIT_QUESTION,
       question ? question?._id : 'new-question',
     ]);
-    // if (question) {
-    //   this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, question._id]);
-    // }
   }
 }
