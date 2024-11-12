@@ -78,6 +78,10 @@ export class ResultsScreenComponent {
     return this.questionIndex() === index;
   }
 
+  public formatLinkView(link: string): string {
+    return link.match(/^(https:\/\/.*?)\//)?.[1] || link;
+  }
+
   public goToEditQuestionScreen() {
     this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, this.question()._id]);
   }
