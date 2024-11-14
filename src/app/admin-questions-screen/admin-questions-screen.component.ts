@@ -43,11 +43,19 @@ export class AdminQuestionsScreenComponent {
   public getQuestionOptions(
     questions: Question[],
   ): Option<string, string, number>[] {
-    return questions.map(({ _id, text }, index) => ({
-      id: _id!,
-      text,
-      info: index + 1,
-    }));
+    // TODO: 2 maps and 1 sort bring not very good performance
+    // fix it later
+    return questions
+      .map(({ _id, text, subtopic }) => ({
+        id: _id!,
+        text: `${subtopic || 'W/o subtopic'}:\n${text}`,
+      }))
+      .toSorted((qa, qb) => qa.text.localeCompare(qb.text))
+      .map(({ id, text }, index) => ({
+        id,
+        text,
+        info: index + 1,
+      }));
   }
 
   public setQuestion(quesions: Question[], questionId: string): void {

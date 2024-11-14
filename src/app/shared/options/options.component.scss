@@ -8,6 +8,10 @@
     justify-content: center;
     width: 100%;
 
+    span {
+      white-space: pre-wrap;
+    }
+
     &:has(.info) {
       justify-content: space-between;
     }
