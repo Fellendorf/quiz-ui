@@ -9,7 +9,11 @@
       <input id="topic" type="text" formControlName="topic" />
 
       <label for="subtopic"> Подтема: </label>
-      <input id="subtopic" type="text" formControlName="subtopic" />
+      <textarea
+        id="subtopic"
+        formControlName="subtopic"
+        appTextareaAutoresize
+      ></textarea>
 
       <label for="question-text"> Вопрос: </label>
       <textarea
