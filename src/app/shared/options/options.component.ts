@@ -29,6 +29,9 @@ export class OptionsComponent<ID, TE, IN> {
   @Input()
   public default?: ID | null;
 
+  @Input()
+  public hoverHandler?: (id: ID) => void;
+
   public selected?: ID;
 
   @Output()
