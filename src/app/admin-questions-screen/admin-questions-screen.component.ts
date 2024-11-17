@@ -10,6 +10,7 @@ import { Option, OptionsComponent } from '../shared/options/options.component';
 import { ApiService } from '../core/api.service';
 import { Question } from '../models';
 import { ROUTE_PATHES } from '../app.routes';
+import { CodeComponent } from '../shared/code/code.component';
 
 @Component({
   selector: 'app-admin-questions-screen',
@@ -20,6 +21,7 @@ import { ROUTE_PATHES } from '../app.routes';
     LoadingScreenComponent,
     OptionsComponent,
     HeaderComponent,
+    CodeComponent,
   ],
   templateUrl: './admin-questions-screen.component.html',
   styleUrl: './admin-questions-screen.component.scss',
@@ -29,7 +31,9 @@ export class AdminQuestionsScreenComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly apiService = inject(ApiService);
 
-  public question = signal<Question | null>(null);
+  public questionToPreview = signal<Question | null>(null);
+
+  public questionId = signal<string | null>(null);
 
   public questionsLoadingState$ = this.activatedRoute.params.pipe(
     switchMap((params) => {
@@ -58,15 +62,26 @@ export class AdminQuestionsScreenComponent {
       }));
   }
 
-  public setQuestion(quesions: Question[], questionId: string): void {
-    this.question.set(quesions.find(({ _id }) => _id === questionId) || null);
+  public setQuestionId(questionId: string): void {
+    this.questionId.set(questionId);
+  }
+
+  public displayPreviewQuestion(
+    questionId: string,
+    quesions: Question[],
+  ): void {
+    const question = quesions.find(({ _id }) => _id === questionId)!;
+    this.questionToPreview.set(question);
+  }
+
+  public hideQuestionPreview() {
+    this.questionToPreview.set(null);
   }
 
   public goToEditQuestionScreen() {
-    const question = this.question();
     this.router.navigate([
       ROUTE_PATHES.EDIT_QUESTION,
-      question ? question?._id : 'new-question',
+      this.questionId() || 'new-question',
     ]);
   }
 }

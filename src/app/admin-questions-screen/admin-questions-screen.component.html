@@ -9,6 +9,14 @@
     }
     @case ("loaded") {
       @let questions = state.data;
+      <div style="position: absolute; top: 0; left: 0">
+        @if (questionToPreview()) {
+          @let question = questionToPreview();
+          @if (question && question.code) {
+            <app-code [code]="question.code" />
+          }
+        }
+      </div>
 
       <app-header goToOnClick="menu" topText="Администрирование вопросов:" />
       <main>
@@ -16,13 +24,16 @@
           <app-options
             name="select-question"
             [options]="getQuestionOptions(questions)"
-            (optionChange)="setQuestion(questions, $event)"
-          />
+            (optionChange)="setQuestionId($event)"
+            (optionMounseOver)="displayPreviewQuestion($event, questions)"
+            (optionMounseOut)="hideQuestionPreview()"
+          >
+          </app-options>
         </div>
         <div class="buttons-container">
           <button
             class="app-button yellow"
-            [disabled]="!question()"
+            [disabled]="!questionId()"
             (click)="goToEditQuestionScreen()"
           >
             {{ "Редактировать вопрос" | uppercase }}
