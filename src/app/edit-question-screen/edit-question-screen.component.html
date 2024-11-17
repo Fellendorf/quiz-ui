@@ -4,7 +4,7 @@
 />
 <main>
   @if (questionForm) {
-    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="questionForm">
       <label for="topic"> Тема: </label>
       <input id="topic" type="text" formControlName="topic" />
 
@@ -144,13 +144,25 @@
           </label>
         }
       </div>
-      <button
-        class="app-button yellow"
-        [disabled]="isSaveButtonDisabled()"
-        type="submit"
-      >
-        {{ "Сохранить" | uppercase }}
-      </button>
+
+      <footer>
+        <button
+          class="app-button yellow"
+          [disabled]="isSaveButtonDisabled()"
+          type="button"
+          (click)="submitQuestion(true)"
+        >
+          {{ "Сохранить" | uppercase }}
+        </button>
+        <button
+          class="app-button yellow"
+          [disabled]="isSaveButtonDisabled()"
+          type="submit"
+          (click)="submitQuestion(false)"
+        >
+          {{ "Сохранить и выйти" | uppercase }}
+        </button>
+      </footer>
     </form>
   }
 </main>

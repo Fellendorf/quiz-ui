@@ -1,4 +1,4 @@
-import { UpperCasePipe } from '@angular/common';
+import { Location, UpperCasePipe } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -32,6 +32,7 @@ import { iif, of, switchMap } from 'rxjs';
 export class EditQuestionScreenComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly location = inject(Location);
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
 
@@ -158,7 +159,7 @@ export class EditQuestionScreenComponent implements OnInit {
     }
   }
 
-  public onSubmit(): void {
+  public submitQuestion(displayMessage: boolean): void {
     const modifiedQuestion = this.questionForm.value as Question;
     Object.keys(modifiedQuestion).forEach((key) => {
       if (!modifiedQuestion[key as keyof Question]) {
@@ -177,8 +178,12 @@ export class EditQuestionScreenComponent implements OnInit {
       this.apiService.createQuestion(modifiedQuestion),
       this.apiService.updateQuestion(modifiedQuestion),
     ).subscribe((response) => {
-      if (response?.message) {
-        alert(response.message);
+      if (displayMessage) {
+        if (response?.message) {
+          alert(response.message);
+        }
+      } else {
+        this.location.back();
       }
     });
   }
