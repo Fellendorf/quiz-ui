@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, switchMap, tap } from 'rxjs';
 
 import { toLoadingStateStream } from '../shared/loading-state/loading-state';
@@ -14,6 +14,7 @@ import { EventService } from '../core/event.service';
 import { QuizService } from '../core/quiz.service';
 import { GlobalEvents, Question } from '../models';
 import { ROUTE_PATHES } from '../app.routes';
+import { shuffle } from '../shared/utils';
 
 @Component({
   selector: 'app-quiz',
@@ -25,7 +26,6 @@ import { ROUTE_PATHES } from '../app.routes';
     ProgressBarComponent,
     HeaderComponent,
     AsyncPipe,
-    RouterLink,
   ],
   templateUrl: './quiz-screen.component.html',
   styleUrl: './quiz-screen.component.scss',
@@ -85,22 +85,7 @@ export class QuizScreenComponent {
 
   private shuffleOptions(questions: Question[]) {
     return questions.map((question) => {
-      const options = question.options;
-      /*
-      Перемешивание вариантов ответов с помощью алгоритма Фишера-Йейтса:
-        - Цикл идет от последнего элемента к первому.
-        - Для каждого элемента выбирается случайный индекс от 0 до текущего.
-        - Элементы с текущим и случайным индексами меняются местами. 
-      */
-      const shuffledOptions = [...options];
-      for (let i = shuffledOptions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledOptions[i], shuffledOptions[j]] = [
-          shuffledOptions[j],
-          shuffledOptions[i],
-        ];
-      }
-      return { ...question, options: shuffledOptions };
+      return { ...question, options: shuffle(question.options) };
     });
   }
 }
