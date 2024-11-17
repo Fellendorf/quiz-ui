@@ -56,23 +56,17 @@ export class MenuScreenComponent {
 
     const questionCount = topicData.find(
       ({ name }) => name === this.topic(),
-    )?.questionCount;
+    )!.questionCount;
 
-    if (questionCount) {
-      const filteredOptions = defaultOptions.filter(
-        (option) => option <= questionCount,
-      );
-      return filteredOptions.length
-        ? filteredOptions.map((option) => ({
-            id: option,
-            text: option,
-          }))
-        : [{ id: questionCount, text: questionCount }];
-    }
-    return defaultOptions.map((option) => ({
-      id: option,
-      text: option,
-    }));
+    return [
+      ...defaultOptions
+        .filter((option) => option < questionCount)
+        .map((option) => ({
+          id: option,
+          text: option,
+        })),
+      { id: questionCount, text: questionCount },
+    ];
   }
 
   public isStartButtonDisabled(topicData: TopicData[]): boolean {
