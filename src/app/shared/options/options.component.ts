@@ -29,13 +29,16 @@ export class OptionsComponent<ID, TE, IN> {
   @Input()
   public default?: ID | null;
 
-  @Input()
-  public hoverHandler?: (id: ID) => void;
-
   public selected?: ID;
 
   @Output()
   public optionChange = new EventEmitter<ID>();
+
+  @Output()
+  public optionMounseOver = new EventEmitter<ID>();
+
+  @Output()
+  public optionMounseOut = new EventEmitter<ID>();
 
   public ngOnInit(): void {
     if (this.default) {
@@ -50,5 +53,13 @@ export class OptionsComponent<ID, TE, IN> {
 
   public isSelected(optionId: ID): boolean {
     return optionId === this.selected;
+  }
+
+  public handleOptionMouseOver(id: ID): void {
+    this.optionMounseOver.emit(id);
+  }
+
+  public handleOptionMouseOut(id: ID): void {
+    this.optionMounseOut.emit(id);
   }
 }

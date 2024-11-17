@@ -3,7 +3,11 @@
   @let text = option.text;
   @let info = option.info;
 
-  <label class="app-button gray" (mouseover)="hoverHandler?.(id)">
+  <label
+    class="app-button gray"
+    (mouseover)="handleOptionMouseOver(id)"
+    (mouseout)="handleOptionMouseOut(id)"
+  >
     <input
       type="radio"
       [name]="name"
