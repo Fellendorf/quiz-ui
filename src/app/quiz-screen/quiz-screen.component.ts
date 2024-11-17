@@ -49,6 +49,7 @@ export class QuizScreenComponent {
       const count = params['count'];
       return toLoadingStateStream<Question[]>(
         this.apiService.getQuestions(topic, count).pipe(
+          map((questions) => shuffle(questions)),
           map((questions) => this.shuffleOptions(questions)),
           tap((questions) => {
             this.quizService.questions.set(questions);
