@@ -14,13 +14,23 @@ export class AppComponent {
   public isMobileLandscapeOrientation$ = merge(
     fromEvent(window, 'load'),
     fromEvent(window, 'orientationchange'),
-  ).pipe(map(() => this.isMobileLandscapeOrientation()));
+  ).pipe(
+    map(() =>
+      this.isMobileLandscapeOrientation(
+        navigator.userAgent,
+        screen.orientation.type,
+      ),
+    ),
+  );
 
-  private isMobileLandscapeOrientation() {
+  private isMobileLandscapeOrientation(
+    userAgent: string,
+    orientationType: string,
+  ) {
     return (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
-        navigator.userAgent,
-      ) && /landscape/i.test(screen.orientation.type)
+        userAgent,
+      ) && /landscape/i.test(orientationType)
     );
   }
 }
