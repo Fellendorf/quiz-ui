@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { fromEvent, map, merge } from 'rxjs';
-import { NAVIGATOR, SCREEN } from './shared/customTokens';
+import { NAVIGATOR, SCREEN, WINDOW } from './shared/customTokens';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +12,13 @@ import { NAVIGATOR, SCREEN } from './shared/customTokens';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  private readonly window = inject(WINDOW);
   private readonly navigator = inject(NAVIGATOR);
   private readonly screen = inject(SCREEN);
 
   public isMobileLandscapeOrientation$ = merge(
-    fromEvent(window, 'load'),
-    fromEvent(window, 'orientationchange'),
+    fromEvent(this.window, 'load'),
+    fromEvent(this.window, 'orientationchange'),
   ).pipe(
     map(() =>
       this.isMobileLandscapeOrientation(

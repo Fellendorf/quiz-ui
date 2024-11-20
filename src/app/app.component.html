@@ -2,6 +2,7 @@
   <p class="is-not-suppoted-message">Landscape orientation is not supported</p>
 }
 <div
+  class="main"
   [style.display]="(isMobileLandscapeOrientation$ | async) ? 'none' : 'block'"
 >
   <router-outlet />
