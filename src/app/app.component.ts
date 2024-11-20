@@ -1,7 +1,8 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { fromEvent, map, merge } from 'rxjs';
+import { NAVIGATOR, SCREEN } from './shared/customTokens';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,17 @@ import { fromEvent, map, merge } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  private readonly navigator = inject(NAVIGATOR);
+  private readonly screen = inject(SCREEN);
+
   public isMobileLandscapeOrientation$ = merge(
     fromEvent(window, 'load'),
     fromEvent(window, 'orientationchange'),
   ).pipe(
     map(() =>
       this.isMobileLandscapeOrientation(
-        navigator.userAgent,
-        screen.orientation.type,
+        this.navigator.userAgent,
+        this.screen.orientation.type,
       ),
     ),
   );
