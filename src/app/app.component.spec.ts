@@ -1,103 +1,119 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
-
-  let isMobileLandscapeOrientationMethod: (
-    userAgent: string,
-    orientation: string,
-  ) => boolean;
-
-  let expectFromIsMobileLandscapeOrientationMethod: (
-    userAgent: string,
-    orientationType: string,
-    isTrue: boolean,
-  ) => void;
+  let compiled: HTMLElement;
 
   const {
     mobileUserAgents,
     desktopUserAgents,
     landscapeOrientationTypes,
     portraitOrientationTypes,
+    expectFromIsMobileLandscapeOrientationMethod,
   } = helpers();
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-
-    isMobileLandscapeOrientationMethod =
-      component['isMobileLandscapeOrientation'];
-
-    expectFromIsMobileLandscapeOrientationMethod = (
-      userAgent,
-      orientation,
-      isTrue,
-    ) => {
-      expect(component['isMobileLandscapeOrientation'](userAgent, orientation))
-        .withContext(`Orientation: ${orientation}; User Agent: ${userAgent}`)
-        [isTrue ? 'toBeTrue' : 'toBeFalse']();
-    };
+    compiled = fixture.nativeElement as HTMLElement;
   });
 
   it('should create the app', () => {
     expect(component).toBeDefined();
   });
 
-  it('private "isMobileLandscapeOrientation" method shoule return true if it is a mobile device and orientation is landscape', () => {
-    mobileUserAgents.forEach((userAgent) => {
-      landscapeOrientationTypes.forEach((orientation) => {
-        expectFromIsMobileLandscapeOrientationMethod(
-          userAgent,
-          orientation,
-          true,
-        );
-      });
+  describe('If "isMobileLandscapeOrientation$" observable returns true', () => {
+    beforeEach(() => {
+      component.isMobileLandscapeOrientation$ = of(true);
+      fixture.detectChanges();
+    });
+
+    it('The "Landscape orientation is not supported" message should be displayed', () => {
+      expect(
+        compiled.querySelector('.is-not-suppoted-message')?.textContent,
+      ).toContain('Landscape orientation is not supported');
+    });
+
+    it('Main application will not be displayed', () => {
+      const mainDivElement = compiled.querySelector('.main') as HTMLDivElement;
+
+      expect(mainDivElement.style.display).toBe('none');
     });
   });
 
-  it('private "isMobileLandscapeOrientation" method shoule return false if it is a not mobile device or orientation is not landscape', () => {
-    mobileUserAgents.forEach((userAgent) => {
-      portraitOrientationTypes.forEach((orientation) => {
-        expectFromIsMobileLandscapeOrientationMethod(
-          userAgent,
-          orientation,
-          false,
-        );
-      });
+  describe('If "isMobileLandscapeOrientation$" observable returns false', () => {
+    beforeEach(() => {
+      component.isMobileLandscapeOrientation$ = of(false);
+      fixture.detectChanges();
     });
 
-    desktopUserAgents.forEach((userAgent) => {
-      landscapeOrientationTypes.forEach((orientation) => {
-        expectFromIsMobileLandscapeOrientationMethod(
-          userAgent,
-          orientation,
-          false,
-        );
-      });
-      portraitOrientationTypes.forEach((orientation) => {
-        expectFromIsMobileLandscapeOrientationMethod(
-          userAgent,
-          orientation,
-          false,
-        );
-      });
+    it('The "Landscape orientation is not supported" message should not be displayed', () => {
+      expect(
+        compiled.querySelector('.is-not-suppoted-message')?.textContent,
+      ).toBeUndefined();
+    });
+
+    it('Main application will not be displayed', () => {
+      const mainDivElement = compiled.querySelector('.main') as HTMLDivElement;
+
+      expect(mainDivElement.style.display).toBeDefined();
+      expect(mainDivElement.style.display).not.toBe('none');
     });
   });
 
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement as HTMLElement;
-  //   expect(compiled.querySelector('h1')?.textContent).toContain(
-  //     'Hello, quiz-ui',
-  //   );
-  // });
+  describe('private "isMobileLandscapeOrientation" method should', () => {
+    it('Return true if it is a mobile device and orientation is landscape', () => {
+      mobileUserAgents.forEach((userAgent) => {
+        landscapeOrientationTypes.forEach((orientation) => {
+          expectFromIsMobileLandscapeOrientationMethod(
+            component,
+            userAgent,
+            orientation,
+            true,
+          );
+        });
+      });
+    });
+
+    it('Return false if it is a not mobile device or orientation is not landscape', () => {
+      mobileUserAgents.forEach((userAgent) => {
+        portraitOrientationTypes.forEach((orientation) => {
+          expectFromIsMobileLandscapeOrientationMethod(
+            component,
+            userAgent,
+            orientation,
+            false,
+          );
+        });
+      });
+
+      desktopUserAgents.forEach((userAgent) => {
+        landscapeOrientationTypes.forEach((orientation) => {
+          expectFromIsMobileLandscapeOrientationMethod(
+            component,
+            userAgent,
+            orientation,
+            false,
+          );
+        });
+        portraitOrientationTypes.forEach((orientation) => {
+          expectFromIsMobileLandscapeOrientationMethod(
+            component,
+            userAgent,
+            orientation,
+            false,
+          );
+        });
+      });
+    });
+  });
 });
 
 function helpers() {
@@ -165,7 +181,27 @@ function helpers() {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 YaBrowser/24.10.1.669 Yowser/2.5 Safari/537.36',
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 YaBrowser/24.10.1.669 Yowser/2.5 Safari/537.36]',
     ],
-    landscapeOrientationTypes: ['landscape-primary', 'landscape-secondary'],
-    portraitOrientationTypes: ['portrait-primary', 'portrait-secondary'],
+    landscapeOrientationTypes: [
+      'landscape-primary',
+      'landscape-secondary',
+    ] as OrientationType[],
+    portraitOrientationTypes: [
+      'portrait-primary',
+      'portrait-secondary',
+    ] as OrientationType[],
+    expectFromIsMobileLandscapeOrientationMethod: (
+      component: AppComponent,
+      userAgent: string,
+      orientationType: string,
+      isShouldBeTrue: boolean,
+    ) => {
+      expect(
+        component['isMobileLandscapeOrientation'](userAgent, orientationType),
+      )
+        .withContext(
+          `Orientation: ${orientationType}; User Agent: ${userAgent}`,
+        )
+        [isShouldBeTrue ? 'toBeTrue' : 'toBeFalse']();
+    },
   };
 }
