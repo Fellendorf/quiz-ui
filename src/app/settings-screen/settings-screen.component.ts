@@ -16,15 +16,14 @@ export class SettingsScreenComponent {
 
   public isAdmin = this.authService.isAdmin;
 
-  // Temp solution, TODO: refactor this
   public toggleIsAdmin() {
     if (this.isAdmin()) {
+      this.authService.unauthenticateAdmin();
+    } else {
       const password = prompt('Enter the admin password');
       if (password) {
         this.authService.authenticateAdmin(password);
       }
-    } else {
-      this.authService.unauthenticateAdmin();
     }
   }
 }
