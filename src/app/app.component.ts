@@ -1,7 +1,8 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { fromEvent, map, merge } from 'rxjs';
+import { NAVIGATOR, SCREEN, WINDOW } from './shared/customTokens';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +12,30 @@ import { fromEvent, map, merge } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  public isMobileLandscapeOrientation$ = merge(
-    fromEvent(window, 'load'),
-    fromEvent(window, 'orientationchange'),
-  ).pipe(map(() => this.isMobileLandscapeOrientation()));
+  private readonly window = inject(WINDOW);
+  private readonly navigator = inject(NAVIGATOR);
+  private readonly screen = inject(SCREEN);
 
-  private isMobileLandscapeOrientation() {
+  public isMobileLandscapeOrientation$ = merge(
+    fromEvent(this.window, 'load'),
+    fromEvent(this.window, 'orientationchange'),
+  ).pipe(
+    map(() =>
+      this.isMobileLandscapeOrientation(
+        this.navigator.userAgent,
+        this.screen.orientation.type,
+      ),
+    ),
+  );
+
+  private isMobileLandscapeOrientation(
+    userAgent: string,
+    orientationType: string,
+  ) {
     return (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(
-        navigator.userAgent,
-      ) && /landscape/i.test(screen.orientation.type)
+        userAgent,
+      ) && /landscape/i.test(orientationType)
     );
   }
 }
