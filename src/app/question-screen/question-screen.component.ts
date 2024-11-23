@@ -13,7 +13,7 @@ import {
 import { HeaderComponent } from '../shared/header/header.component';
 import { TextareaAutoresizeDirective } from '../shared/textarea-autoresize.directive';
 import { ApiService } from '../core/api.service';
-import { ROUTE_PATHES } from '../app.routes';
+import { ROUTE_PATHES } from '../models';
 import { Question } from '../models';
 import { iif, of, switchMap } from 'rxjs';
 
@@ -26,10 +26,10 @@ import { iif, of, switchMap } from 'rxjs';
     TextareaAutoresizeDirective,
     HeaderComponent,
   ],
-  templateUrl: './edit-question-screen.component.html',
-  styleUrl: './edit-question-screen.component.scss',
+  templateUrl: './question-screen.component.html',
+  styleUrl: './question-screen.component.scss',
 })
-export class EditQuestionScreenComponent implements OnInit {
+export class QuestionScreenComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly location = inject(Location);
@@ -89,7 +89,7 @@ export class EditQuestionScreenComponent implements OnInit {
     this.activatedRoute.params
       .pipe(
         switchMap((params) => {
-          if (params['id'] === 'new-question') {
+          if (params['id'] === 'new') {
             return of({
               topic: '',
               text: '',

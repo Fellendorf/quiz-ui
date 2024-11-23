@@ -70,7 +70,7 @@
     @if (isAdmin()) {
       <h4>Вопрос верифицирован:</h4>
       <p>{{ q.reviewed ? "Да" : "Нет" }}</p>
-      <button class="app-button gray" (click)="goToEditQuestionScreen()">
+      <button class="app-button gray" (click)="goToQuestionScreen()">
         {{ "Редактировать вопрос" | uppercase }}
       </button>
     }

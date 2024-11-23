@@ -23,11 +23,11 @@
           <button
             class="app-button yellow"
             [disabled]="!question()"
-            (click)="goToEditQuestionScreen()"
+            (click)="goToQuestionScreen('edit')"
           >
             {{ "Редактировать вопрос" | uppercase }}
           </button>
-          <button class="app-button yellow" (click)="goToEditQuestionScreen()">
+          <button class="app-button yellow" (click)="goToQuestionScreen('new')">
             {{ "Создать вопрос" | uppercase }}
           </button>
         </div>

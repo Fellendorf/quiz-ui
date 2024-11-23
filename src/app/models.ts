@@ -39,3 +39,12 @@ export enum GlobalEvents {
   answer = 'answer',
   questionChanged = 'questionChanged',
 }
+
+export enum ROUTE_PATHES {
+  MENU = '',
+  QUIZ = 'quiz',
+  RESULTS = 'results',
+  SETTINGS = 'settings',
+  QUESTION = 'question',
+  ADMIN_QUESTIONS = 'admin-questions',
+}

@@ -3,17 +3,9 @@ import { MenuScreenComponent } from './menu-screen/menu-screen.component';
 import { QuizScreenComponent } from './quiz-screen/quiz-screen.component';
 import { ResultsScreenComponent } from './results-screen/results-screen.component';
 import { SettingsScreenComponent } from './settings-screen/settings-screen.component';
-import { EditQuestionScreenComponent } from './edit-question-screen/edit-question-screen.component';
+import { QuestionScreenComponent } from './question-screen/question-screen.component';
 import { AdminQuestionsScreenComponent } from './admin-questions-screen/admin-questions-screen.component';
-
-export enum ROUTE_PATHES {
-  MENU = '',
-  QUIZ = 'quiz',
-  RESULTS = 'results',
-  SETTINGS = 'settings',
-  EDIT_QUESTION = 'edit-question',
-  ADMIN_QUESTIONS = 'admin-questions',
-}
+import { ROUTE_PATHES } from './models';
 
 export const routes: Routes = [
   {
@@ -33,8 +25,8 @@ export const routes: Routes = [
     component: SettingsScreenComponent,
   },
   {
-    path: `${ROUTE_PATHES.EDIT_QUESTION}/:id`,
-    component: EditQuestionScreenComponent,
+    path: `${ROUTE_PATHES.QUESTION}/:id`,
+    component: QuestionScreenComponent,
   },
   {
     path: `${ROUTE_PATHES.ADMIN_QUESTIONS}/:topic`,
