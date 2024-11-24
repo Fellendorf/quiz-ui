@@ -9,7 +9,7 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { Option, OptionsComponent } from '../shared/options/options.component';
 import { ApiService } from '../core/api.service';
 import { Question } from '../models';
-import { ROUTE_PATHES } from '../app.routes';
+import { ROUTE_PATHES } from '../models';
 
 @Component({
   selector: 'app-admin-questions-screen',
@@ -62,11 +62,10 @@ export class AdminQuestionsScreenComponent {
     this.question.set(quesions.find(({ _id }) => _id === questionId) || null);
   }
 
-  public goToEditQuestionScreen() {
-    const question = this.question();
+  public goToQuestionScreen(type: 'new' | 'edit'): void {
     this.router.navigate([
-      ROUTE_PATHES.EDIT_QUESTION,
-      question ? question?._id : 'new-question',
+      ROUTE_PATHES.QUESTION,
+      type === 'edit' ? this.question()?._id : 'new',
     ]);
   }
 }

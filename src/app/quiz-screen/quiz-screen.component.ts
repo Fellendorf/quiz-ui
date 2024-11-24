@@ -13,7 +13,7 @@ import { ApiService } from '../core/api.service';
 import { EventService } from '../core/event.service';
 import { QuizService } from '../core/quiz.service';
 import { GlobalEvents, Question } from '../models';
-import { ROUTE_PATHES } from '../app.routes';
+import { ROUTE_PATHES } from '../models';
 import { shuffle } from '../shared/utils';
 
 @Component({

@@ -8,7 +8,7 @@ import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { Option, OptionsComponent } from '../shared/options/options.component';
-import { ROUTE_PATHES } from '../app.routes';
+import { ROUTE_PATHES } from '../models';
 import { TopicData } from '../models';
 
 @Component({

@@ -13,7 +13,7 @@ import { AuthService } from '../core/auth.service';
 })
 export class HeaderStubComponent {}
 
-fdescribe('SettingsScreenComponent', () => {
+describe('SettingsScreenComponent', () => {
   let componentInstance: SettingsScreenComponent;
   let fixture: ComponentFixture<SettingsScreenComponent>;
   let template: HTMLElement;

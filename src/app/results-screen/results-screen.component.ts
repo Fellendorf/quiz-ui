@@ -12,7 +12,7 @@ import { CodeComponent } from '../shared/code/code.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
-import { ROUTE_PATHES } from '../app.routes';
+import { ROUTE_PATHES } from '../models';
 import { Option } from '../models';
 
 @Component({
@@ -82,7 +82,7 @@ export class ResultsScreenComponent {
     return link.match(/^(https:\/\/.*?)\//)?.[1] || link;
   }
 
-  public goToEditQuestionScreen() {
-    this.router.navigate([ROUTE_PATHES.EDIT_QUESTION, this.question()._id]);
+  public goToQuestionScreen() {
+    this.router.navigate([ROUTE_PATHES.QUESTION, this.question()._id]);
   }
 }
