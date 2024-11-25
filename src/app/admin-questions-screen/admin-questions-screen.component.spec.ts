@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter, Router } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { of } from 'rxjs';
 
 import { AdminQuestionsScreenComponent } from './admin-questions-screen.component';
 import { ApiService } from '../core/api.service';
@@ -18,6 +19,7 @@ import {
 describe('AdminQuestionsScreenComponent', () => {
   let componentInstance: AdminQuestionsScreenComponent;
   let fixture: ComponentFixture<AdminQuestionsScreenComponent>;
+  let template: HTMLElement;
 
   const questions: Question[] = [
     {
@@ -39,15 +41,8 @@ describe('AdminQuestionsScreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AdminQuestionsScreenComponent,
-        HeaderStubComponent,
-        OptionsStubComponent,
-        LodaingScreenStubComponent,
-      ],
+      imports: [AdminQuestionsScreenComponent],
       providers: [
-        provideRouter([]),
-        provideHttpClient(),
         { provide: Router, useValue: routerMock },
         {
           provide: ActivatedRoute,
@@ -58,15 +53,57 @@ describe('AdminQuestionsScreenComponent', () => {
           useValue: apiServiceMock,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AdminQuestionsScreenComponent, {
+        set: {
+          imports: [
+            AsyncPipe,
+            UpperCasePipe,
+            LodaingScreenStubComponent,
+            HeaderStubComponent,
+            OptionsStubComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(AdminQuestionsScreenComponent);
     componentInstance = fixture.componentInstance;
+    template = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
   });
 
-  it('Should create', () => {
-    expect(componentInstance).toBeTruthy();
+  it('If "questionsLoadingState$" returns "loading" state, then "Loading screen" is displayed', () => {
+    componentInstance.questionsLoadingState$ = of({
+      type: 'loading',
+    });
+    fixture.detectChanges();
+
+    expect(template.querySelector('app-loading-screen')).toBeTruthy();
+    expect(template.querySelector('app-header')).toBeFalsy();
+    expect(template.querySelector('app-options')).toBeFalsy();
+  });
+
+  it('If "questionsLoadingState$" returns "loaded" state, then loaded data and page displayed', () => {
+    componentInstance.questionsLoadingState$ = of({
+      type: 'loaded',
+      data: [],
+    });
+    fixture.detectChanges();
+
+    expect(template.querySelector('app-loading-screen')).toBeFalsy();
+    expect(template.querySelector('app-header')).toBeTruthy();
+    expect(template.querySelector('app-options')).toBeTruthy();
+  });
+
+  xit('TODO: If "questionsLoadingState$" returns "error" state, then "Some Error Component" should be displayed', () => {
+    componentInstance.questionsLoadingState$ = of({
+      type: 'error',
+      error: new Error(''),
+    });
+    fixture.detectChanges();
+
+    expect('Some "Error Component"').toBeTruthy();
   });
 
   it('The "getQuestionOptions()" method should convert questions to options', () => {

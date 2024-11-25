@@ -13,7 +13,7 @@ export const NAVIGATOR = new InjectionToken<Navigator>(
 );
 
 export const SCREEN = new InjectionToken<Screen>(
-  'Global window.screen. object',
+  'Global window.screen object',
   {
     factory: () => inject(WINDOW).screen,
   },

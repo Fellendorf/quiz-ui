@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { of } from 'rxjs';
 
 @Component({
@@ -13,7 +13,10 @@ export class HeaderStubComponent {}
   standalone: true,
   template: '',
 })
-export class OptionsStubComponent {}
+export class OptionsStubComponent {
+  @Input()
+  public options!: any;
+}
 
 @Component({
   selector: 'app-loading-screen',
