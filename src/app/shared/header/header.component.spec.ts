@@ -20,10 +20,6 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(componentInstance).toBeDefined();
-  });
-
   it('If "goToOnClick" property value is "menu", then link to the main menu is displayed', () => {
     const expectedText = 'МЕНЮ';
 

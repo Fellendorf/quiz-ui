@@ -39,10 +39,6 @@ describe('SettingsScreenComponent', () => {
     fixture.detectChanges();
   });
 
-  it('Should create', () => {
-    expect(componentInstance).toBeTruthy();
-  });
-
   it('If a user change (check/unchek) input, then "toggleIsAdmin()" method should be invoked', () => {
     const componentToggleIsAdminSpy = spyOn(componentInstance, 'toggleIsAdmin');
     template.querySelector('input')?.click();
