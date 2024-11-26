@@ -3,33 +3,27 @@ import {
   Component,
   computed,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { UpperCasePipe } from '@angular/common';
 
 import { CodeComponent } from '../shared/code/code.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { QuizService } from '../core/quiz.service';
 import { AuthService } from '../core/auth.service';
 import { ROUTE_PATHES } from '../models';
-import { Option } from '../models';
 
 @Component({
   selector: 'app-results-screen',
   standalone: true,
-  imports: [
-    UpperCasePipe,
-    AsyncPipe,
-    CodeComponent,
-    HeaderComponent,
-    RouterLink,
-  ],
+  imports: [UpperCasePipe, CodeComponent, HeaderComponent],
   templateUrl: './results-screen.component.html',
   styleUrl: './results-screen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResultsScreenComponent {
+export class ResultsScreenComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly quizService = inject(QuizService);
   private readonly authService = inject(AuthService);
@@ -42,7 +36,7 @@ export class ResultsScreenComponent {
   public getCorrectQuestionCount = this.quizService.getCorrectQuestionCount;
   public isUserAnswerCorrect = this.quizService.isUserAnswerCorrect;
 
-  constructor() {
+  public ngOnInit() {
     if (!this.questions().length) {
       this.router.navigate([ROUTE_PATHES.MENU]);
     }
@@ -52,9 +46,8 @@ export class ResultsScreenComponent {
   public question = computed(() => this.questions()[this.questionIndex()]);
 
   public correctAnswerText = computed(() => {
-    const questions = this.question();
-    return questions.options
-      .filter((option) => option.isCorrect)
+    return this.question()
+      .options.filter((option) => option.isCorrect)
       .map(({ text }) => text)
       .join(', ');
   });
