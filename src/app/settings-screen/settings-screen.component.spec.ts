@@ -1,17 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
+import { signal } from '@angular/core';
 
 import { SettingsScreenComponent } from './settings-screen.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { HeaderComponent } from '../shared/header/header.component';
 import { AuthService } from '../core/auth.service';
-
-@Component({
-  selector: 'app-header',
-  standalone: true,
-  template: '',
-})
-export class HeaderStubComponent {}
+import { authServiceMock, HeaderStubComponent } from '../../test/mocks';
 
 describe('SettingsScreenComponent', () => {
   let componentInstance: SettingsScreenComponent;
@@ -20,10 +13,23 @@ describe('SettingsScreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsScreenComponent, HeaderStubComponent],
-      providers: [provideHttpClient(), provideRouter([])],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+      imports: [SettingsScreenComponent],
+      providers: [
+        {
+          provide: AuthService,
+          useValue: authServiceMock,
+        },
+      ],
+    })
+      .overrideComponent(SettingsScreenComponent, {
+        remove: {
+          imports: [HeaderComponent],
+        },
+        add: {
+          imports: [HeaderStubComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(SettingsScreenComponent);
     componentInstance = fixture.componentInstance;
@@ -43,13 +49,10 @@ describe('SettingsScreenComponent', () => {
   });
 
   it('If the "toggleIsAdmin()" method is invoked and "isAdmin" is "true", then "unauthenticateAdmin()" method should be called', () => {
-    const authService = TestBed.inject(AuthService);
-    const unauthenticateAdminSpy = spyOn(authService, 'unauthenticateAdmin');
-
     componentInstance.isAdmin = signal(true);
     componentInstance.toggleIsAdmin();
 
-    expect(unauthenticateAdminSpy).toHaveBeenCalled();
+    expect(authServiceMock.unauthenticateAdmin).toHaveBeenCalled();
   });
 
   describe('If the "toggleIsAdmin()" method is invoked and "isAdmin" is "false"', () => {
@@ -65,13 +68,11 @@ describe('SettingsScreenComponent', () => {
     });
 
     it('If a user provided a password in the prompt, then "authService.authenticateAdmin()" method should be called', () => {
-      const authService = TestBed.inject(AuthService);
-      const authenticateAdminSpy = spyOn(authService, 'authenticateAdmin');
-
-      spyOn(window, 'prompt').and.returnValue('some password');
+      const password = 'some-password';
+      spyOn(window, 'prompt').and.returnValue(password);
       componentInstance.toggleIsAdmin();
 
-      expect(authenticateAdminSpy).toHaveBeenCalled();
+      expect(authServiceMock.authenticateAdmin).toHaveBeenCalledWith(password);
     });
   });
 });

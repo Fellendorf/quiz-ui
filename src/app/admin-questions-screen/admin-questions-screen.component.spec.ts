@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { of } from 'rxjs';
 
 import { AdminQuestionsScreenComponent } from './admin-questions-screen.component';
+import { Option, OptionsComponent } from '../shared/options/options.component';
+import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
+import { HeaderComponent } from '../shared/header/header.component';
 import { ApiService } from '../core/api.service';
 import { Question, ROUTE_PATHES } from '../models';
-import { Option } from '../shared/options/options.component';
 import {
   HeaderStubComponent,
   LodaingScreenStubComponent,
@@ -55,10 +56,11 @@ describe('AdminQuestionsScreenComponent', () => {
       ],
     })
       .overrideComponent(AdminQuestionsScreenComponent, {
-        set: {
+        remove: {
+          imports: [LoadingScreenComponent, HeaderComponent, OptionsComponent],
+        },
+        add: {
           imports: [
-            AsyncPipe,
-            UpperCasePipe,
             LodaingScreenStubComponent,
             HeaderStubComponent,
             OptionsStubComponent,
