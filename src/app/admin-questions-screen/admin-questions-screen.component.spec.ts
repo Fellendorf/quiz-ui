@@ -12,15 +12,19 @@ import {
   HeaderStubComponent,
   LodaingScreenStubComponent,
   OptionsStubComponent,
-  activatedRouteMock,
-  routerMock,
-  apiServiceMock,
+  provideActivatedRouteMock,
+  provideApiServiceMock,
+  provideRouterMock,
 } from '../../test/mocks';
 
 describe('AdminQuestionsScreenComponent', () => {
   let componentInstance: AdminQuestionsScreenComponent;
   let fixture: ComponentFixture<AdminQuestionsScreenComponent>;
   let template: HTMLElement;
+
+  const routerMock = provideRouterMock();
+  const activatedRouteMock = provideActivatedRouteMock();
+  const apiServiceMock = provideApiServiceMock();
 
   const questions: Question[] = [
     {

@@ -4,12 +4,14 @@ import { signal } from '@angular/core';
 import { SettingsScreenComponent } from './settings-screen.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { AuthService } from '../core/auth.service';
-import { authServiceMock, HeaderStubComponent } from '../../test/mocks';
+import { HeaderStubComponent, provideAuthServiceMock } from '../../test/mocks';
 
 describe('SettingsScreenComponent', () => {
   let componentInstance: SettingsScreenComponent;
   let fixture: ComponentFixture<SettingsScreenComponent>;
   let template: HTMLElement;
+
+  const authServiceMock = provideAuthServiceMock();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
