@@ -63,10 +63,6 @@ export class ResultsScreenComponent implements OnInit {
       : 'Вы не дали ответ';
   });
 
-  public setQuestion(index: number): void {
-    this.questionIndex.set(index);
-  }
-
   public isQuestionChecked(index: number): boolean {
     return this.questionIndex() === index;
   }

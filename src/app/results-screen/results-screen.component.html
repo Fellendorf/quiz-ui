@@ -7,7 +7,7 @@
 />
 <main>
   <!-- Move to component -->
-  <fieldset>
+  <fieldset class="question-buttons">
     @for (q of questions(); track $index) {
       <div class="button-container">
         <label
@@ -15,7 +15,7 @@
             'app-button',
             isUserAnswerCorrect($index) ? 'green' : 'red',
           ]"
-          (click)="setQuestion($index)"
+          (click)="questionIndex.set($index)"
         >
           <input
             #input
