@@ -1,7 +1,5 @@
 @for (question of questions; track $index) {
   <div class="item-container">
-    <div
-      [class]="['item', setState(question, $index), markCurrent($index)]"
-    ></div>
+    <div [class]="['item', setState($index), markCurrent($index)]"></div>
   </div>
 }

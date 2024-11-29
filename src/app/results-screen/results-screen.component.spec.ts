@@ -145,7 +145,7 @@ describe('ResultsScreenComponent', () => {
     ]);
   });
 
-  it('The template should display expected number question buttons (the same as the number of questions)', () => {
+  it('The template should display expected number of question buttons (the same as the number of questions)', () => {
     expect(template.querySelector('.question-buttons')?.childElementCount).toBe(
       2,
     );

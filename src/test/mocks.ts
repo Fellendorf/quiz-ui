@@ -46,6 +46,10 @@ export function provideActivatedRouteMock() {
 export function provideRouterMock() {
   return jasmine.createSpyObj('router', ['navigate']);
 }
+export function provideChangeDetectorRefMock() {
+  return jasmine.createSpyObj('changeDetectorRef', ['markForCheck']);
+}
+
 export function provideApiServiceMock() {
   return jasmine.createSpyObj('apiService', ['getQuestions']);
 }
@@ -64,4 +68,7 @@ export function provideQuizServiceMock() {
     'getCorrectQuestionCount',
     'isUserAnswerCorrect',
   ]);
+}
+export function provideEventServiceMock() {
+  return jasmine.createSpyObj('eventService', ['emit', 'listen']);
 }

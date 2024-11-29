@@ -14,7 +14,6 @@ type state = 'untouched' | 'correct' | 'incorrect';
 @Component({
   selector: 'app-progress-bar',
   standalone: true,
-  imports: [],
   templateUrl: './progress-bar.component.html',
   styleUrl: './progress-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +38,7 @@ export class ProgressBarComponent {
     });
   }
 
-  public setState(question: Question, questionIndex: number): state {
+  public setState(questionIndex: number): state {
     const userAnswer = this.userAnswers[questionIndex];
     if (userAnswer === undefined) {
       return 'untouched';
