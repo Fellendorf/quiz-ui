@@ -14,13 +14,13 @@ import { EventService } from '../../core/event.service';
 import { GlobalEvents, Option } from '../../models';
 
 @Component({
-  selector: 'app-options',
+  selector: 'app-quiz-options',
   standalone: true,
   imports: [],
-  templateUrl: './options.component.html',
-  styleUrl: './options.component.scss',
+  templateUrl: './quiz-options.component.html',
+  styleUrl: './quiz-options.component.scss',
 })
-export class OptionsComponent implements OnInit {
+export class QuizOptionsComponent implements OnInit {
   @Input()
   public options!: Option[];
 

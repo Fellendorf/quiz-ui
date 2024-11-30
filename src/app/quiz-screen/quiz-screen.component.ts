@@ -5,7 +5,7 @@ import { map, switchMap, tap } from 'rxjs';
 
 import { toLoadingStateStream } from '../shared/loading-state/loading-state';
 import { CodeComponent } from '../shared/code/code.component';
-import { OptionsComponent } from './options/options.component';
+import { QuizOptionsComponent } from './qiuz-options/quiz-options.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
@@ -21,7 +21,7 @@ import { shuffle } from '../shared/utils';
   standalone: true,
   imports: [
     CodeComponent,
-    OptionsComponent,
+    QuizOptionsComponent,
     LoadingScreenComponent,
     ProgressBarComponent,
     HeaderComponent,

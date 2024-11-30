@@ -26,7 +26,7 @@
         @if (question.code) {
           <app-code [code]="question.code" />
         }
-        <app-options
+        <app-quiz-options
           [options]="question.options"
           (answer)="setUserAnswer(questionIndex, $event)"
         />
