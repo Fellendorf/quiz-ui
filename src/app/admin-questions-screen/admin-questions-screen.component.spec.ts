@@ -8,23 +8,21 @@ import { LoadingScreenComponent } from '../shared/loading-screen/loading-screen.
 import { HeaderComponent } from '../shared/header/header.component';
 import { ApiService } from '../core/api.service';
 import { Question, ROUTE_PATHES } from '../models';
+import { getSpyObject } from '../../test/getSpyObject';
 import {
   HeaderStubComponent,
   LodaingScreenStubComponent,
   OptionsStubComponent,
-  provideActivatedRouteMock,
-  provideApiServiceMock,
-  provideRouterMock,
-} from '../../test/mocks';
+} from '../../test/componentMocks';
 
 describe('AdminQuestionsScreenComponent', () => {
   let componentInstance: AdminQuestionsScreenComponent;
   let fixture: ComponentFixture<AdminQuestionsScreenComponent>;
   let template: HTMLElement;
 
-  const routerMock = provideRouterMock();
-  const activatedRouteMock = provideActivatedRouteMock();
-  const apiServiceMock = provideApiServiceMock();
+  let routerSpy: jasmine.SpyObj<Router>;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let apiServiceSpy: jasmine.SpyObj<ApiService>;
 
   const questions: Question[] = [
     {
@@ -45,17 +43,21 @@ describe('AdminQuestionsScreenComponent', () => {
   }));
 
   beforeEach(async () => {
+    routerSpy = getSpyObject(Router);
+    activatedRouteSpy = getSpyObject(ActivatedRoute);
+    apiServiceSpy = getSpyObject(ApiService);
+
     await TestBed.configureTestingModule({
       imports: [AdminQuestionsScreenComponent],
       providers: [
-        { provide: Router, useValue: routerMock },
+        { provide: Router, useValue: routerSpy },
         {
           provide: ActivatedRoute,
-          useValue: activatedRouteMock,
+          useValue: activatedRouteSpy,
         },
         {
           provide: ApiService,
-          useValue: apiServiceMock,
+          useValue: apiServiceSpy,
         },
       ],
     })
@@ -148,7 +150,7 @@ describe('AdminQuestionsScreenComponent', () => {
   it('The "goToQuestionScreen()" method should navigate to "create a new question" page', () => {
     componentInstance.goToQuestionScreen('new');
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([
+    expect(routerSpy.navigate).toHaveBeenCalledWith([
       ROUTE_PATHES.QUESTION,
       'new',
     ]);
@@ -158,7 +160,7 @@ describe('AdminQuestionsScreenComponent', () => {
     spyOn(componentInstance, 'question').and.returnValue(questions[0]);
     componentInstance.goToQuestionScreen('edit');
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([
+    expect(routerSpy.navigate).toHaveBeenCalledWith([
       ROUTE_PATHES.QUESTION,
       questions[0]._id,
     ]);

@@ -7,22 +7,20 @@ import { QuizService } from '../core/quiz.service';
 import { HeaderComponent } from '../shared/header/header.component';
 import { CodeComponent } from '../shared/code/code.component';
 import { Question, ROUTE_PATHES } from '../models';
+import { getSpyObject } from '../../test/getSpyObject';
 import {
   CodeStubComponent,
   HeaderStubComponent,
-  provideAuthServiceMock,
-  provideQuizServiceMock,
-  provideRouterMock,
-} from '../../test/mocks';
+} from '../../test/componentMocks';
 
 describe('ResultsScreenComponent', () => {
   let componentInstance: ResultsScreenComponent;
   let fixture: ComponentFixture<ResultsScreenComponent>;
   let template: HTMLElement;
 
-  const routerMock = provideRouterMock();
-  const authServiceMock = provideAuthServiceMock();
-  const quizServiceMock = provideQuizServiceMock();
+  let routerSpy: jasmine.SpyObj<Router>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let quizServiceSpy: jasmine.SpyObj<QuizService>;
 
   const questions: Question[] = [
     {
@@ -48,17 +46,21 @@ describe('ResultsScreenComponent', () => {
   const userAnswers = [[0, 1], []];
 
   beforeEach(async () => {
+    routerSpy = getSpyObject(Router);
+    authServiceSpy = getSpyObject(AuthService);
+    quizServiceSpy = getSpyObject(QuizService);
+
     await TestBed.configureTestingModule({
       imports: [ResultsScreenComponent],
       providers: [
-        { provide: Router, useValue: routerMock },
+        { provide: Router, useValue: routerSpy },
         {
           provide: AuthService,
-          useValue: authServiceMock,
+          useValue: authServiceSpy,
         },
         {
           provide: QuizService,
-          useValue: quizServiceMock,
+          useValue: quizServiceSpy,
         },
       ],
     })
@@ -72,8 +74,8 @@ describe('ResultsScreenComponent', () => {
       })
       .compileComponents();
 
-    quizServiceMock.questions.and.returnValue(questions);
-    quizServiceMock.userAnswers.and.returnValue(userAnswers);
+    quizServiceSpy.questions.and.returnValue(questions);
+    quizServiceSpy.userAnswers.and.returnValue(userAnswers);
 
     fixture = TestBed.createComponent(ResultsScreenComponent);
     componentInstance = fixture.componentInstance;
@@ -82,10 +84,10 @@ describe('ResultsScreenComponent', () => {
   });
 
   it('If questions length is 0 (URL was entered without passing a quiz), then a user will be navigated to the "Main menu" page', () => {
-    quizServiceMock.questions.and.returnValue([]);
+    quizServiceSpy.questions.and.returnValue([]);
     componentInstance.ngOnInit();
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([ROUTE_PATHES.MENU]);
+    expect(routerSpy.navigate).toHaveBeenCalledWith([ROUTE_PATHES.MENU]);
   });
 
   it('The first question from the array of questions is selected by default', () => {
@@ -107,7 +109,7 @@ describe('ResultsScreenComponent', () => {
   });
 
   it('The method "userAnswerText()" should return a user answer text', () => {
-    quizServiceMock.getUserAnswer.and.returnValue(userAnswers[0]);
+    quizServiceSpy.getUserAnswer.and.returnValue(userAnswers[0]);
     // switch to 1 and back to 0 to trigger "computed" signal:
     componentInstance.questionIndex.set(1);
     componentInstance.questionIndex.set(0);
@@ -116,7 +118,7 @@ describe('ResultsScreenComponent', () => {
   });
 
   it('The method "userAnswerText()" should return "Вы не дали ответ" if a user did not provide the answer', () => {
-    quizServiceMock.getUserAnswer.and.returnValue(userAnswers[1]);
+    quizServiceSpy.getUserAnswer.and.returnValue(userAnswers[1]);
     componentInstance.questionIndex.set(1);
 
     expect(componentInstance.userAnswerText()).toEqual('Вы не дали ответ');
@@ -139,7 +141,7 @@ describe('ResultsScreenComponent', () => {
   it('If the method "goToQuestionScreen()" is called, then a user will be navigated to the specific question page', () => {
     componentInstance.goToQuestionScreen();
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([
+    expect(routerSpy.navigate).toHaveBeenCalledWith([
       ROUTE_PATHES.QUESTION,
       componentInstance.question()._id,
     ]);

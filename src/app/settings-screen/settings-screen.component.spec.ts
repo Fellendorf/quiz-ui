@@ -4,22 +4,25 @@ import { signal } from '@angular/core';
 import { SettingsScreenComponent } from './settings-screen.component';
 import { HeaderComponent } from '../shared/header/header.component';
 import { AuthService } from '../core/auth.service';
-import { HeaderStubComponent, provideAuthServiceMock } from '../../test/mocks';
+import { getSpyObject } from '../../test/getSpyObject';
+import { HeaderStubComponent } from '../../test/componentMocks';
 
 describe('SettingsScreenComponent', () => {
   let componentInstance: SettingsScreenComponent;
   let fixture: ComponentFixture<SettingsScreenComponent>;
   let template: HTMLElement;
 
-  const authServiceMock = provideAuthServiceMock();
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
+    authServiceSpy = getSpyObject(AuthService);
+
     await TestBed.configureTestingModule({
       imports: [SettingsScreenComponent],
       providers: [
         {
           provide: AuthService,
-          useValue: authServiceMock,
+          useValue: authServiceSpy,
         },
       ],
     })
@@ -50,7 +53,7 @@ describe('SettingsScreenComponent', () => {
     componentInstance.isAdmin = signal(true);
     componentInstance.toggleIsAdmin();
 
-    expect(authServiceMock.unauthenticateAdmin).toHaveBeenCalled();
+    expect(authServiceSpy.unauthenticateAdmin).toHaveBeenCalled();
   });
 
   describe('If the "toggleIsAdmin()" method is invoked and "isAdmin" is "false"', () => {
@@ -70,7 +73,7 @@ describe('SettingsScreenComponent', () => {
       spyOn(window, 'prompt').and.returnValue(password);
       componentInstance.toggleIsAdmin();
 
-      expect(authServiceMock.authenticateAdmin).toHaveBeenCalledWith(password);
+      expect(authServiceSpy.authenticateAdmin).toHaveBeenCalledWith(password);
     });
   });
 });

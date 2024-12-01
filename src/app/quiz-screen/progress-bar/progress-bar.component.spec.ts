@@ -3,11 +3,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { ProgressBarComponent } from './progress-bar.component';
-import {
-  provideChangeDetectorRefMock,
-  provideEventServiceMock,
-  provideQuizServiceMock,
-} from '../../../test/mocks';
+import { getSpyObject } from '../../../test/getSpyObject';
 import { QuizService } from '../../core/quiz.service';
 import { EventService } from '../../core/event.service';
 
@@ -15,28 +11,30 @@ describe('ProgressBarComponent', () => {
   let componentInstance: ProgressBarComponent;
   let fixture: ComponentFixture<ProgressBarComponent>;
 
-  const cdrMock = provideChangeDetectorRefMock();
-  const quizServiceMock = provideQuizServiceMock();
-  const eventServiceMock = provideEventServiceMock();
+  let cdrSpy: jasmine.SpyObj<ChangeDetectorRef>;
+  let quizServiceSpy: jasmine.SpyObj<QuizService>;
+  let eventServiceSpy: jasmine.SpyObj<EventService>;
 
   const questionChangedEvent = new Subject();
 
   beforeEach(async () => {
+    cdrSpy = getSpyObject(ChangeDetectorRef);
+    quizServiceSpy = getSpyObject(QuizService);
+    eventServiceSpy = getSpyObject(EventService);
+
     await TestBed.configureTestingModule({
       imports: [ProgressBarComponent],
       providers: [
-        { provide: QuizService, useValue: quizServiceMock },
+        { provide: QuizService, useValue: quizServiceSpy },
         {
           provide: ChangeDetectorRef,
-          useValue: cdrMock,
+          useValue: cdrSpy,
         },
-        { provide: EventService, useValue: eventServiceMock },
+        { provide: EventService, useValue: eventServiceSpy },
       ],
     }).compileComponents();
 
-    eventServiceMock.listen.and.returnValue(
-      questionChangedEvent.asObservable(),
-    );
+    eventServiceSpy.listen.and.returnValue(questionChangedEvent.asObservable());
     fixture = TestBed.createComponent(ProgressBarComponent);
     componentInstance = fixture.componentInstance;
     fixture.detectChanges();
@@ -59,13 +57,13 @@ describe('ProgressBarComponent', () => {
     });
 
     it('String "correct" if a user answer is correct', () => {
-      quizServiceMock.isUserAnswerCorrect.and.returnValue(true);
+      quizServiceSpy.isUserAnswerCorrect.and.returnValue(true);
 
       expect(componentInstance.setState(0)).toBe('correct');
     });
 
     it('String "incorrect" if a user answer is not correct', () => {
-      quizServiceMock.isUserAnswerCorrect.and.returnValue(false);
+      quizServiceSpy.isUserAnswerCorrect.and.returnValue(false);
 
       expect(componentInstance.setState(0)).toBe('incorrect');
     });
