@@ -8,6 +8,7 @@ import { QuizService } from '../app/core/quiz.service';
 import { LocalStorageService } from '../app/core/local-storage.service';
 import { EventService } from '../app/core/event.service';
 import { HttpClient } from '@angular/common/http';
+import { LOCAL_STORAGE } from '../app/shared/customTokens';
 
 type TargetClass<T> = (abstract new (...args: any[]) => T) | T;
 type SpyObjBaseName = string;
@@ -55,6 +56,8 @@ function getSpyObjectParams<T>(
         'localStorageService',
         ['setData', 'getData', 'removeData', 'clearAll'],
       ];
+    case Storage:
+      return ['storage', ['setItem', 'getItem', 'removeItem', 'clear']];
     default:
       return ['emptyObject', []];
   }

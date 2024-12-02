@@ -18,3 +18,10 @@ export const SCREEN = new InjectionToken<Screen>(
     factory: () => inject(WINDOW).screen,
   },
 );
+
+export const LOCAL_STORAGE = new InjectionToken<Storage>(
+  'Global window.localStorage object',
+  {
+    factory: () => inject(WINDOW).localStorage,
+  },
+);
