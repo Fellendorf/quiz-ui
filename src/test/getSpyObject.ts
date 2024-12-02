@@ -7,48 +7,61 @@ import { AuthService } from '../app/core/auth.service';
 import { QuizService } from '../app/core/quiz.service';
 import { LocalStorageService } from '../app/core/local-storage.service';
 import { EventService } from '../app/core/event.service';
+import { HttpClient } from '@angular/common/http';
 
-export function getSpyObject<T>(
-  targetClass: (abstract new () => T) | T,
-): jasmine.SpyObj<T> {
+type TargetClass<T> = (abstract new () => T) | T;
+type SpyObjBaseName = string;
+
+function getSpyObjectParams<T>(
+  targetClass: TargetClass<T>,
+): [SpyObjBaseName, jasmine.SpyObjMethodNames, jasmine.SpyObjPropertyNames?] {
   switch (targetClass) {
     case ActivatedRoute:
-      return jasmine.createSpyObj('activatedRoute', [], {
-        params: of([]),
-      });
+      return [
+        'activatedRoute',
+        [],
+        {
+          params: of([]),
+        },
+      ];
     case Router:
-      return jasmine.createSpyObj('router', ['navigate']);
+      return ['router', ['navigate']];
     case ChangeDetectorRef:
-      return jasmine.createSpyObj('changeDetectorRef', ['markForCheck']);
+      return ['changeDetectorRef', ['markForCheck']];
+    case HttpClient:
+      return ['httpClient', ['get']];
     case ApiService:
-      return jasmine.createSpyObj('apiService', [
-        'getQuestions',
-        'checkPassword',
-      ]);
+      return ['apiService', ['getQuestions', 'checkPassword']];
     case AuthService:
-      return jasmine.createSpyObj('authService', [
-        'isAdmin',
-        'authenticateAdmin',
-        'unauthenticateAdmin',
-      ]);
+      return [
+        'authService',
+        ['isAdmin', 'authenticateAdmin', 'unauthenticateAdmin'],
+      ];
     case QuizService:
-      return jasmine.createSpyObj('quizService', [
-        'questions',
-        'userAnswers',
-        'getUserAnswer',
-        'getCorrectQuestionCount',
-        'isUserAnswerCorrect',
-      ]);
+      return [
+        'quizService',
+        [
+          'questions',
+          'userAnswers',
+          'getUserAnswer',
+          'getCorrectQuestionCount',
+          'isUserAnswerCorrect',
+        ],
+      ];
     case EventService:
-      return jasmine.createSpyObj('eventService', ['emit', 'listen']);
+      return ['eventService', ['emit', 'listen']];
     case LocalStorageService:
-      return jasmine.createSpyObj('localStorageService', [
-        'setData',
-        'getData',
-        'removeData',
-        'clearAll',
-      ]);
+      return [
+        'localStorageService',
+        ['setData', 'getData', 'removeData', 'clearAll'],
+      ];
     default:
-      return jasmine.createSpyObj('emptyObject', []);
+      return ['emptyObject', []];
   }
+}
+
+export function getSpyObject<T>(
+  targetClass: TargetClass<T>,
+): jasmine.SpyObj<T> {
+  return jasmine.createSpyObj(...getSpyObjectParams(targetClass));
 }
