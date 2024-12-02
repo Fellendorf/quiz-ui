@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { delay, map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Question, TopicData } from '../models';
 

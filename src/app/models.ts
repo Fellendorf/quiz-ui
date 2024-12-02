@@ -14,8 +14,8 @@ export interface Question {
   links?: string[];
   difficult?: Difficulty;
   reviewed?: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Option {

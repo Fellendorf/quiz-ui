@@ -9,7 +9,7 @@ import { LocalStorageService } from '../app/core/local-storage.service';
 import { EventService } from '../app/core/event.service';
 import { HttpClient } from '@angular/common/http';
 
-type TargetClass<T> = (abstract new () => T) | T;
+type TargetClass<T> = (abstract new (...args: any[]) => T) | T;
 type SpyObjBaseName = string;
 
 function getSpyObjectParams<T>(
@@ -29,7 +29,7 @@ function getSpyObjectParams<T>(
     case ChangeDetectorRef:
       return ['changeDetectorRef', ['markForCheck']];
     case HttpClient:
-      return ['httpClient', ['get']];
+      return ['httpClient', ['get', 'put', 'post']];
     case ApiService:
       return ['apiService', ['getQuestions', 'checkPassword']];
     case AuthService:
