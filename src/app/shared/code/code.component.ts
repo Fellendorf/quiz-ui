@@ -5,7 +5,6 @@ import { Code } from '../../models';
 @Component({
   selector: 'app-code',
   standalone: true,
-  imports: [],
   templateUrl: './code.component.html',
   styleUrl: './code.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
